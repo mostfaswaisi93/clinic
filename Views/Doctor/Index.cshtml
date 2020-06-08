@@ -1,0 +1,204 @@
+﻿@model IEnumerable<MyClinic.Models.ListOfDoctorVM>
+@using MyClinic.Models;
+
+@{
+    var doctor = new AddDoctorVM();
+    ViewBag.Title = "Doctors List";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-topline-lightblue">
+                    <div class="card-head">
+                        <header></header>
+                        <div class="tools">
+                        </div>
+                    </div>
+                    <div class="card-body ">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <div class="btn-group">
+                                    <button id="addDoctor" class="btn btn-info">
+                                        <span class="fa fa-user-plus"></span> New Doctor
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                            </div>
+                        </div>
+                        <br /><br />
+                        <table class="table table-striped table-bordered table-hover table-checkable order-column valign-middle" id="doctors-data-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:5%">#</th>
+                                    <th style="width:25%">
+                                        Full Name
+                                    </th>
+                                    <th style="width:30%">
+                                        User Name
+                                    </th>
+                                    <th style="width:35%">
+                                        Specialization
+                                    </th>
+                                    <th style="width:5%" class="center">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_AddDoctor", doctor)
+
+@section scripts{
+    <script>
+        var doctorListVM;
+        $(function () {
+            doctorListVM = {
+                dt: null,
+                init: function () {
+                    dt = $('#doctors-data-table').DataTable({
+                        "serverSide": true,
+                        "processing": true,
+                        "ajax": {
+                        "url": "@Url.Action("Get", "Doctor")"
+                    },
+                        "columns": [
+                            {
+                                render: function (data, type, row, meta) {
+                                    return meta.row + meta.settings._iDisplayStart + 1;
+                                }, "searchable": false, "orderable": false
+
+                            },
+                        {
+                            "data": "FullName",
+                            render: function (data, type, item) {
+                                return "<span class='lblName' data-doctorid='" + item.UserId + "'>" + item.FullName + "</span>";
+                            }, "searchable": true
+                        },
+                        {
+                            "data": "UserName", "searchable": true
+
+                        },
+                        {
+                            "data": "Specialization", "searchable": true
+
+                        },
+                        {
+                            data: "UserId",
+                            render: function (data) {
+                                return "<button class='btn btn-sm btn-primary btnOpenForEdit' data-doctorid='" + data + "'><span class='fa fa-pencil'></span></button>";
+                            }, "searchable": false, "orderable": false
+                        }
+                    ],
+                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                        "order": [[1, "asc"]]
+
+                    });
+                }
+            }
+            doctorListVM.init();
+        });
+
+
+        var saveData = function (parm) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SaveDoctorAsync", "Doctor")',
+                data: parm,
+                traditional: true,
+                success: function (data) {
+                    successSave(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                }
+            });
+        }
+
+        var clear = function () {
+            $('.input-form').val('');
+            $('#hdn-id').val('');
+            $('#EditTitle').html('Create New Doctor');
+        }
+
+
+        var successSave = function (result) {
+            dt.draw(false);
+            $('.modal').modal('hide');
+            swal('Success', result, 'success')
+        }
+
+        var errorAjax = function () {
+            alert("Data not Saved there is an error..");
+        }
+
+
+        $(document).ready(function () {
+            $(document).on('click', '#addDoctor', function () {
+                clear();
+                $('.section-password').removeClass('hide-password');
+                $('#EditModal').modal('show');
+            });
+
+            $(document).on('click', '.btnOpenForEdit', function () {
+                var id = $(this).data("doctorid");
+                var Name = $(this).closest('tr').find('.lblName').html();
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetDoctor", "Doctor")',
+                    data: { id: id },
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        $('#hdn-id').val(id);
+                        $('#txtFullName').val(data.FullName);
+                        $('#txtUserName').val(data.UserName);
+                        $('#txtSpecialization').val(data.Specialization);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log('errooooor');
+                    }
+                });
+
+                $('#EditTitle').html('Edit Doctor: ' + Name);
+
+                $('#EditModal').modal('show');
+                $('.section-password').addClass('hide-password');
+            });
+
+            $('#btnSave').click(function () {
+                if ($('#txtFullName').val() == '') {
+                    swal({ text: "Fields must be filled with data." });
+                    return;
+                }
+                if ($('#txtUserName' ||
+                    '#txtPassword' ||
+                    '#txtConfirmPassword' ||
+                    '#txtSpecialization').val() == '') {
+                    swal({ text: "Fields must be filled with data." });
+                    return;
+                }
+                var data = {
+                    UserId: $('#hdn-id').val(),
+                    FullName: $('#txtFullName').val(),
+                    UserName: $('#txtUserName').val(),
+                    Password: $('#txtPassword').val(),
+                    ConfirmPassword: $('#txtConfirmPassword').val(),
+                    Specialization: $('#txtSpecialization').val(),
+                    __RequestVerificationToken: $('input[name=__RequestVerificationToken]').val()
+                };
+                saveData(data);
+            });
+
+        });
+    </script>
+}
+
