@@ -8,15 +8,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="Laravel - E-commerce System">
-    <meta name="keywords" content="Laravel - E-commerce System">
-    <meta name="author" content="PIXINVENT">
+    <meta name="description" content="Laravel - Clinic System">
+    <meta name="keywords" content="Laravel - Clinic System">
+    <meta name="author" content="mostfaswaisi93">
     <title>{{ trans('admin.sitename') }} | @yield('title')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <link rel="apple-touch-icon" href="{{ url('backend/app-assets/images/ico/apple-icon-120.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ url('images/theme/favicon.ico') }}">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
+        rel="stylesheet">
 
     @if (app()->getLocale() == 'en')
 
@@ -50,17 +50,20 @@
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/colors.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/dark-layout.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/semi-dark-layout.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/bordered-layout.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/semi-dark-layout.css') }}">
+    --}}
 
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css"
         href="{{ url('backend/app-assets/css-rtl/core/menu/menu-types/vertical-menu.css') }}">
-    <link rel="stylesheet" type="text/css"
-        href="{{ url('backend/app-assets/css-rtl/core/colors/palette-gradient.css') }}">
+    {{-- <link rel="stylesheet" type="text/css"
+        href="{{ url('backend/app-assets/css-rtl/core/colors/palette-gradient.css') }}"> --}}
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/custom-rtl.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/assets/css/style-rtl.css') }}">
     <!-- END: Custom CSS-->
 
     <link rel="stylesheet" type="text/css" href="{{url('/css/styles-rtl.css')}}">

@@ -1,17 +1,17 @@
 <!-- BEGIN: Footer-->
 <footer class="footer footer-static footer-light">
-    <p class="clearfix blue-grey lighten-2 mb-0">
+    <p class="clearfix mb-0">
         <span class="float-md-left d-block d-md-inline-block">
             <b>{{ trans('admin.copyright') }} &copy; <span id="year"></span></b>
             <a href="https://github.com/mostfaswaisi93">mostfaswaisi93</a>
             <b> - {{ trans('admin.all_rights') }}.</b>
         </span>
         <span class="float-md-right d-none d-md-block"><b>v1.0.0</b></span>
-        <button class="btn btn-primary btn-icon scroll-top" type="button">
-            <i class="feather icon-arrow-up"></i>
-        </button>
     </p>
 </footer>
+<button class="btn btn-primary btn-icon scroll-top" type="button">
+    <i data-feather="arrow-up"></i>
+</button>
 <!-- END: Footer-->
 
 <!-- BEGIN: Vendor JS-->
@@ -21,7 +21,6 @@
 <!-- BEGIN: Theme JS-->
 <script src="{{ url('backend/app-assets/js/core/app-menu.js') }}"></script>
 <script src="{{ url('backend/app-assets/js/core/app.js') }}"></script>
-<script src="{{ url('backend/app-assets/js/scripts/components.js') }}"></script>
 <!-- END: Theme JS-->
 
 {{-- Custom js --}}
@@ -52,6 +51,17 @@
 {!! Toastr::message() !!}
 
 @stack('scripts')
+
+<script>
+    $(window).on('load', function() {
+        if (feather) {
+            feather.replace({
+                width: 14,
+                height: 14
+            });
+        }
+    })
+</script>
 
 </body>
 <!-- END: Body-->

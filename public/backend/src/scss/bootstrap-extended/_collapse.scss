@@ -1,28 +1,41 @@
-// For Collaspe And Accordion
+// For Collapse And Accordion
 
 // For collapse-title
-.accordion,
-.collapse-bordered {
+[class*='collapse-'] {
   .collapse-title {
-    font-weight: 400;
-    font-size: 1.2rem;
+    font-weight: 500;
+    font-size: 1.1rem;
   }
-  .card-header{
-    cursor: pointer;
+  .card {
+    margin-bottom: 0;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+    &:not(:last-of-type) {
+      border-bottom: 1px solid $border-color;
+    }
+    .card-header {
+      cursor: pointer;
+      padding: 1rem 2.8rem 1rem 1rem;
+    }
+    .card-body {
+      padding: 1rem;
+      line-height: 1.5;
+      padding-top: 0.42rem;
+    }
   }
 }
 
-
 // For collapse title
-.collapse-title{
+.collapse-title {
   color: inherit;
-  &:hover{
+  &:hover {
     color: inherit;
   }
 }
 
 // To add a border below collapse/accordion heading
-.collapse-bordered {
+.collapse-default {
   .card:first-child {
     border-top: 0;
   }
@@ -30,50 +43,40 @@
     border-bottom: 0;
   }
   .card {
-    margin-bottom: 0;
-    border-bottom: 1px solid rgba($pure-black, .04);
     border-radius: 0;
-    .card-header {
-      padding: 1rem;
-    }
-    .card-body {
-      padding: 1rem;
-      line-height: 1.5;
-    }
   }
 }
 
-.accordion {
-  .collapse-border-item {
-    &.card {
-      border: 1px solid rgba($pure-black, .1);
-      margin-bottom: 0;
-      &:first-child {
-        border-bottom: 0;
-      }
-      .card-header {
-        padding: 1rem;
-      }
-      .card-body {
-        padding: 1rem;
-        line-height: 1.5;
-      }
+// For Collapse with border
+
+.collapse-border {
+  .card {
+    border: 1px solid $border-color;
+    &:not(:last-of-type) {
+      border-bottom: 0;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    &:not(:first-of-type) {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
     }
   }
 }
-
 
 // For Collapse with shadow
-.accordion-shadow {
-  box-shadow: 0 0px 4px 0 rgba(0, 0, 0, 0.1) ;
-  padding: .15rem .75rem;
+.collapse-shadow {
+  box-shadow: 0 0px 4px 0 rgba($black, 0.1);
+  padding: 0.15rem 0.75rem;
   border-radius: $border-radius;
   .card {
-    &.open{
+    border-radius: 0;
+    transition: border 0.5s ease-in-out, all 0.3s ease-in-out;
+    &.open {
       border-radius: 0.571rem;
       margin: 10px 0;
       border: 0;
-      box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1) !important;
+      box-shadow: 0px 0px 8px 0px rgba($black, 0.1) !important;
     }
   }
   .card:first-child {
@@ -86,28 +89,52 @@
   }
 }
 
-// For Collapse with border
-.collapse-border {
-  border: 1px solid rgba($pure-black, .1);
-  border-radius: 0.5rem;
-  &+.collapse.show {
-    border: 1px solid rgba($pure-black, .1)
+// For Collapse with margin
+.collapse-margin {
+  .card {
+    margin-top: 0.71rem;
+    margin-bottom: 0.71rem;
+    box-shadow: 0 2px 15px 0 rgba($black, 0.05) !important;
+    border-radius: 0.358rem;
+    border-bottom: 0 solid transparent !important;
+  }
+  .card-header {
+    border-radius: 0.358rem;
   }
 }
 
-// For Collapse with margin
-.collapse-margin {
-  margin-top: .71rem;
-  margin-bottom: .71rem !important;
-  box-shadow: 0 2px 15px 0 rgba(0, 0, 0, .05);
-  border-radius: 5px;
-  border-bottom: 0 solid transparent !important;
+// Collapse Icon & Animation
+.collapse-icon {
   .card-header {
-    padding: 1rem;
-    border-radius: 5px;
+    position: relative;
   }
-  .card-body {
-    padding: 1rem;
-    line-height: 1.5rem;
+
+  [data-toggle='collapse'] {
+    &:after {
+      position: absolute;
+      top: 58%;
+      right: 1rem;
+      margin-top: -8px;
+      background-image: url(str-replace(str-replace($chevron-down, 'currentColor', $body-color), '#', '%23'));
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 14px;
+      width: 14px;
+      height: 11px;
+      content: '';
+      transition: all 300ms linear 0s;
+    }
+
+    &:disabled {
+      &:before {
+        background-image: url(str-replace(str-replace($chevron-up, 'currentColor', $body-color), '#', '%23'));
+      }
+    }
+  }
+
+  [aria-expanded='false'] {
+    &:after {
+      transform: rotate(-180deg);
+    }
   }
 }

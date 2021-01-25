@@ -17,34 +17,51 @@
 
 // table th, td padding
 .table {
-  thead th {
-    vertical-align: top;
+  thead,
+  tfoot {
+    th {
+      vertical-align: top;
+      text-transform: uppercase;
+      font-size: $table-th-font-size;
+      letter-spacing: 0.5px;
+    }
   }
   th,
   td {
-    padding: 1rem;
+    padding: $table-cell-padding 2rem;
     vertical-align: middle;
   }
-  //table heading font-size
-  th {
-    font-size: $table-th-font-size;
+  &.table-sm {
+    th,
+    td {
+      padding: $table-cell-padding-sm 0.5rem;
+      &:first-child {
+        padding-left: 0.75rem;
+      }
+    }
   }
 }
-
-// Table - inverse
-.table-inverse {
-  color: $white;
-  background-color: $info;
+// if we are not using table-light class then also header color should apply
+.table:not(.table-dark):not(.table-light) {
+  thead:not(.thead-dark) th,
+  tfoot:not(.thead-dark) th {
+    background-color: $table-head-bg;
+  }
 }
-
+// table inside card, don't need margin bottom
+.table-hover {
+  tbody {
+    tr {
+      cursor: pointer;
+    }
+  }
+}
 // Table - hover animation
 .table-hover-animation {
   background-color: $body-bg;
   thead {
     th {
-      border-top: 2px solid $table-border-color;
       border-bottom: 0;
-      background-color: $white;
     }
   }
   th,
@@ -57,6 +74,37 @@
       background-color: $white;
       &:hover {
         transform: translateY(-4px);
+      }
+    }
+  }
+}
+
+// table border radius
+.card .table {
+  margin-bottom: 0;
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  tbody {
+    tr:last-child {
+      td:first-child {
+        border-bottom-left-radius: $border-radius;
+      }
+      td:last-child {
+        border-bottom-right-radius: $border-radius;
+      }
+    }
+  }
+}
+
+// Contexual table inside card radius
+.card {
+  table {
+    tr[class*='table-']:last-child {
+      td:first-child {
+        border-bottom-left-radius: $border-radius;
+      }
+      td:last-child {
+        border-bottom-right-radius: $border-radius;
       }
     }
   }

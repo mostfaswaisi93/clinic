@@ -1,100 +1,107 @@
 // ================================================================================================
-//  File Name: app-user.scss
-//  Description: App user SCSS.
+//  File Name: app-users.scss
+//  Description: Invoice Layout page layouts SCSS.
 //  ----------------------------------------------------------------------------------------------
-//  Item Name: Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template
+//  Item Name: Vuexy HTML Admin Template
+//  Version: 1.0
 //  Author: PIXINVENT
 //  Author URL: http://www.themeforest.net/user/pixinvent
 // ================================================================================================
-// Core variables and mixins
-@import "../bootstrap/functions";
-@import "../bootstrap/mixins";
-@import "../bootstrap-extended/mixins";
 
-// Load variable overrides
-@import "../core/variables/variables";
-@import "../bootstrap/variables";
+@import '../bootstrap-extended/include'; // Bootstrap includes
 
-// Overrides user variable
-@import "../core/variables/components-variables";
+$color-box-size: 2.714rem;
 
-/* user page css */
-/*---------------*/
-.users-list-wrapper {
-  .actions-dropodown {
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.14);
-    border-radius: 0.5rem;
-  }
-
-  a,
-  span {
-    color: inherit;
-
-    i {
-      cursor: pointer;
-      font-size: 1.2rem;
-
-      &.users-delete-icon {
-        font-size: 1.2rem;
-
-        &:hover {
-          color: $danger;
-        }
-      }
-
-      &.users-edit-icon {
-
-        &:hover {
-          color: $primary;
-        }
+// User List
+.app-user-list {
+  .dataTables_wrapper {
+    .dataTables_length {
+      select {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
       }
     }
   }
 
-  .badge {
-    text-transform: uppercase;
-  }
-
-  // ag Grid
-  .ag-icon-checkbox-unchecked {
-    color: $text-muted !important;
-    font-size: 22px;
-  }
-
-  .ag-icon-checkbox-checked,
-  .ag-icon-checkbox-indeterminate {
-    font-size: 22px;
-  }
-}
-
-// users view page css
-.page-users-view {
-  .users-view-image {
-    width: 150px;
-  }
-
-  table {
-    td {
-      padding-bottom: .8rem;
-      min-width: 140px;
-      word-break: break-word;
-    }
-  }
-
-  .users-view-permission {
-    table {
-
-      td,
-      th {
-        padding-bottom: 0;
+  @media (max-width: 767px) {
+    .header-actions {
+      .dataTables_length {
+        text-align: left;
+      }
+      & > div[class^='col-']:last-child {
+        padding-left: 0;
       }
     }
   }
 }
 
-// users edit page
-.page-users-edit {
-  .users-avatar-shadow {
-    box-shadow: 2px 4px 14px 0 rgba($black, 0.4);
+// User View
+.app-user-view {
+  .user-info-wrapper {
+    .user-info-title {
+      width: 11.785rem;
+    }
+  }
+  .user-total-numbers {
+    margin-top: 2.428rem;
+    .color-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: $color-box-size;
+      width: $color-box-size;
+      border-radius: $border-radius;
+
+      i,
+      svg {
+        height: 1.285rem;
+        width: 1.285rem;
+        font-size: 1.285rem;
+      }
+    }
+  }
+}
+
+// User Edit
+.app-user-edit {
+  .nav-pills {
+    margin-bottom: 2.3rem;
+    .nav-link {
+      i,
+      svg {
+        font-size: 0.921rem;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .nav-pills {
+      .nav-link {
+        i,
+        svg {
+          height: 1.2rem;
+          width: 1.2rem;
+          font-size: 1.2rem;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+// RTL
+html[data-textdirection='rtl'] {
+  .app-user-list {
+    .dataTables_filter {
+      input {
+        margin-right: 0;
+        margin-left: 0.5rem;
+      }
+    }
+
+    .dropdown .dropdown-menu.dropdown-menu-right {
+      right: 3.57rem !important;
+    }
   }
 }
