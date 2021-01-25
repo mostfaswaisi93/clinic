@@ -25,12 +25,12 @@ class UsersTableSeeder extends Seeder
             'first_name'    => 'Mustafa',
             'last_name'     => 'Al-Swaisi',
             'username'      => 'mostfaswaisi93',
-            'email'         => 'mostfaswaisi93@gmail.com',
+            'email'         => 'mostfaswaisi93@doctor.com',
             'password'      => bcrypt('password'),
             'created_at'    => date('Y-m-d'),
             'updated_at'    => date('Y-m-d'),
         ]);
 
-        $user2->assignRole('admin');
+        $user2->assignRole('doctor');
     }
 }

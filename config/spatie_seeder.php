@@ -15,6 +15,9 @@ return [
         'admin'       => [
             'roles'         => 'r',
             'users'         => 'r',
+        ],
+        'doctor'       => [
+            'users'             => 'c,r,u,d',
         ]
     ],
 

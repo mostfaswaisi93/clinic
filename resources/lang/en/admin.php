@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'sitename'                  => 'Ecommerce',
+    'sitename'                  => 'Clinic',
     'back_home'                 => 'Go to the Home Page',
     'back_login'                => 'Back to Login Page',
     'page_not_found'            => 'Page Not Found',
