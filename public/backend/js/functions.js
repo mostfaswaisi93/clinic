@@ -24,6 +24,16 @@ function getDataTableLanguage() {
     return '//cdn.datatables.net/plug-ins/1.10.22/i18n/' + lang + '.json';
 }
 
+// Feather Icon
+$(window).on('load', function() {
+    if (feather) {
+        feather.replace({
+            width: 14,
+            height: 14
+        });
+    }
+})
+
 // Check all
 function check_all() {
     $('input[class="item_checkbox"]:checkbox').each(function() {

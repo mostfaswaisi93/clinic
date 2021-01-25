@@ -13,14 +13,12 @@ Route::group(
             Route::get('/', [AdminController::class, 'index'])->name('index');
 
             Route::resources([
-                'departments'       => DepartmentsController::class,
-                'shippings'         => ShippingsController::class,
+                'appointments'      => AppointmentsController::class,
                 'notifications'     => NotificationsController::class,
                 'contacts'          => ContactsController::class,
                 'countries'         => CountriesController::class,
                 'cities'            => CitiesController::class,
                 'states'            => StatesController::class,
-                'colors'            => ColorsController::class,
                 'settings'          => SettingsController::class,
                 'roles'             => RolesController::class,
                 'users'             => UsersController::class,
@@ -45,9 +43,6 @@ Route::group(
             Route::get('roles/destroy/{id}', 'RolesController@destroy');
 
             Route::get('users/destroy/{id}', 'UsersController@destroy');
-            Route::delete('users/selected-users', 'UsersController@deleteChecked')->name('users.deleteSelected');
-            Route::delete('users/destroy/all', 'UsersController@multi_delete');
-            Route::get('users/multi', 'UsersController@multi')->name('users.multi');
             Route::post('users/updateStatus/{id}', 'UsersController@updateStatus');
         });
     }

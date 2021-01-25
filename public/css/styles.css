@@ -1,5 +1,9 @@
 /* Style */
 
+.main-menu.menu-dark .navigation>li {
+    padding-top: 5px !important;
+}
+
 .edit.btn.btn-sm.btn-icon:hover {
     background-color: #6d63e6;
     color: #fff;
@@ -30,10 +34,6 @@ label {
 
 .navigation {
     font-size: unset;
-}
-
-.main-menu.menu-dark .navigation>li {
-    padding: 0 10px !important;
 }
 
 .tbl-title {

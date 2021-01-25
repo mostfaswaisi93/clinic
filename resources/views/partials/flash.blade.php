@@ -9,9 +9,9 @@
 
 @if (session()->has('welcome_msg'))
 <div class="alert alert-primary alert-dismissible fade show" role="alert">
-    <p class="mb-0">
+    <div class="alert-body">
         {!! session('welcome_msg') !!} {{ auth()->user()->full_name }}
-    </p>
+    </div>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
