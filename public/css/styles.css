@@ -1,0 +1,198 @@
+/* Style */
+
+.edit.btn.btn-sm.btn-icon:hover {
+    background-color: #6d63e6;
+    color: #fff;
+}
+
+.delete.btn.btn-sm.btn-icon:hover {
+    background-color: #E42728;
+    color: #fff;
+}
+
+label {
+    font-size: 13px;
+}
+
+.btn-default {
+    color: #666666;
+    background-color: #e6e6e6;
+    border-color: #ccc;
+}
+
+.btn:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-success {
+    background-color: #1caf9a !important;
+}
+
+.navigation {
+    font-size: unset;
+}
+
+.main-menu.menu-dark .navigation>li {
+    padding: 0 10px !important;
+}
+
+.tbl-title {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.col-sm-8.text-center {
+    margin: auto;
+    display: grid;
+}
+
+.btn.dtbtn i {
+    float: none;
+    margin-left: unset;
+    color: #fff;
+}
+
+.icon-pocket.feather-select {
+    font-size: 18px;
+}
+
+.vs-checkbox-con {
+    margin: 0;
+}
+
+.table-striped thead>tr>th:first-child,
+.table-striped thead>tr>th:nth-child(2) {
+    width: 5%;
+}
+
+.table-striped thead>tr>th:last-child {
+    width: 20%;
+}
+
+
+/* Portlet */
+
+.portlet .card .card-header {
+    background-color: #5b53c3;
+    padding: 1rem 1rem;
+}
+
+.portlet .card .card-header .card-title {
+    color: #fff;
+}
+
+
+/* Breadcrumb */
+
+.breadcrumb {
+    border-right: unset;
+    border-left: unset;
+}
+
+.content-header .breadcrumbs-style {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+}
+
+
+/* Modal */
+
+.modal-header {
+    border-top-right-radius: unset;
+    border-top-left-radius: unset;
+    border-bottom: unset;
+}
+
+.modal-title {
+    color: #fff;
+}
+
+.modal-header .close {
+    color: #ffffff;
+    text-shadow: unset;
+    opacity: 1;
+}
+
+.modal-body {
+    height: 400px;
+    overflow-y: auto;
+}
+
+.modal-content {
+    border: unset;
+    border-radius: unset;
+}
+
+@media (min-width: 992px) {
+    .modal-md {
+        max-width: 600px;
+        margin: 30px auto;
+    }
+    .modal-lg {
+        max-width: 900px;
+    }
+}
+
+.modal .modal-footer {
+    border: 0;
+    padding: 15px;
+}
+
+.bg-authentication .login-footer {
+    margin: auto;
+}
+
+.navbar-brand .feather {
+    color: #fff;
+}
+
+
+/* Parsley JS */
+
+input.parsley-success,
+select.parsley-success,
+textarea.parsley-success {
+    background-color: #e8f0fe;
+}
+
+input.parsley-error,
+select.parsley-error,
+textarea.parsley-error {
+    color: #B94A48;
+    background-color: #F2DEDE;
+    border: 1px solid #B94A48;
+}
+
+.parsley-errors-list {
+    margin: 2px 0 3px;
+    padding: 0;
+    list-style-type: none;
+    font-size: 0.9em;
+    line-height: 0.9em;
+    opacity: 0;
+    transition: all .3s ease-in;
+    -o-transition: all .3s ease-in;
+    -moz-transition: all .3s ease-in;
+    -webkit-transition: all .3s ease-in;
+}
+
+.parsley-errors-list.filled {
+    opacity: 1;
+}
+
+.parsley-type,
+.parsley-required,
+.parsley-equalto,
+.parsley-pattern,
+.parsley-length {
+    color: #ff0000;
+}
+
+
+/* Footer */
+
+.footer.footer-static.footer-light {
+    border-top: 1px solid #dbe2e7;
+}
