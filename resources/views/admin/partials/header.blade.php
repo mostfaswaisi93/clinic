@@ -30,7 +30,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/colors.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/dark-layout.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/semi-dark-layout.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/bordered-layout.css') }}">
     <!-- END: Theme CSS -->
 
     <!-- BEGIN: Page CSS -->

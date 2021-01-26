@@ -141,11 +141,11 @@
                     <span class="menu-title text-truncate">{{ trans('admin.reports') }}</span>
                 </a>
                 <ul class="menu-content">
-                    @if (auth()->user()->can('read_shippings'))
-                    <li {{ request()->route()->getName() === 'admin.reports.shippings.index' ? 'class=active' : '' }}>
+                    @if (auth()->user()->can('read_patients'))
+                    <li {{ request()->route()->getName() === 'admin.reports.patients.index' ? 'class=active' : '' }}>
                         <a href="#" class="nav-link">
                             <i class="fa fa-money"></i>
-                            <span class="menu-item">{{ trans('admin.reports_shippings') }}</span>
+                            <span class="menu-item">{{ trans('admin.reports_patients') }}</span>
                         </a>
                     </li>
                     @endif

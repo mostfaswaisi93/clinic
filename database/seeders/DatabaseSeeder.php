@@ -14,8 +14,6 @@ class DatabaseSeeder extends Seeder
             // ContactsTableSeeder::class,
             // CountriesTableSeeder::class,
             // CitiesTableSeeder::class,
-            // WeightsTableSeeder::class,
-            // TradeMarksTableSeeder::class,
         ]);
     }
 }

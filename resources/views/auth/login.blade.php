@@ -2,7 +2,7 @@
 <html class="loading" dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}"
     lang="{{ LaravelLocalization::getCurrentLocaleName() }}">
 
-<!-- BEGIN: Head-->
+<!-- BEGIN: Head -->
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -19,61 +19,72 @@
 
     @if (app()->getLocale() == 'en')
 
-    <!-- BEGIN: Vendor CSS-->
+    <!-- BEGIN: Vendor CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/vendors/css/vendors.min.css') }}">
-    <!-- END: Vendor CSS-->
+    <!-- END: Vendor CSS -->
 
-    <!-- BEGIN: Theme CSS-->
+    <!-- BEGIN: Theme CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/bootstrap-extended.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/colors.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/dark-layout.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/semi-dark-layout.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/bordered-layout.css') }}">
+    <!-- END: Theme CSS -->
 
-    <!-- BEGIN: Page CSS-->
+    <!-- BEGIN: Page CSS -->
     <link rel="stylesheet" type="text/css"
         href="{{ url('backend/app-assets/css/core/menu/menu-types/vertical-menu.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/core/colors/palette-gradient.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/pages/authentication.css') }}">
-    <!-- END: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/plugins/forms/form-validation.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/pages/page-auth.css') }}">
+    <!-- END: Page CSS -->
+
+    <!-- BEGIN: Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/assets/css/style.css') }}">
+    <!-- END: Custom CSS -->
+
     @else
 
-    <!-- BEGIN: Vendor CSS-->
+    <!-- BEGIN: Vendor CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/vendors/css/vendors-rtl.min.css') }}">
-    <!-- END: Vendor CSS-->
+    <!-- END: Vendor CSS -->
 
-    <!-- BEGIN: Theme CSS-->
+    <!-- BEGIN: Theme CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/bootstrap-extended.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/colors.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/dark-layout.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/bordered-layout.css') }}">
-    <!-- END: Theme CSS-->
+    <!-- END: Theme CSS -->
 
-    <!-- BEGIN: Page CSS-->
+    <!-- BEGIN: Page CSS -->
     <link rel="stylesheet" type="text/css"
         href="{{ url('backend/app-assets/css-rtl/core/menu/menu-types/vertical-menu.css') }}">
     <link rel="stylesheet" type="text/css"
         href="{{ url('backend/app-assets/css-rtl/plugins/forms/form-validation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/pages/page-auth.css') }}">
-    <!-- END: Page CSS-->
+    <!-- END: Page CSS -->
 
-    <!-- BEGIN: Custom CSS-->
+    <!-- BEGIN: Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/custom-rtl.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/assets/css/style-rtl.css') }}">
+    <!-- END: Custom CSS -->
+
     <link rel="stylesheet" type="text/css" href="{{ url('css/styles-rtl.css') }}">
+
     @endif
 
     <link rel="stylesheet" type="text/css" href="{{url('/css/styles.css')}}">
+
 </head>
-<!-- END: Head-->
+<!-- END: Head -->
 
-<!-- BEGIN: Body-->
+<!-- BEGIN: Body -->
 
-<body class="vertical-layout vertical-menu-modern bordered-layout blank-page navbar-floating footer-static  "
+<body class="vertical-layout vertical-menu-modern bordered-layout blank-page navbar-floating footer-static"
     data-open="click" data-menu="vertical-menu-modern" data-col="blank-page" data-layout="bordered-layout">
-    <!-- BEGIN: Content-->
+    <!-- BEGIN: Content -->
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
@@ -82,7 +93,7 @@
             <div class="content-body">
                 <div class="auth-wrapper auth-v2">
                     <div class="auth-inner row m-0">
-                        <!-- Brand logo-->
+                        <!-- Brand logo -->
                         <a class="brand-logo" href="javascript:void(0);">
                             <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink" height="28">
@@ -122,86 +133,116 @@
                             </svg>
                             <h2 class="brand-text text-primary ml-1">{{ trans('admin.sitename') }}</h2>
                         </a>
-                        <!-- /Brand logo-->
-                        <!-- Left Text-->
+                        <!-- Brand logo -->
+                        <!-- Left Text -->
                         <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
-                            <div class="w-100 d-lg-flex align-items-center justify-content-center px-5"><img
-                                    class="img-fluid" src="{{ url('backend/app-assets/images/pages/login-v2.svg') }}"
-                                    alt="Login V2" /></div>
+                            <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+                                <img class="img-fluid" src="{{ url('backend/app-assets/images/pages/login-v2.svg') }}"
+                                    alt="Login V2" />
+                            </div>
                         </div>
-                        <!-- /Left Text-->
-                        <!-- Login-->
+                        <!-- Left Text -->
+                        <!-- Login -->
                         <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
                             <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-                                <h4 class="card-title mb-1">Welcome to Vuexy! 👋</h4>
-                                <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
-                                <form class="auth-login-form mt-2" action="index.html" method="POST">
+                                <h4 class="card-title mb-1">{{ trans('admin.login') }}</h4>
+                                <p class="card-text mb-2">{{ trans('admin.login_msg') }}</p>
+                                <form class="auth-login-form mt-2" action="{{route('login')}}" method="POST"
+                                    id="loginForm">
+                                    @csrf
+                                    @include('partials.errors')
                                     <div class="form-group">
-                                        <label class="form-label" for="login-email">Email</label>
+                                        <label class="form-label" for="login-email">{{ trans('admin.email') }}</label>
                                         <input class="form-control" id="login-email" type="text" name="login-email"
-                                            placeholder="john@example.com" aria-describedby="login-email" autofocus=""
-                                            tabindex="1" />
+                                            placeholder="{{ trans('admin.email') }}" aria-describedby="login-email"
+                                            autofocus="" tabindex="1" />
                                     </div>
                                     <div class="form-group">
                                         <div class="d-flex justify-content-between">
-                                            <label for="login-password">Password</label><a
+                                            <label for="login-password">{{ trans('admin.password') }}</label><a
                                                 href="page-auth-forgot-password-v2.html"><small>Forgot
                                                     Password?</small></a>
                                         </div>
                                         <div class="input-group input-group-merge form-password-toggle">
                                             <input class="form-control form-control-merge" id="login-password"
-                                                type="password" name="login-password" placeholder="············"
+                                                type="password" name="login-password"
+                                                placeholder="{{ trans('admin.password') }}"
                                                 aria-describedby="login-password" tabindex="2" />
-                                            <div class="input-group-append"><span
-                                                    class="input-group-text cursor-pointer"><i
-                                                        data-feather="eye"></i></span></div>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text cursor-pointer">
+                                                    <i data-feather="eye"></i>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox">
                                             <input class="custom-control-input" id="remember-me" type="checkbox"
-                                                tabindex="3" />
+                                                tabindex="3" checked />
                                             <label class="custom-control-label" for="remember-me"> Remember Me</label>
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary btn-block" tabindex="4">Sign in</button>
+                                    <button type="submit" class="btn btn-primary btn-block" tabindex="4">
+                                        {{ trans('admin.login') }}
+                                    </button>
                                 </form>
-                                <p class="text-center mt-2"><span>New on our platform?</span><a
-                                        href="page-auth-register-v2.html"><span>&nbsp;Create an account</span></a></p>
+                                <p class="text-center mt-2"><span>New on our platform?</span>
+                                    <a href="page-auth-register-v2.html">
+                                        <span>&nbsp;Create an account</span>
+                                    </a>
+                                </p>
                                 <div class="divider my-2">
-                                    <div class="divider-text">or</div>
+                                    <div class="divider-text">-</div>
                                 </div>
-                                <div class="auth-footer-btn d-flex justify-content-center"><a class="btn btn-facebook"
-                                        href="javascript:void(0)"><i data-feather="facebook"></i></a><a
-                                        class="btn btn-twitter white" href="javascript:void(0)"><i
-                                            data-feather="twitter"></i></a>
-                                    <a class="btn btn-google" href="javascript:void(0)"><i
-                                            data-feather="mail"></i></a><a class="btn btn-github"
-                                        href="javascript:void(0)"><i data-feather="github"></i></a></div>
+                                <div class="auth-footer-btn d-flex justify-content-center">
+                                    <a class="btn btn-facebook" href="javascript:void(0)">
+                                        <i data-feather="facebook"></i>
+                                    </a>
+                                    <a class="btn btn-twitter white" href="javascript:void(0)">
+                                        <i data-feather="twitter"></i>
+                                    </a>
+                                    <a class="btn btn-google" href="javascript:void(0)">
+                                        <i data-feather="mail"></i>
+                                    </a>
+                                    <a class="btn btn-github" href="javascript:void(0)">
+                                        <i data-feather="github"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        <!-- /Login-->
+                        <!-- Login -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- END: Content-->
+    <!-- END: Content -->
 
-    <!-- BEGIN: Vendor JS-->
+    <!-- BEGIN: Vendor JS -->
     <script src="{{ url('backend/app-assets/vendors/js/vendors.min.js') }}"></script>
-    <!-- BEGIN Vendor JS-->
+    <!-- BEGIN Vendor JS -->
 
-    <!-- BEGIN: Page Vendor JS-->
+    <!-- BEGIN: Page Vendor JS -->
     <script src="{{ url('backend/app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
-    <!-- END: Page Vendor JS-->
+    <!-- END: Page Vendor JS -->
 
-    <!-- BEGIN: Theme JS-->
+    <!-- BEGIN: Theme JS -->
     <script src="{{ url('backend/app-assets/js/core/app-menu.js') }}"></script>
     <script src="{{ url('backend/app-assets/js/core/app.js') }}"></script>
-    <!-- END: Theme JS-->
+    <!-- END: Theme JS -->
+
+    <script>
+        $(window).on('load', function() {
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
+        })
+    </script>
 
 </body>
-<!-- END: Body-->
+<!-- END: Body -->
 
 </html>
