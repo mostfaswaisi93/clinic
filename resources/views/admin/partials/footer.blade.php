@@ -1,4 +1,4 @@
-<!-- BEGIN: Footer-->
+<!-- BEGIN: Footer -->
 <footer class="footer footer-static footer-light">
     <p class="clearfix mb-0">
         <span class="float-md-left d-block d-md-inline-block">
@@ -12,16 +12,16 @@
 <button class="btn btn-primary btn-icon scroll-top" type="button">
     <i data-feather="arrow-up"></i>
 </button>
-<!-- END: Footer-->
+<!-- END: Footer -->
 
-<!-- BEGIN: Vendor JS-->
+<!-- BEGIN: Vendor JS -->
 <script src="{{ url('backend/app-assets/vendors/js/vendors.min.js') }}"></script>
-<!-- BEGIN Vendor JS-->
+<!-- BEGIN Vendor JS -->
 
-<!-- BEGIN: Theme JS-->
+<!-- BEGIN: Theme JS -->
 <script src="{{ url('backend/app-assets/js/core/app-menu.js') }}"></script>
 <script src="{{ url('backend/app-assets/js/core/app.js') }}"></script>
-<!-- END: Theme JS-->
+<!-- END: Theme JS -->
 
 {{-- Custom js --}}
 <script src="{{ url('backend/js/functions.js') }}"></script>
@@ -53,6 +53,6 @@
 @stack('scripts')
 
 </body>
-<!-- END: Body-->
+<!-- END: Body -->
 
 </html>

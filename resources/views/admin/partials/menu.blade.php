@@ -1,4 +1,4 @@
-<!-- BEGIN: Menu-->
+<!-- BEGIN: Menu -->
 <nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow">
     <div class="navbar-container d-flex content">
         <ul class="nav navbar-nav align-items-center ml-auto">
@@ -232,4 +232,4 @@
         </ul>
     </div>
 </nav>
-<!-- END: Menu-->
+<!-- END: Menu -->

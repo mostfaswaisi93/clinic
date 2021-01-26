@@ -1,63 +1,67 @@
 <!DOCTYPE html>
 <html class="loading" dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}"
     lang="{{ LaravelLocalization::getCurrentLocaleName() }}">
-<!-- BEGIN: Head-->
+<!-- BEGIN: Head -->
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="Laravel - E-commerce System">
-    <meta name="keywords" content="Laravel - E-commerce System">
-    <meta name="author" content="PIXINVENT">
+    <meta name="description" content="Laravel - Clinic System">
+    <meta name="keywords" content="Laravel - Clinic System">
+    <meta name="author" content="mostfaswaisi93">
     <title>{{ trans('admin.sitename') }} | {{ trans('admin.forgot_password') }}</title>
     <link rel="apple-touch-icon" href="{{ url('backend/app-assets/images/ico/apple-icon-120.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ url('images/theme/favicon.ico') }}">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
+        rel="stylesheet">
 
     @if (app()->getLocale() == 'en')
 
-    <!-- BEGIN: Vendor CSS-->
+    <!-- BEGIN: Vendor CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/vendors/css/vendors.min.css') }}">
-    <!-- END: Vendor CSS-->
+    <!-- END: Vendor CSS -->
 
-    <!-- BEGIN: Theme CSS-->
+    <!-- BEGIN: Theme CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/bootstrap-extended.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/colors.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/dark-layout.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/semi-dark-layout.css') }}">
+    <!-- END: Theme CSS -->
 
-    <!-- BEGIN: Page CSS-->
+    <!-- BEGIN: Page CSS -->
     <link rel="stylesheet" type="text/css"
         href="{{ url('backend/app-assets/css/core/menu/menu-types/vertical-menu.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/core/colors/palette-gradient.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/pages/authentication.css') }}">
-    <!-- END: Page CSS-->
+    <!-- END: Page CSS -->
+
     @else
 
-    <!-- BEGIN: Vendor CSS-->
+    <!-- BEGIN: Vendor CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/vendors/css/vendors-rtl.min.css') }}">
-    <!-- END: Vendor CSS-->
+    <!-- END: Vendor CSS -->
 
-    <!-- BEGIN: Theme CSS-->
+    <!-- BEGIN: Theme CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/bootstrap-extended.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/colors.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/dark-layout.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/semi-dark-layout.css') }}">
+    <!-- END: Theme CSS -->
 
-    <!-- BEGIN: Page CSS-->
+    <!-- BEGIN: Page CSS -->
     <link rel="stylesheet" type="text/css"
         href="{{ url('backend/app-assets/css-rtl/core/menu/menu-types/vertical-menu.css') }}">
     <link rel="stylesheet" type="text/css"
         href="{{ url('backend/app-assets/css-rtl/core/colors/palette-gradient.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/pages/authentication.css') }}">
-    <!-- END: Page CSS-->
+    <!-- END: Page CSS -->
 
-    <!-- BEGIN: Custom CSS-->
+    <!-- BEGIN: Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/custom-rtl.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('css/styles-rtl.css') }}">
     @endif
@@ -65,14 +69,14 @@
     <link rel="stylesheet" type="text/css" href="{{url('/css/styles.css')}}">
 
 </head>
-<!-- END: Head-->
+<!-- END: Head -->
 
-<!-- BEGIN: Body-->
+<!-- BEGIN: Body -->
 
 <body
     class="vertical-layout vertical-menu-modern semi-dark-layout 1-column navbar-floating footer-static bg-full-screen-image blank-page blank-page"
     data-open="click" data-menu="vertical-menu-modern" data-col="1-column" data-layout="semi-dark-layout">
-    <!-- BEGIN: Content-->
+    <!-- BEGIN: Content -->
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
@@ -139,19 +143,19 @@
         </div>
     </div>
 
-    <!-- END: Content-->
+    <!-- END: Content -->
 
-    <!-- BEGIN: Vendor JS-->
+    <!-- BEGIN: Vendor JS -->
     <script src="{{ url('backend/app-assets/vendors/js/vendors.min.js') }}"></script>
-    <!-- BEGIN Vendor JS-->
+    <!-- BEGIN Vendor JS -->
 
-    <!-- BEGIN: Theme JS-->
+    <!-- BEGIN: Theme JS -->
     <script src="{{ url('backend/app-assets/js/core/app-menu.js') }}"></script>
     <script src="{{ url('backend/app-assets/js/core/app.js') }}"></script>
     <script src="{{ url('backend/app-assets/js/scripts/components.js') }}"></script>
-    <!-- END: Theme JS-->
+    <!-- END: Theme JS -->
 
 </body>
-<!-- END: Body-->
+<!-- END: Body -->
 
 </html>

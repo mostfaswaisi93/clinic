@@ -2,7 +2,7 @@
 <html class="loading" dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}"
     lang="{{ LaravelLocalization::getCurrentLocaleName() }}">
 
-<!-- BEGIN: Head-->
+<!-- BEGIN: Head -->
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -20,51 +20,49 @@
 
     @if (app()->getLocale() == 'en')
 
-    <!-- BEGIN: Vendor CSS-->
+    <!-- BEGIN: Vendor CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/vendors/css/vendors.min.css') }}">
-    <!-- END: Vendor CSS-->
+    <!-- END: Vendor CSS -->
 
-    <!-- BEGIN: Theme CSS-->
+    <!-- BEGIN: Theme CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/bootstrap-extended.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/colors.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/dark-layout.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/semi-dark-layout.css') }}">
+    <!-- END: Theme CSS -->
 
-    <!-- BEGIN: Page CSS-->
+    <!-- BEGIN: Page CSS -->
     <link rel="stylesheet" type="text/css"
         href="{{ url('backend/app-assets/css/core/menu/menu-types/vertical-menu.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/core/colors/palette-gradient.css') }}">
-    <!-- END: Page CSS-->
+    <!-- END: Page CSS -->
 
     @else
 
-    <!-- BEGIN: Vendor CSS-->
+    <!-- BEGIN: Vendor CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/vendors/css/vendors-rtl.min.css') }}">
-    <!-- END: Vendor CSS-->
+    <!-- END: Vendor CSS -->
 
-    <!-- BEGIN: Theme CSS-->
+    <!-- BEGIN: Theme CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/bootstrap-extended.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/colors.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/dark-layout.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/bordered-layout.css') }}">
-    {{-- <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/semi-dark-layout.css') }}">
-    --}}
+    <!-- END: Theme CSS -->
 
-    <!-- BEGIN: Page CSS-->
+    <!-- BEGIN: Page CSS -->
     <link rel="stylesheet" type="text/css"
         href="{{ url('backend/app-assets/css-rtl/core/menu/menu-types/vertical-menu.css') }}">
-    {{-- <link rel="stylesheet" type="text/css"
-        href="{{ url('backend/app-assets/css-rtl/core/colors/palette-gradient.css') }}"> --}}
-    <!-- END: Page CSS-->
+    <!-- END: Page CSS -->
 
-    <!-- BEGIN: Custom CSS-->
+    <!-- BEGIN: Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/custom-rtl.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/assets/css/style-rtl.css') }}">
-    <!-- END: Custom CSS-->
+    <!-- END: Custom CSS -->
 
     <link rel="stylesheet" type="text/css" href="{{url('/css/styles-rtl.css')}}">
 
@@ -84,9 +82,9 @@
     <link rel="stylesheet" type="text/css" href="{{url('/css/styles.css')}}">
 
 </head>
-<!-- END: Head-->
+<!-- END: Head -->
 
-<!-- BEGIN: Body-->
+<!-- BEGIN: Body -->
 
 <body class="vertical-layout vertical-menu-modern semi-dark-layout 2-columns navbar-floating footer-static"
     data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-layout="semi-dark-layout">

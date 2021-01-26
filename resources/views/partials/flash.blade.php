@@ -1,6 +1,8 @@
 @if(session('message'))
-<div class="alert alert-{{ session('alert-type') }} alert-dismissible" role="alert" id="session-alert">
-    {{ session('message') }}
+<div class="alert alert-{{ session('alert-type') }} alert-dismissible fade show" role="alert" id="session-alert">
+    <div class="alert-body">
+        {{ session('message') }}
+    </div>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
