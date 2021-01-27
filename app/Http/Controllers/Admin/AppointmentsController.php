@@ -25,9 +25,9 @@ class AppointmentsController extends Controller
             return datatables()->of($appointments)
                 ->addColumn('action', function ($data) {
                     if (auth()->user()->can(['update_appointments', 'delete_appointments'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="appointments/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="feather icon-edit"></i></a>';
+                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="appointments/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i data-feather="edit"></i></a>';
                         $button .= '&nbsp;';
-                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i class="feather icon-trash-2"></i></a>';
+                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
                         return $button;
                     }
                 })

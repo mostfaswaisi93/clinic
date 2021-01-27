@@ -79,7 +79,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.foundation.min.css">
 
-    <link rel="stylesheet" type="text/css" href="{{url('/css/styles.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url('/css/styles.css') }}">
 
 </head>
 <!-- END: Head -->

@@ -99,7 +99,7 @@
                         dt.ajax.reload(null, false);
                     }
                 },
-                { text: '<i class="feather icon-trash-2"></i> {{ trans("admin.trash") }}',
+                { text: '<i data-feather="trash-2"></i> {{ trans("admin.trash") }}',
                 className: 'btn dtbtn btn-sm btn-danger multi_delete delBtn',
                   attr: { title: '{{ trans("admin.trash") }}' }
                 },

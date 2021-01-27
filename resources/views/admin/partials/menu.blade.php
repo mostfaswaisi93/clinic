@@ -2,7 +2,7 @@
 <nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow">
     <div class="navbar-container d-flex content">
         <ul class="nav navbar-nav align-items-center ml-auto">
-            {{-- Start Language --}}
+            <!-- Start Language -->
             <li class="nav-item dropdown dropdown-language">
                 @if(app()->getLocale() == 'en')
                 <a class="nav-link dropdown-toggle" id="dropdown-flag" href="javascript:void(0);" data-toggle="dropdown"
@@ -43,8 +43,8 @@
                     @endforeach
                 </div>
             </li>
-            {{-- End Language --}}
-            {{-- Start Search --}}
+            <!-- End Language -->
+            <!-- Start Search -->
             <li class="nav-item nav-search">
                 <a class="nav-link nav-link-search">
                     <i class="ficon" data-feather="search"></i>
@@ -56,7 +56,7 @@
                     <ul class="search-list search-list-main"></ul>
                 </div>
             </li>
-            {{-- End Search --}}
+            <!-- End Search -->
             <li class="nav-item dropdown dropdown-notification mr-25">
                 <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown">
                     <i class="ficon" data-feather="bell"></i>
@@ -186,7 +186,7 @@
                     </div>
                     <span class="avatar">
                         <img class="round" src="{{ url('backend/app-assets/images/portrait/small/avatar-s-11.jpg') }}"
-                            alt="avatar" height="40" width="40">
+                            alt="avatar" height="35" width="35">
                         <span class="avatar-status-online"></span>
                     </span>
                 </a>

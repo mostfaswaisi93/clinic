@@ -74,11 +74,12 @@ label {
 
 .portlet .card .card-header {
     background-color: #5b53c3;
-    padding: 1rem 1rem;
+    padding: 0.8rem 1rem;
 }
 
 .portlet .card .card-header .card-title {
     color: #fff;
+    font-size: 1.20rem;
 }
 
 

@@ -32,7 +32,7 @@ $(window).on('load', function() {
             height: 14
         });
     }
-})
+});
 
 // Check all
 function check_all() {

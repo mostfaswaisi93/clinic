@@ -74,7 +74,7 @@
 
     @endif
 
-    <link rel="stylesheet" type="text/css" href="{{url('/css/styles.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url('/css/styles.css') }}">
 
 </head>
 <!-- END: Head -->
@@ -135,30 +135,45 @@
                         <!-- Brand logo -->
                         <!-- Left Text -->
                         <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
-                            <div class="w-100 d-lg-flex align-items-center justify-content-center px-5"><img
-                                    class="img-fluid"
-                                    src="{{ url('backend/app-assets/images/pages/forgot-password-v2.svg') }}"
-                                    alt="Forgot password V2" /></div>
+                            <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+                                <img class="img-fluid" alt="Forgot password V2"
+                                    src="{{ url('backend/app-assets/images/pages/forgot-password-v2.svg') }}" />
+                            </div>
                         </div>
                         <!-- Left Text -->
                         <!-- Forgot password -->
                         <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
                             <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-                                <h4 class="card-title mb-1">Forgot Password? 🔒</h4>
-                                <p class="card-text mb-2">Enter your email and we'll send you instructions to reset your
-                                    password</p>
-                                <form class="auth-forgot-password-form mt-2" action="page-auth-reset-password-v2.html"
-                                    method="POST">
-                                    <div class="form-group">
-                                        <label class="form-label" for="forgot-password-email">Email</label>
-                                        <input class="form-control" id="forgot-password-email" type="text"
-                                            name="forgot-password-email" placeholder="john@example.com"
-                                            aria-describedby="forgot-password-email" autofocus="" tabindex="1" />
+                                <h4 class="card-title mb-1">{{ trans('admin.forgot_password') }}</h4>
+                                <p class="card-text mb-2">{{ trans('admin.forgot_msg') }}</p>
+                                <form class="auth-forgot-password-form mt-2" method="POST"
+                                    action="{{ route('password.email') }}">
+                                    @csrf
+                                    @include('partials.errors')
+                                    @if (session('status'))
+                                    <div class="alert alert-success" role="alert">
+                                        <div class="alert-body">
+                                            {{ session('status') }}
+                                        </div>
                                     </div>
-                                    <button class="btn btn-primary btn-block" tabindex="2">Send reset link</button>
+                                    @endif
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">{{ trans('admin.email') }}</label>
+                                        <input class="form-control" id="email" type="text" name="email"
+                                            placeholder="{{ trans('admin.email') }}" aria-describedby="email"
+                                            autofocus="" tabindex="1" />
+                                    </div>
+                                    <button class="btn btn-primary btn-block" tabindex="2"
+                                        title="{{ trans('admin.password_link') }}">
+                                        {{ trans('admin.recover_password') }}
+                                    </button>
                                 </form>
-                                <p class="text-center mt-2"><a href="page-auth-login-v2.html"><i
-                                            data-feather="chevron-left"></i> Back to login</a></p>
+                                <p class="text-center mt-2">
+                                    <a href="{{ route('login') }}" title="{{ trans('admin.back_login') }}">
+                                        <i data-feather="chevron-left"></i>
+                                        {{ trans('admin.back_login') }}
+                                    </a>
+                                </p>
                             </div>
                         </div>
                         <!-- Forgot password -->
@@ -184,13 +199,13 @@
 
     <script>
         $(window).on('load', function() {
-                    if (feather) {
-                        feather.replace({
-                            width: 14,
-                            height: 14
-                        });
-                    }
-                })
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
+        });
     </script>
 
 </body>

@@ -35,7 +35,7 @@ class StatesController extends Controller
                     if (auth()->user()->can(['update_states', 'delete_states'])) {
                         $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="states/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="feather icon-edit"></i></a>';
                         $button .= '&nbsp;';
-                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i class="feather icon-trash-2"></i></a>';
+                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
                         return $button;
                     }
                 })

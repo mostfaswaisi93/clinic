@@ -13,7 +13,8 @@
     <title>{{ trans('admin.sitename') }} | {{ trans('admin.reset_password') }}</title>
     <link rel="apple-touch-icon" href="{{ url('backend/app-assets/images/ico/apple-icon-120.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ url('images/theme/favicon.ico') }}">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
+        rel="stylesheet">
 
     @if (app()->getLocale() == 'en')
 
@@ -73,7 +74,7 @@
 
     @endif
 
-    <link rel="stylesheet" type="text/css" href="{{url('/css/styles.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url('/css/styles.css') }}">
 
 </head>
 <!-- END: Head -->
@@ -134,49 +135,72 @@
                         <!-- Brand logo -->
                         <!-- Left Text -->
                         <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
-                            <div class="w-100 d-lg-flex align-items-center justify-content-center px-5"><img
-                                    src="{{ url('backend/app-assets/images/pages/reset-password-v2.svg')}}" img-fluid="img-fluid"
-                                    alt="Register V2" /></div>
+                            <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+                                <img src="{{ url('backend/app-assets/images/pages/reset-password-v2.svg') }}"
+                                    img-fluid="img-fluid" alt="Register V2" />
+                            </div>
                         </div>
                         <!-- Left Text -->
                         <!-- Reset password -->
                         <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
                             <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-                                <h4 class="card-title mb-1">Reset Password 🔒</h4>
-                                <p class="card-text mb-2">Your new password must be different from previously used
-                                    passwords</p>
-                                <form class="auth-reset-password-form mt-2" action="page-auth-login-v2.html"
-                                    method="POST">
+                                <h4 class="card-title mb-1">{{ trans('admin.reset_password') }}</h4>
+                                <p class="card-text mb-2">{{ trans('admin.reset_msg') }}</p>
+                                <form class="auth-reset-password-form mt-2" method="POST"
+                                    action="{{ route('password.update') }}">
+                                    @csrf
+                                    @include('partials.errors')
+                                    <input type="hidden" name="token" value="{{ $token }}">
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">{{ trans('admin.email') }}</label>
+                                        <input class="form-control" id="email" type="text" name="email"
+                                            placeholder="{{ trans('admin.email') }}" aria-describedby="email"
+                                            autofocus="" tabindex="1" value="{{ $email ?? old('email') }}" />
+                                    </div>
                                     <div class="form-group">
                                         <div class="d-flex justify-content-between">
-                                            <label for="reset-password-new">New Password</label>
+                                            <label for="password">{{ trans('admin.password') }}</label>
                                         </div>
                                         <div class="input-group input-group-merge form-password-toggle">
-                                            <input class="form-control form-control-merge" id="reset-password-new"
-                                                type="password" name="reset-password-new" placeholder="············"
-                                                aria-describedby="reset-password-new" autofocus="" tabindex="1" />
-                                            <div class="input-group-append"><span
-                                                    class="input-group-text cursor-pointer"><i
-                                                        data-feather="eye"></i></span></div>
+                                            <input class="form-control form-control-merge" id="password" type="password"
+                                                name="password" placeholder="{{ trans('admin.password') }}"
+                                                aria-describedby="password" autofocus="" tabindex="1"
+                                                autocomplete="new-password" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text cursor-pointer">
+                                                    <i data-feather="eye"></i>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="d-flex justify-content-between">
-                                            <label for="reset-password-confirm">Confirm Password</label>
+                                            <label
+                                                for="password-confirm">{{ trans('admin.password_confirmation') }}</label>
                                         </div>
                                         <div class="input-group input-group-merge form-password-toggle">
-                                            <input class="form-control form-control-merge" id="reset-password-confirm"
-                                                type="password" name="reset-password-confirm" placeholder="············"
-                                                aria-describedby="reset-password-confirm" tabindex="2" />
-                                            <div class="input-group-append"><span
-                                                    class="input-group-text cursor-pointer"><i
-                                                        data-feather="eye"></i></span></div>
+                                            <input class="form-control form-control-merge" id="password-confirm"
+                                                type="password" name="password_confirmation"
+                                                placeholder="{{ trans('admin.password_confirmation') }}"
+                                                aria-describedby="password_confirmation" tabindex="2"
+                                                autocomplete="new-password" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text cursor-pointer">
+                                                    <i data-feather="eye"></i>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary btn-block" tabindex="3">Set New Password</button>
+                                    <button type="submit" class="btn btn-primary btn-block" tabindex="3">
+                                        {{ trans('admin.reset_password') }}
+                                    </button>
                                 </form>
-                                <p class="text-center mt-2"><a href="page-auth-login-v2.html"><i
-                                            data-feather="chevron-left"></i> Back to login</a></p>
+                                <p class="text-center mt-2">
+                                    <a href="{{ route('login') }}" title="{{ trans('admin.back_login') }}">
+                                        <i data-feather="chevron-left"></i>
+                                        {{ trans('admin.back_login') }}
+                                    </a>
+                                </p>
                             </div>
                         </div>
                         <!-- Reset password -->
@@ -202,13 +226,13 @@
 
     <script>
         $(window).on('load', function() {
-                if (feather) {
-                    feather.replace({
-                        width: 14,
-                        height: 14
-                    });
-                }
-            })
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
+        });
     </script>
 
 </body>
