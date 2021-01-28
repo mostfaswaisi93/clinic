@@ -1,5 +1,5 @@
-<!-- User Modal -->
-<div class="modal fade" id="userModal" role="dialog" aria-hidden="true">
+<!-- Patient Modal -->
+<div class="modal fade" id="patientModal" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-md">
         <!-- Modal content-->
         <div class="modal-content">
@@ -12,7 +12,7 @@
             <!-- Modal body-->
             <div class="modal-body">
                 <span id="form_result"></span>
-                <form method="POST" id="userForm" class="form-horizontal" accept-charset="UTF-8"
+                <form method="POST" id="patientForm" class="form-horizontal" accept-charset="UTF-8"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="row">

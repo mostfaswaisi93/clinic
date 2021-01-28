@@ -10,6 +10,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             SpatieSeeder::class,
+            ConstantsTableSeeder::class,
             UsersTableSeeder::class,
             // ContactsTableSeeder::class,
             // CountriesTableSeeder::class,

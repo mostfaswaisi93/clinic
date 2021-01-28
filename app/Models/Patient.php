@@ -9,6 +9,5 @@ class Patient extends BaseModel
     use HasFactory;
 
     protected $table        = 'patients';
-    protected $guarded      = [];
-    // protected $fillable     = ['', '', '', '', '', 'enabled'];
+    protected $fillable     = ['first_name', 'last_name', 'address', 'phone', 'constant_id', 'user_id', 'enabled'];
 }

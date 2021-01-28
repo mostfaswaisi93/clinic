@@ -36,8 +36,11 @@
     <!-- BEGIN: Page CSS -->
     <link rel="stylesheet" type="text/css"
         href="{{ url('backend/app-assets/css/core/menu/menu-types/vertical-menu.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/core/colors/palette-gradient.css') }}">
     <!-- END: Page CSS -->
+
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/assets/css/style.css') }}">
+    <!-- END: Custom CSS-->
 
     @else
 
@@ -86,5 +89,5 @@
 
 <!-- BEGIN: Body -->
 
-<body class="vertical-layout vertical-menu-modern semi-dark-layout 2-columns navbar-floating footer-static"
-    data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-layout="semi-dark-layout">
+<body class="vertical-layout vertical-menu-modern navbar-floating footer-static" data-open="click"
+    data-menu="vertical-menu-modern" data-col="">

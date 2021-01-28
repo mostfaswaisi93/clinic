@@ -8,7 +8,7 @@
         <div class="row breadcrumbs-top">
             <div class="col-12">
                 <h2 class="content-header-title float-left mb-0">{{ trans('admin.create_country') }}</h2>
-                <div class="breadcrumb-wrapper col-12">
+                <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.index') }}">{{ trans('admin.home') }}</a>
@@ -31,7 +31,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">
-                            <i class="feather icon-plus-circle mr-25"></i>
+                            <i class="mr-25" data-feather='plus-circle'></i>
                             {{ trans('admin.create_country') }}
                         </h4>
                     </div>
@@ -43,46 +43,36 @@
                                 @method('POST')
                                 <div class="row">
                                     @foreach (config('translatable.locales') as $locale)
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-xl-6 col-md-6 col-12 mt-1">
                                         <div class="form-group">
-                                            <div class="controls">
-                                                <label>{{ trans('admin.' . $locale . '.name') }}</label>
-                                                <input id="name" type="text" name="name[{{ $locale }}]"
-                                                    class="form-control" value="{{ old('name.' . $locale) }}"
-                                                    placeholder="{{ trans('admin.' . $locale . '.name') }}">
-                                            </div>
+                                            <label for="name">{{ trans('admin.' . $locale . '.name') }}</label>
+                                            <input id="name" type="text" name="name[{{ $locale }}]" class="form-control"
+                                                value="{{ old('name.' . $locale) }}"
+                                                placeholder="{{ trans('admin.' . $locale . '.name') }}">
                                         </div>
                                     </div>
                                     @endforeach
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-xl-6 col-md-6 col-12 mt-1">
                                         <div class="form-group">
-                                            <div class="controls">
-                                                <label>{{ trans('admin.mob') }}</label>
-                                                <input id="mob" type="text" name="mob" class="form-control"
-                                                    value="{{ old('name.mob') }}"
-                                                    placeholder="{{ trans('admin.mob') }}">
-                                            </div>
+                                            <label for="mob">{{ trans('admin.mob') }}</label>
+                                            <input id="mob" type="text" name="mob" class="form-control"
+                                                value="{{ old('name.mob') }}" placeholder="{{ trans('admin.mob') }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-xl-6 col-md-6 col-12 mt-1">
                                         <div class="form-group">
-                                            <div class="controls">
-                                                <label>{{ trans('admin.code') }}</label>
-                                                <input id="code" type="text" name="code" class="form-control"
-                                                    value="{{ old('name.code') }}"
-                                                    placeholder="{{ trans('admin.code') }}">
-                                            </div>
+                                            <label for="code">{{ trans('admin.code') }}</label>
+                                            <input id="code" type="text" name="code" class="form-control"
+                                                value="{{ old('name.code') }}" placeholder="{{ trans('admin.code') }}">
                                         </div>
                                     </div>
                                     @foreach (config('translatable.locales') as $locale)
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-xl-6 col-md-6 col-12 mt-1">
                                         <div class="form-group">
-                                            <div class="controls">
-                                                <label>{{ trans('admin.' . $locale . '.currency') }}</label>
-                                                <input id="currency" type="text" name="currency[{{ $locale }}]"
-                                                    class="form-control" value="{{ old('currency.' . $locale) }}"
-                                                    placeholder="{{ trans('admin.' . $locale . '.currency') }}">
-                                            </div>
+                                            <label for="currency">{{ trans('admin.' . $locale . '.currency') }}</label>
+                                            <input id="currency" type="text" name="currency[{{ $locale }}]"
+                                                class="form-control" value="{{ old('currency.' . $locale) }}"
+                                                placeholder="{{ trans('admin.' . $locale . '.currency') }}">
                                         </div>
                                     </div>
                                     @endforeach
@@ -94,7 +84,7 @@
                                                     height="70" width="70">
                                             </a>
                                             <div class="media-body mt-50">
-                                                <label>{{ trans('admin.user_image') }}</label>
+                                                <label for="image">{{ trans('admin.user_image') }}</label>
                                                 <div class="col-12 d-flex mt-1 px-0">
                                                     <input type="file" class="form-control-file image" name="image"
                                                         id="image" style="display:none;">
@@ -109,14 +99,8 @@
                                     <div class="col-12">
                                         <hr>
                                     </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <div class="controls">
-                                                <button type="submit" class="btn btn-primary">
-                                                    {{ trans('admin.add') }}
-                                                </button>
-                                            </div>
-                                        </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary">{{ trans('admin.add') }}</button>
                                     </div>
                                 </div>
                             </form>

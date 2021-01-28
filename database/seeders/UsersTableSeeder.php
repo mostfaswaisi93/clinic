@@ -32,5 +32,17 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user2->assignRole('doctor');
+
+        $user3 = User::create([
+            'first_name'    => 'Ahmad',
+            'last_name'     => 'Ali',
+            'username'      => 'ahmadali',
+            'email'         => 'ahmadali@secretary.com',
+            'password'      => bcrypt('password'),
+            'created_at'    => date('Y-m-d'),
+            'updated_at'    => date('Y-m-d'),
+        ]);
+
+        $user3->assignRole('secretary');
     }
 }

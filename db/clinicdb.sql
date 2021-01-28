@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 25, 2021 at 04:34 PM
+-- Generation Time: Jan 28, 2021 at 03:07 PM
 -- Server version: 10.5.4-MariaDB-log
 -- PHP Version: 7.4.10
 
@@ -38,10 +38,10 @@ CREATE TABLE `appointments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `constants`
+-- Table structure for table `cities`
 --
 
-CREATE TABLE `constants` (
+CREATE TABLE `cities` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `enabled` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -52,10 +52,47 @@ CREATE TABLE `constants` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `constants`
+--
+
+CREATE TABLE `constants` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `enabled` int(11) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `constants`
+--
+
+INSERT INTO `constants` (`id`, `name`, `enabled`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, '{\"ar\":\"ذكر\",\"en\":\"Male\"}', 1, '2021-01-28 15:06:49', '2021-01-28 15:06:49', NULL),
+(2, '{\"ar\":\"أنثى\",\"en\":\"Female\"}', 1, '2021-01-28 15:06:49', '2021-01-28 15:06:49', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `contacts`
 --
 
 CREATE TABLE `contacts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `enabled` int(11) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `countries`
+--
+
+CREATE TABLE `countries` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `enabled` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -108,7 +145,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (10, '2021_01_25_143446_create_constants_table', 1),
 (11, '2021_01_25_144611_create_receipts_table', 1),
 (12, '2021_01_25_144622_create_transactions_table', 1),
-(13, '2021_01_25_144815_create_services_table', 1);
+(13, '2021_01_25_144815_create_services_table', 1),
+(14, '2021_01_27_164724_create_countries_table', 1),
+(15, '2021_01_27_164757_create_cities_table', 1),
+(16, '2021_01_27_164809_create_states_table', 1);
 
 -- --------------------------------------------------------
 
@@ -140,7 +180,8 @@ CREATE TABLE `model_has_roles` (
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (1, 'App\\Models\\User', 1),
-(3, 'App\\Models\\User', 2);
+(2, 'App\\Models\\User', 2),
+(3, 'App\\Models\\User', 3);
 
 -- --------------------------------------------------------
 
@@ -176,6 +217,12 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `patients` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `constant_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
   `enabled` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -201,70 +248,58 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'create_appointments', 'web', '2021-01-25 16:33:53', '2021-01-25 16:33:53'),
-(2, 'read_appointments', 'web', '2021-01-25 16:33:53', '2021-01-25 16:33:53'),
-(3, 'update_appointments', 'web', '2021-01-25 16:33:53', '2021-01-25 16:33:53'),
-(4, 'delete_appointments', 'web', '2021-01-25 16:33:53', '2021-01-25 16:33:53'),
-(5, 'create_patients', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(6, 'read_patients', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(7, 'update_patients', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(8, 'delete_patients', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(9, 'create_services', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(10, 'read_services', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(11, 'update_services', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(12, 'delete_services', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(13, 'create_invoices', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(14, 'read_invoices', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(15, 'update_invoices', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(16, 'delete_invoices', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(17, 'create_notifications', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(18, 'read_notifications', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(19, 'update_notifications', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(20, 'delete_notifications', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(21, 'create_contacts', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(22, 'read_contacts', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(23, 'update_contacts', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(24, 'delete_contacts', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(25, 'create_countries', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(26, 'read_countries', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(27, 'update_countries', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(28, 'delete_countries', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(29, 'create_cities', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(30, 'read_cities', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(31, 'update_cities', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(32, 'delete_cities', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(33, 'create_states', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(34, 'read_states', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(35, 'update_states', 'web', '2021-01-25 16:33:54', '2021-01-25 16:33:54'),
-(36, 'delete_states', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(37, 'create_payments', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(38, 'read_payments', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(39, 'update_payments', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(40, 'delete_payments', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(41, 'create_receipts', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(42, 'read_receipts', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(43, 'update_receipts', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(44, 'delete_receipts', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(45, 'create_transactions', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(46, 'read_transactions', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(47, 'update_transactions', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(48, 'delete_transactions', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(49, 'create_users', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(50, 'read_users', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(51, 'update_users', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(52, 'delete_users', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(53, 'create_roles', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(54, 'read_roles', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(55, 'update_roles', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(56, 'delete_roles', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(57, 'create_reports', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(58, 'read_reports', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(59, 'update_reports', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(60, 'delete_reports', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(61, 'create_settings', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(62, 'read_settings', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(63, 'update_settings', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55'),
-(64, 'delete_settings', 'web', '2021-01-25 16:33:55', '2021-01-25 16:33:55');
+(1, 'create_appointments', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(2, 'read_appointments', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(3, 'update_appointments', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(4, 'delete_appointments', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(5, 'create_patients', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(6, 'read_patients', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(7, 'update_patients', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(8, 'delete_patients', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(9, 'create_services', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(10, 'read_services', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(11, 'update_services', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(12, 'delete_services', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(13, 'create_invoices', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(14, 'read_invoices', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(15, 'update_invoices', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(16, 'delete_invoices', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(17, 'create_contacts', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(18, 'read_contacts', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(19, 'update_contacts', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(20, 'delete_contacts', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(21, 'create_countries', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(22, 'read_countries', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(23, 'update_countries', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(24, 'delete_countries', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(25, 'create_cities', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(26, 'read_cities', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(27, 'update_cities', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(28, 'delete_cities', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(29, 'create_states', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(30, 'read_states', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(31, 'update_states', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(32, 'delete_states', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(33, 'create_receipts', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(34, 'read_receipts', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(35, 'update_receipts', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(36, 'delete_receipts', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(37, 'create_transactions', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(38, 'read_transactions', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(39, 'update_transactions', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(40, 'delete_transactions', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(41, 'create_users', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(42, 'read_users', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(43, 'update_users', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(44, 'delete_users', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(45, 'create_roles', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(46, 'read_roles', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(47, 'update_roles', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(48, 'delete_roles', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(49, 'create_settings', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
+(50, 'read_settings', 'web', '2021-01-28 15:06:47', '2021-01-28 15:06:47'),
+(51, 'update_settings', 'web', '2021-01-28 15:06:47', '2021-01-28 15:06:47'),
+(52, 'delete_settings', 'web', '2021-01-28 15:06:47', '2021-01-28 15:06:47');
 
 -- --------------------------------------------------------
 
@@ -299,9 +334,9 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'super_admin', 'web', '2021-01-25 16:33:53', '2021-01-25 16:33:53'),
-(2, 'admin', 'web', '2021-01-25 16:33:59', '2021-01-25 16:33:59'),
-(3, 'doctor', 'web', '2021-01-25 16:33:59', '2021-01-25 16:33:59');
+(1, 'super_admin', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
+(2, 'doctor', 'web', '2021-01-28 15:06:48', '2021-01-28 15:06:48'),
+(3, 'secretary', 'web', '2021-01-28 15:06:48', '2021-01-28 15:06:48');
 
 -- --------------------------------------------------------
 
@@ -360,35 +395,25 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (39, 1),
 (40, 1),
 (41, 1),
+(41, 2),
+(41, 3),
 (42, 1),
+(42, 2),
+(42, 3),
 (43, 1),
+(43, 2),
+(43, 3),
 (44, 1),
+(44, 2),
+(44, 3),
 (45, 1),
 (46, 1),
 (47, 1),
 (48, 1),
 (49, 1),
-(49, 3),
 (50, 1),
-(50, 2),
-(50, 3),
 (51, 1),
-(51, 3),
-(52, 1),
-(52, 3),
-(53, 1),
-(54, 1),
-(54, 2),
-(55, 1),
-(56, 1),
-(57, 1),
-(58, 1),
-(59, 1),
-(60, 1),
-(61, 1),
-(62, 1),
-(63, 1),
-(64, 1);
+(52, 1);
 
 -- --------------------------------------------------------
 
@@ -411,6 +436,20 @@ CREATE TABLE `services` (
 --
 
 CREATE TABLE `settings` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `enabled` int(11) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `states`
+--
+
+CREATE TABLE `states` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `enabled` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -461,8 +500,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `image`, `enabled`, `email_verified_at`, `password`, `remember_token`, `last_login_at`, `last_login_ip`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'super', 'admin', 'super_admin', 'super@admin.com', 'default.png', 1, NULL, '$2y$10$.0filatrnqFQ62mTYBl5QOtWhXIjreSysrE5Bwo0omFmEdz2NVoSi', NULL, '2021-01-25 16:33:59', NULL, '2021-01-24 22:00:00', '2021-01-24 22:00:00', NULL),
-(2, 'Mustafa', 'Al-Swaisi', 'mostfaswaisi93', 'mostfaswaisi93@doctor.com', 'default.png', 1, NULL, '$2y$10$w4ZeYinkIs/Wr5pYExY4ZenR8nNqJk8mykTG/SFQhRl7ys8/jM/xa', NULL, '2021-01-25 16:33:59', NULL, '2021-01-24 22:00:00', '2021-01-24 22:00:00', NULL);
+(1, 'super', 'admin', 'super_admin', 'super@admin.com', 'default.png', 1, NULL, '$2y$10$sRO39xIzldelSRCIoNLm5uE9RSpt/xz3JKPcGosMbNFvfyvVcA8zO', NULL, '2021-01-28 15:06:49', NULL, '2021-01-27 22:00:00', '2021-01-27 22:00:00', NULL),
+(2, 'Mustafa', 'Al-Swaisi', 'mostfaswaisi93', 'mostfaswaisi93@doctor.com', 'default.png', 1, NULL, '$2y$10$hTc8//3IEyZrjPGe4zNYz.4PkrLBzVVIB6eqM/k084BPtWqCji5wG', NULL, '2021-01-28 15:06:49', NULL, '2021-01-27 22:00:00', '2021-01-27 22:00:00', NULL),
+(3, 'Ahmad', 'Ali', 'ahmadali', 'ahmadali@secretary.com', 'default.png', 1, NULL, '$2y$10$sln79DPaq9DkgKh7lSmK4.1ivvBgIZh5qeCqo5D6ErZ2l.G/XSMnC', NULL, '2021-01-28 15:06:49', NULL, '2021-01-27 22:00:00', '2021-01-27 22:00:00', NULL);
 
 --
 -- Indexes for dumped tables
@@ -475,6 +515,12 @@ ALTER TABLE `appointments`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `cities`
+--
+ALTER TABLE `cities`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `constants`
 --
 ALTER TABLE `constants`
@@ -484,6 +530,12 @@ ALTER TABLE `constants`
 -- Indexes for table `contacts`
 --
 ALTER TABLE `contacts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `countries`
+--
+ALTER TABLE `countries`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -569,6 +621,12 @@ ALTER TABLE `settings`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `states`
+--
+ALTER TABLE `states`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `transactions`
 --
 ALTER TABLE `transactions`
@@ -593,15 +651,27 @@ ALTER TABLE `appointments`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `cities`
+--
+ALTER TABLE `cities`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `constants`
 --
 ALTER TABLE `constants`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `contacts`
 --
 ALTER TABLE `contacts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `countries`
+--
+ALTER TABLE `countries`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -614,7 +684,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -632,7 +702,7 @@ ALTER TABLE `patients`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `receipts`
@@ -659,6 +729,12 @@ ALTER TABLE `settings`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `states`
+--
+ALTER TABLE `states`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
@@ -668,7 +744,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

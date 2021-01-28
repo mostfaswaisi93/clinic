@@ -6,10 +6,9 @@
 <div class="content-body">
     <section>
         <div class="card">
-            <div class="card-header">
-                <div class="tbl-title">{{ trans('admin.countries') }}</div>
+            <div class="card-header border-bottom">
+                <h4 class="card-title">{{ trans('admin.countries') }}</h4>
             </div>
-            <hr>
             <div class="card-content">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -18,13 +17,10 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        <div class="vs-checkbox-con vs-checkbox-primary">
-                                            <input type="checkbox" class="check_all" onclick="check_all()" name="ids">
-                                            <span class="vs-checkbox vs-checkbox-sm">
-                                                <span class="vs-checkbox--check">
-                                                    <i class="vs-icon feather icon-check"></i>
-                                                </span>
-                                            </span>
+                                        <div class="custom-control custom-control-primary custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" onclick="check_all()"
+                                                name="ids" id="check_all" />
+                                            <label class="custom-control-label" for="colorCheck1"></label>
                                         </div>
                                     </th>
                                     <th>#</th>

@@ -61,6 +61,22 @@
                     <span class="menu-item">{{ trans('admin.home') }}</span>
                 </a>
             </li>
+            @if (auth()->user()->can('read_appointments'))
+            <li {{ request()->route()->getName() === 'admin.appointments.index' ? 'class=active' : '' }}>
+                <a href="{{ route('admin.appointments.index') }}" class="nav-link">
+                    <i data-feather='calendar'></i>
+                    <span class="menu-item">{{ trans('admin.appointments') }}</span>
+                </a>
+            </li>
+            @endif
+            @if (auth()->user()->can('read_patients'))
+            <li {{ request()->route()->getName() === 'admin.patients.index' ? 'class=active' : '' }}>
+                <a href="{{ route('admin.patients.index') }}" class="nav-link">
+                    <i data-feather="users"></i>
+                    <span class="menu-item">{{ trans('admin.patients') }}</span>
+                </a>
+            </li>
+            @endif
             @if (auth()->user()->can('read_notifications'))
             <li {{ request()->route()->getName() === 'admin.notifications.index' ? 'class=active' : '' }}>
                 <a href="{{ route('admin.notifications.index') }}" class="nav-link">
