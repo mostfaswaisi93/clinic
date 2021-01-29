@@ -218,6 +218,10 @@
       &:not(.open) {
         > ul {
           display: none;
+          .active {
+            background: transparent;
+            box-shadow: none;
+          }
         }
       }
       &.active {
@@ -267,6 +271,10 @@
           &:not(.open) {
             > ul {
               display: none;
+              .active {
+                background: transparent;
+                box-shadow: none;
+              }
             }
           }
         }

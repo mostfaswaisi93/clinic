@@ -10,11 +10,15 @@
 @import '../bootstrap-extended/include'; // Bootstrap includes
 @import '../components/include'; // Components includes
 
-body.dark-layout {
-  color: $theme-dark-body-color;
-}
 .dark-layout {
-  background-color: $theme-dark-body-bg;
+  @at-root body#{&} {
+    color: $theme-dark-body-color;
+    background-color: $theme-dark-body-bg;
+  }
+  body {
+    color: $theme-dark-body-color;
+    background-color: $theme-dark-body-bg;
+  }
   // universal elements
   //heading tags
   h1,
@@ -55,14 +59,14 @@ body.dark-layout {
   }
 
   pre {
-    background-color: $theme-dark-body-bg;
+    background-color: $theme-dark-body-bg !important;
     border: 0;
 
     code {
       background-color: inherit;
       text-shadow: none;
 
-      .operator,
+      // .operator,
       .url {
         background-color: $theme-dark-body-bg;
       }
@@ -114,7 +118,7 @@ body.dark-layout {
 
   // main header navbar dark style
 
-  &.horizontal-menu {
+  .horizontal-layout {
     .header-navbar {
       background-color: $theme-dark-card-bg;
     }
@@ -122,6 +126,13 @@ body.dark-layout {
     &.navbar-static {
       .header-navbar {
         background-color: $theme-dark-body-bg;
+      }
+    }
+  }
+  .navbar-sticky {
+    .header-navbar {
+      &.navbar-shadow {
+        box-shadow: 0 4px 24px 0 rgba($black, 0.75);
       }
     }
   }
@@ -277,7 +288,7 @@ body.dark-layout {
   }
 
   //Text color for Blank page with transparent card
-  &.blank-page {
+  .blank-page {
     .card.bg-transparent {
       h1,
       h2,
@@ -327,7 +338,7 @@ body.dark-layout {
     }
 
     .collapse-toggle-icon {
-      color: $theme-dark-headings-color !important;
+      color: $primary !important;
     }
   }
 
@@ -426,7 +437,7 @@ body.dark-layout {
   }
 
   // menu collapsed active item color
-  &.menu-collapsed {
+  .menu-collapsed {
     .main-menu:not(.expanded) {
       .navigation-main {
         li.active {
@@ -683,10 +694,15 @@ body.dark-layout {
     }
 
     &[class*='pagination-'] {
-      .page-item:not(.active):not(:hover) {
+      .page-item:not(.active) {
         .page-link {
           background-color: $theme-dark-pagination-bg;
-          color: $white;
+        }
+
+        &:not(:hover) {
+          .page-link {
+            color: $white;
+          }
         }
       }
 
@@ -923,7 +939,6 @@ body.dark-layout {
   // divider
   .divider {
     .divider-text {
-      background-color: $theme-dark-card-bg;
       color: $theme-dark-body-color;
 
       &::before,
@@ -1151,6 +1166,9 @@ body.dark-layout {
     &:disabled {
       opacity: 0.5;
     }
+    &:focus {
+      border-color: $primary;
+    }
   }
 
   select.form-control {
@@ -1271,7 +1289,7 @@ body.dark-layout {
     // if table not light/dark and thead not have dark class
     &:not(.table-dark):not(.table-light) thead:not(.thead-dark) th,
     &:not(.table-dark):not(.table-light) tfoot:not(.thead-dark) th {
-      background: $theme-dark-table-header-bg;
+      background-color: $theme-dark-table-header-bg;
     }
 
     // table-dark style
@@ -2251,16 +2269,15 @@ body.dark-layout {
     }
   }
 
-  &.footer-fixed {
+  .footer-fixed {
     .footer {
       background-color: $theme-dark-card-bg;
     }
   }
 
   /********** HORIZONTAL LAYOUT **********/
-  &.horizontal-layout {
-    
-    &.navbar-sticky .horizontal-menu-wrapper .navbar-horizontal.header-navbar.fixed-top{
+  .horizontal-layout {
+    &.navbar-sticky .horizontal-menu-wrapper .navbar-horizontal.header-navbar.fixed-top {
       box-shadow: 0 4px 24px 0 rgba($black, 0.75) !important;
     }
     .horizontal-menu-wrapper {

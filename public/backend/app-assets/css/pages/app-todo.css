@@ -101,6 +101,7 @@
 .todo-application .content-area-wrapper .content-right .todo-task-list-wrapper .todo-task-list {
   padding : 0;
   margin : 0;
+  list-style : none;
 }
 
 .todo-application .content-area-wrapper .content-right .todo-task-list-wrapper .todo-task-list li {

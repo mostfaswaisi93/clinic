@@ -91,7 +91,8 @@ label {
 
 /* Modal */
 
-.modal-header {
+
+/* .modal-header {
     border-top-right-radius: unset;
     border-top-left-radius: unset;
     border-bottom: unset;
@@ -138,7 +139,7 @@ label {
 
 .navbar-brand .feather {
     color: #fff;
-}
+} */
 
 
 /* Parsley JS */

@@ -296,8 +296,12 @@ html .footer-fixed .content.app-content {
 }
 
 html [data-col='1-column'] .header-navbar {
-  width : calc( 100vw - (100vw - 100%) - calc(2rem * 2)) !important;
+  width : 100%;
   right : 0 !important;
+}
+
+html [data-col='1-column'] .header-navbar.floating-nav {
+  width : calc( 100vw - (100vw - 100%) - calc(2rem * 2)) !important;
 }
 
 html [data-col='1-column'] .content, html [data-col='1-column'] .footer {
@@ -310,6 +314,10 @@ html [data-col='1-column'].horizontal-layout .header-navbar {
 
 html [data-col='1-column'].horizontal-layout .app-content {
   padding : calc(2rem + 4.45rem + 1.3rem) 2rem 0 2rem !important;
+}
+
+html [data-col='1-column'].horizontal-layout.footer-fixed .app-content {
+  padding : calc(2rem + 4.45rem + 1.3rem) 2rem 3.35rem 2rem !important;
 }
 
 html .blank-page .content {
@@ -671,6 +679,11 @@ footer.footer-border {
   display : none;
 }
 
+.main-menu.menu-light .navigation > li:not(.open) > ul .active {
+  background : transparent;
+  box-shadow : none;
+}
+
 .main-menu.menu-light .navigation > li.active {
   z-index : 1;
 }
@@ -717,6 +730,11 @@ footer.footer-border {
 
 .main-menu.menu-light .navigation > li ul .has-sub:not(.open) > ul {
   display : none;
+}
+
+.main-menu.menu-light .navigation > li ul .has-sub:not(.open) > ul .active {
+  background : transparent;
+  box-shadow : none;
 }
 
 .main-menu.menu-light .navigation > li ul .open > a, .main-menu.menu-light .navigation > li ul .sidebar-group-active > a {
@@ -852,6 +870,11 @@ footer.footer-border {
   display : none;
 }
 
+.main-menu.menu-dark .navigation > li:not(.open) > ul .active {
+  background : transparent;
+  box-shadow : none;
+}
+
 .main-menu.menu-dark .navigation > li.active {
   z-index : 1;
 }
@@ -898,6 +921,11 @@ footer.footer-border {
 
 .main-menu.menu-dark .navigation > li ul .has-sub:not(.open) > ul {
   display : none;
+}
+
+.main-menu.menu-dark .navigation > li ul .has-sub:not(.open) > ul .active {
+  background : transparent;
+  box-shadow : none;
 }
 
 .main-menu.menu-dark .navigation > li ul .open > a, .main-menu.menu-dark .navigation > li ul .sidebar-group-active > a {
@@ -1034,6 +1062,7 @@ footer.footer-border {
 
 .main-menu ul.navigation-main {
   overflow-x : hidden;
+  padding-bottom : 0.75rem;
 }
 
 .main-menu ul.navigation-main > li:first-child {
@@ -2984,6 +3013,7 @@ footer.footer-border {
 
 .timeline {
   padding : 0;
+  margin-bottom : 0;
   margin-right : 1rem;
   list-style : none;
 }

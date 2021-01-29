@@ -217,8 +217,8 @@
         i,
         svg {
           margin-right: 0.5rem;
-          height: 1.2rem;
-          width: 1.2rem;
+          height: 1.2142rem;
+          width: 1.2142rem;
           font-size: 1.2rem;
         }
         > a {
@@ -428,6 +428,11 @@
       position: relative;
       .navbar-horizontal.header-navbar {
         background: $white;
+        // ? Added for angular fix as it adds this class to navbar in hz layout
+        &.navbar-static-top {
+          left: 0;
+          width: 100%;
+        }
       }
     }
     // App content area wrapper height

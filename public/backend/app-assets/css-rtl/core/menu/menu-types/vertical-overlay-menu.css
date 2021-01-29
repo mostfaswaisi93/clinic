@@ -34,8 +34,8 @@
   float : right;
   -webkit-transition : 200ms ease all;
           transition : 200ms ease all;
-  height : 1.45rem;
-  width : 1.45rem;
+  height : 1.4285rem;
+  width : 1.4285rem;
 }
 
 .vertical-overlay-menu .main-menu .navigation > li > a > svg:before, .vertical-overlay-menu .main-menu .navigation > li > a > i:before {

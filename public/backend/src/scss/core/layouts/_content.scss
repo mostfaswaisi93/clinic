@@ -307,9 +307,13 @@ html {
   //Remove left margin for 1 column layout
   [data-col='1-column'] {
     .header-navbar {
-      width: calc(
-        100vw - (100vw - 100%) - calc(#{$content-padding} * 2)
-      ) !important; // ? override all navbar type width
+      // Custom width for floating nav
+      &.floating-nav {
+        width: calc(
+          100vw - (100vw - 100%) - calc(#{$content-padding} * 2)
+        ) !important; // ? override all navbar type width
+      }
+      width: 100%; // Full width for other nav options
       left: 0 !important;
     }
     .content,
@@ -324,6 +328,12 @@ html {
       }
       .app-content {
         padding: calc(#{$content-padding} + #{$navbar-height} + #{$floating-nav-margin}) #{$content-padding} 0 #{$content-padding} !important; // ? need to check all navbar types case
+      }
+      &.footer-fixed {
+        .app-content {
+          padding: calc(#{$content-padding} + #{$navbar-height} + #{$floating-nav-margin}) #{$content-padding} #{$footer-height}
+            #{$content-padding} !important; // ? need to check all navbar types case
+        }
       }
     }
   }

@@ -1,9 +1,55 @@
 @extends('layouts.admin')
 @section('title') {{ trans('admin.services') }} @endsection
 
+@section('css')
+
+<!-- BEGIN: Vendor CSS -->
+
+<link rel="stylesheet" type="text/css"
+    href="{{ url('backend/app-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" type="text/css"
+    href="{{ url('backend/app-assets/vendors/css/tables/datatable/responsive.bootstrap4.min.css') }}">
+<link rel="stylesheet" type="text/css"
+    href="{{ url('backend/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
+<link rel="stylesheet" type="text/css"
+    href="{{ url('backend/app-assets/vendors/css/tables/datatable/rowGroup.bootstrap4.min.css') }}">
+<link rel="stylesheet" type="text/css"
+    href="{{ url('backend/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
+<!-- END: Vendor CSS -->
+
+@endsection
+
 @section('content')
 
 <div class="content-body">
+    <!-- Basic table -->
+    <section>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <table class="datatables-basic table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Date</th>
+                                <th>Salary</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @include('admin.services.modal')
+    </section>
+    <!--/ Basic table -->
+
+
     <section>
         <div class="card">
             <div class="card-header border-bottom">
@@ -48,8 +94,29 @@
 
 @push('scripts')
 
+<!-- BEGIN: Page Vendor JS -->
+<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/responsive.bootstrap4.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/datatables.checkboxes.min.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/datatables.buttons.min.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/jszip.min.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/pdfmake.min.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/vfs_fonts.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/buttons.html5.min.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/buttons.print.min.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
+<!-- END: Page Vendor JS -->
+
+<!-- BEGIN: Page JS -->
+{{-- <script src="{{ url('backend/js/datatables-basic.js') }}"></script> --}}
+<!-- END: Page JS -->
+
 @include('partials.delete')
-{{-- @include('partials.multi_delete.blade') --}}
+@include('admin.services.datatables-basic')
+{{-- @include('partials.multi_delete') --}}
 
 <script type="text/javascript">
     var getLocation = "services";

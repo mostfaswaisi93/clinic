@@ -186,7 +186,6 @@ $search-bar-height: 48px;
         height: 1.143rem;
         width: 1.143rem;
         font-size: 1.143rem;
-        cursor: pointer;
       }
     }
 
@@ -248,6 +247,8 @@ $search-bar-height: 48px;
       .item-img {
         padding-top: 0.5rem;
         min-height: 15.85rem;
+        display: flex;
+        align-items: center;
       }
 
       // Item content wrapper

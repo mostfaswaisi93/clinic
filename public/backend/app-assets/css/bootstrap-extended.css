@@ -335,7 +335,7 @@ label {
 }
 
 .custom-file-label:after {
-  height : 2.55rem;
+  height : 2.58rem;
   line-height : 1.75;
 }
 
@@ -1255,6 +1255,12 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-o
   margin-left : 0;
 }
 
+@media (min-width: 576px) {
+  .header-navbar .navbar-container {
+    padding : 0.8rem 1.4rem;
+  }
+}
+
 .header-navbar .navbar-container .bookmark-wrapper .bookmark-input {
   z-index : 1;
 }
@@ -1518,6 +1524,10 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-o
   display : none;
 }
 
+.navbar-floating .navbar-container {
+  padding : 0.8rem 1rem;
+}
+
 .navbar-floating .header-navbar-shadow {
   display : block;
   background : -webkit-linear-gradient(top, rgba(248, 248, 248, 0.95) 44%, rgba(248, 248, 248, 0.46) 73%, rgba(255, 255, 255, 0));
@@ -1723,7 +1733,8 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-o
 }
 
 .card .card-img {
-  object-fit : cover;
+  -o-object-fit : cover;
+     object-fit : cover;
 }
 
 .card .card-img-overlay {
