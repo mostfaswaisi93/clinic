@@ -15,6 +15,10 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->integer('patient_id')->unsigned()->onDelete('cascade');
+            $table->string('transactions_type')->unique();
+            $table->string('amount')->unique();
+            $table->longText('notes')->unique();
             $table->integer('enabled')->default(1);
             $table->timestamps();
             $table->softDeletes();

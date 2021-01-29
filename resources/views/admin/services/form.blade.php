@@ -24,24 +24,6 @@
                             </select>
                         </div>
                         <div class="col-md-6"></div>
-                        <div class="col-md-6 col-12">
-                            <div class="media mb-2">
-                                <div class="media-body">
-                                    <label>{{ trans('admin.icon') }}</label>
-                                    <div>
-                                        <input type="file" class="form-control-file icon" name="icon" id="icon"
-                                            style="display:none;">
-                                        <button class="btn btn-primary" onclick="IconUpload();">
-                                            <i class="fa fa-plus"></i>
-                                            {{ trans('admin.file_upload') }}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="media mb-2">
-                                <img class="icon-preview" height="70" style="display: none;" />
-                            </div>
-                        </div>
                     </div>
             </div>
             <!-- Modal footer-->

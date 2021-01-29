@@ -110,14 +110,8 @@
                                     <div class="col-12">
                                         <hr>
                                     </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <div class="controls">
-                                                <button type="submit" class="btn btn-primary">
-                                                    {{ trans('admin.edit') }}
-                                                </button>
-                                            </div>
-                                        </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary">{{ trans('admin.edit') }}</button>
                                     </div>
                                 </div>
                             </form>

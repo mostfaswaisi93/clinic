@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ServicesRequest;
+use App\Models\Service;
 use Illuminate\Http\Request;
+use Brian2694\Toastr\Facades\Toastr;
 
 class ServicesController extends Controller
 {
@@ -17,12 +20,12 @@ class ServicesController extends Controller
 
     public function index()
     {
-        $services = Department::OrderBy('created_at', 'desc')->get();
+        $services = Service::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
             return datatables()->of($services)
                 ->addColumn('action', function ($data) {
                     if (auth()->user()->can(['update_services', 'delete_services'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="services/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="feather icon-edit"></i></a>';
+                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="services/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i data-feather="edit"></i></a>';
                         $button .= '&nbsp;';
                         $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
                         return $button;
@@ -41,30 +44,42 @@ class ServicesController extends Controller
 
     public function store(ServicesRequest $request)
     {
-        Role::create([
+        Service::create([
             'name' => $request->name
         ]);
-        Toastr::success(__('admin.added_successfully'));
+
+        if (app()->getLocale() == 'ar') {
+            Toastr::success(__('admin.added_successfully'));
+        } else {
+            Toastr::success(__('admin.added_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        }
+
         return redirect()->route('admin.services.index');
     }
 
-    public function edit(Role $role)
+    public function edit(Service $service)
     {
-        return view('admin.services.edit')->with('role', $role);
+        return view('admin.services.edit')->with('service', $service);
     }
 
-    public function update(ServicesRequest $request, Role $role)
+    public function update(ServicesRequest $request, Service $service)
     {
-        $role->update([
+        $service->update([
             'name' => $request->name
         ]);
-        Toastr::success(__('admin.updated_successfully'));
+
+        if (app()->getLocale() == 'ar') {
+            Toastr::success(__('admin.updated_successfully'));
+        } else {
+            Toastr::success(__('admin.updated_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        }
+
         return redirect()->route('admin.services.index');
     }
 
     public function destroy($id)
     {
-        $role = Role::findOrFail($id);
-        $role->delete();
+        $service = Service::findOrFail($id);
+        $service->delete();
     }
 }

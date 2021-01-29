@@ -59,6 +59,7 @@ return [
 
     'create_appointment'        => 'إضافة موعد جديد',
     'create_patient'            => 'إضافة مريض جديد',
+    'create_service'            => 'إضافة خدمة جديدة',
     'create_country'            => 'إضافة دولة جديدة',
     'create_city'               => 'إضافة مدينة جديدة',
     'create_state'              => 'إضافة منطقة جديدة',
@@ -67,6 +68,7 @@ return [
 
     'edit_appointment'          => 'تعديل بيانات الموعد',
     'edit_patient'              => 'تعديل بيانات المريض',
+    'edit_service'              => 'تعديل بيانات الخدمة',
     'edit_country'              => 'تعديل بيانات الدولة',
     'edit_city'                 => 'تعديل بيانات المدينة',
     'edit_state'                => 'تعديل بيانات المنطقة',
@@ -105,6 +107,7 @@ return [
 
     'appointments'              => 'مواعيد المرضى',
     'patients'                  => 'المرضى',
+    'services'                  => 'الخدمات',
     'notifications'             => 'التنبيهات',
     'contacts'                  => 'رسائل تواصل معنا',
     'system_constants'          => 'ثوابت النظام',
@@ -123,6 +126,7 @@ return [
 
     'appointment'               => 'الموعد',
     'patient'                   => 'المريض',
+    'service'                   => 'الخدمة',
     'country'                   => 'الدولة',
     'city'                      => 'المدينة',
     'state'                     => 'المنطقة',

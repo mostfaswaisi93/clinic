@@ -6,7 +6,7 @@
 <div class="content-body">
     <section>
         <div class="card">
-            <div class="card-header">
+            <div class="card-header border-bottom">
                 <div class="tbl-title">{{ trans('admin.countries') }}</div>
             </div>
             <hr>

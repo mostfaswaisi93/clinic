@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 28, 2021 at 03:07 PM
+-- Generation Time: Jan 29, 2021 at 11:00 AM
 -- Server version: 10.5.4-MariaDB-log
 -- PHP Version: 7.4.10
 
@@ -29,6 +29,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `appointments` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `start` datetime NOT NULL,
+  `end` datetime NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `service_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
   `enabled` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -69,8 +74,8 @@ CREATE TABLE `constants` (
 --
 
 INSERT INTO `constants` (`id`, `name`, `enabled`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '{\"ar\":\"ذكر\",\"en\":\"Male\"}', 1, '2021-01-28 15:06:49', '2021-01-28 15:06:49', NULL),
-(2, '{\"ar\":\"أنثى\",\"en\":\"Female\"}', 1, '2021-01-28 15:06:49', '2021-01-28 15:06:49', NULL);
+(1, '{\"ar\":\"ذكر\",\"en\":\"Male\"}', 1, '2021-01-29 10:59:14', '2021-01-29 10:59:14', NULL),
+(2, '{\"ar\":\"أنثى\",\"en\":\"Female\"}', 1, '2021-01-29 10:59:14', '2021-01-29 10:59:14', NULL);
 
 -- --------------------------------------------------------
 
@@ -80,6 +85,10 @@ INSERT INTO `constants` (`id`, `name`, `enabled`, `created_at`, `updated_at`, `d
 
 CREATE TABLE `contacts` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mobile` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `readable` int(11) NOT NULL DEFAULT 0,
+  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `enabled` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -248,58 +257,58 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'create_appointments', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(2, 'read_appointments', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(3, 'update_appointments', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(4, 'delete_appointments', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(5, 'create_patients', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(6, 'read_patients', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(7, 'update_patients', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(8, 'delete_patients', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(9, 'create_services', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(10, 'read_services', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(11, 'update_services', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(12, 'delete_services', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(13, 'create_invoices', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(14, 'read_invoices', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(15, 'update_invoices', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(16, 'delete_invoices', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(17, 'create_contacts', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(18, 'read_contacts', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(19, 'update_contacts', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(20, 'delete_contacts', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(21, 'create_countries', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(22, 'read_countries', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(23, 'update_countries', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(24, 'delete_countries', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(25, 'create_cities', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(26, 'read_cities', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(27, 'update_cities', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(28, 'delete_cities', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(29, 'create_states', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(30, 'read_states', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(31, 'update_states', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(32, 'delete_states', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(33, 'create_receipts', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(34, 'read_receipts', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(35, 'update_receipts', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(36, 'delete_receipts', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(37, 'create_transactions', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(38, 'read_transactions', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(39, 'update_transactions', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(40, 'delete_transactions', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(41, 'create_users', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(42, 'read_users', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(43, 'update_users', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(44, 'delete_users', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(45, 'create_roles', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(46, 'read_roles', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(47, 'update_roles', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(48, 'delete_roles', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(49, 'create_settings', 'web', '2021-01-28 15:06:46', '2021-01-28 15:06:46'),
-(50, 'read_settings', 'web', '2021-01-28 15:06:47', '2021-01-28 15:06:47'),
-(51, 'update_settings', 'web', '2021-01-28 15:06:47', '2021-01-28 15:06:47'),
-(52, 'delete_settings', 'web', '2021-01-28 15:06:47', '2021-01-28 15:06:47');
+(1, 'create_appointments', 'web', '2021-01-29 10:59:10', '2021-01-29 10:59:10'),
+(2, 'read_appointments', 'web', '2021-01-29 10:59:10', '2021-01-29 10:59:10'),
+(3, 'update_appointments', 'web', '2021-01-29 10:59:10', '2021-01-29 10:59:10'),
+(4, 'delete_appointments', 'web', '2021-01-29 10:59:10', '2021-01-29 10:59:10'),
+(5, 'create_patients', 'web', '2021-01-29 10:59:10', '2021-01-29 10:59:10'),
+(6, 'read_patients', 'web', '2021-01-29 10:59:10', '2021-01-29 10:59:10'),
+(7, 'update_patients', 'web', '2021-01-29 10:59:10', '2021-01-29 10:59:10'),
+(8, 'delete_patients', 'web', '2021-01-29 10:59:10', '2021-01-29 10:59:10'),
+(9, 'create_services', 'web', '2021-01-29 10:59:10', '2021-01-29 10:59:10'),
+(10, 'read_services', 'web', '2021-01-29 10:59:10', '2021-01-29 10:59:10'),
+(11, 'update_services', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(12, 'delete_services', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(13, 'create_invoices', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(14, 'read_invoices', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(15, 'update_invoices', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(16, 'delete_invoices', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(17, 'create_contacts', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(18, 'read_contacts', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(19, 'update_contacts', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(20, 'delete_contacts', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(21, 'create_countries', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(22, 'read_countries', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(23, 'update_countries', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(24, 'delete_countries', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(25, 'create_cities', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(26, 'read_cities', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(27, 'update_cities', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(28, 'delete_cities', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(29, 'create_states', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(30, 'read_states', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(31, 'update_states', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(32, 'delete_states', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(33, 'create_receipts', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(34, 'read_receipts', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(35, 'update_receipts', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(36, 'delete_receipts', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(37, 'create_transactions', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(38, 'read_transactions', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(39, 'update_transactions', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(40, 'delete_transactions', 'web', '2021-01-29 10:59:11', '2021-01-29 10:59:11'),
+(41, 'create_users', 'web', '2021-01-29 10:59:12', '2021-01-29 10:59:12'),
+(42, 'read_users', 'web', '2021-01-29 10:59:12', '2021-01-29 10:59:12'),
+(43, 'update_users', 'web', '2021-01-29 10:59:12', '2021-01-29 10:59:12'),
+(44, 'delete_users', 'web', '2021-01-29 10:59:12', '2021-01-29 10:59:12'),
+(45, 'create_roles', 'web', '2021-01-29 10:59:12', '2021-01-29 10:59:12'),
+(46, 'read_roles', 'web', '2021-01-29 10:59:12', '2021-01-29 10:59:12'),
+(47, 'update_roles', 'web', '2021-01-29 10:59:12', '2021-01-29 10:59:12'),
+(48, 'delete_roles', 'web', '2021-01-29 10:59:12', '2021-01-29 10:59:12'),
+(49, 'create_settings', 'web', '2021-01-29 10:59:12', '2021-01-29 10:59:12'),
+(50, 'read_settings', 'web', '2021-01-29 10:59:12', '2021-01-29 10:59:12'),
+(51, 'update_settings', 'web', '2021-01-29 10:59:12', '2021-01-29 10:59:12'),
+(52, 'delete_settings', 'web', '2021-01-29 10:59:12', '2021-01-29 10:59:12');
 
 -- --------------------------------------------------------
 
@@ -309,6 +318,10 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 
 CREATE TABLE `receipts` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `rec_serial` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notes` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `enabled` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -334,9 +347,9 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'super_admin', 'web', '2021-01-28 15:06:45', '2021-01-28 15:06:45'),
-(2, 'doctor', 'web', '2021-01-28 15:06:48', '2021-01-28 15:06:48'),
-(3, 'secretary', 'web', '2021-01-28 15:06:48', '2021-01-28 15:06:48');
+(1, 'super_admin', 'web', '2021-01-29 10:59:10', '2021-01-29 10:59:10'),
+(2, 'doctor', 'web', '2021-01-29 10:59:14', '2021-01-29 10:59:14'),
+(3, 'secretary', 'web', '2021-01-29 10:59:14', '2021-01-29 10:59:14');
 
 -- --------------------------------------------------------
 
@@ -423,6 +436,8 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 
 CREATE TABLE `services` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `enabled` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -437,6 +452,7 @@ CREATE TABLE `services` (
 
 CREATE TABLE `settings` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `currency` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `enabled` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -465,6 +481,10 @@ CREATE TABLE `states` (
 
 CREATE TABLE `transactions` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `patient_id` int(10) UNSIGNED NOT NULL,
+  `transactions_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notes` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `enabled` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -500,9 +520,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `image`, `enabled`, `email_verified_at`, `password`, `remember_token`, `last_login_at`, `last_login_ip`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'super', 'admin', 'super_admin', 'super@admin.com', 'default.png', 1, NULL, '$2y$10$sRO39xIzldelSRCIoNLm5uE9RSpt/xz3JKPcGosMbNFvfyvVcA8zO', NULL, '2021-01-28 15:06:49', NULL, '2021-01-27 22:00:00', '2021-01-27 22:00:00', NULL),
-(2, 'Mustafa', 'Al-Swaisi', 'mostfaswaisi93', 'mostfaswaisi93@doctor.com', 'default.png', 1, NULL, '$2y$10$hTc8//3IEyZrjPGe4zNYz.4PkrLBzVVIB6eqM/k084BPtWqCji5wG', NULL, '2021-01-28 15:06:49', NULL, '2021-01-27 22:00:00', '2021-01-27 22:00:00', NULL),
-(3, 'Ahmad', 'Ali', 'ahmadali', 'ahmadali@secretary.com', 'default.png', 1, NULL, '$2y$10$sln79DPaq9DkgKh7lSmK4.1ivvBgIZh5qeCqo5D6ErZ2l.G/XSMnC', NULL, '2021-01-28 15:06:49', NULL, '2021-01-27 22:00:00', '2021-01-27 22:00:00', NULL);
+(1, 'super', 'admin', 'super_admin', 'super@admin.com', 'default.png', 1, NULL, '$2y$10$pf8oBs613uWv6tB1ydcUY.40jUkXYieRyCe/oTLYXW/W3nK.rUyWu', NULL, '2021-01-29 10:59:14', NULL, '2021-01-28 22:00:00', '2021-01-28 22:00:00', NULL),
+(2, 'Mustafa', 'Al-Swaisi', 'mostfaswaisi93', 'mostfaswaisi93@doctor.com', 'default.png', 1, NULL, '$2y$10$8nx6Ub2faa//gWFE8sR0SOt24/3lAUAy6NY5ih/YjpkT6hA/t4gHm', NULL, '2021-01-29 10:59:14', NULL, '2021-01-28 22:00:00', '2021-01-28 22:00:00', NULL),
+(3, 'Ahmad', 'Ali', 'ahmadali', 'ahmadali@secretary.com', 'default.png', 1, NULL, '$2y$10$BzIUHrxssx9gJHL4MRlaXeWfESDtWaj5jodw5OvwTJdhFE2.pFr9m', NULL, '2021-01-29 10:59:14', NULL, '2021-01-28 22:00:00', '2021-01-28 22:00:00', NULL);
 
 --
 -- Indexes for dumped tables
@@ -593,7 +613,10 @@ ALTER TABLE `permissions`
 -- Indexes for table `receipts`
 --
 ALTER TABLE `receipts`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `receipts_rec_serial_unique` (`rec_serial`),
+  ADD UNIQUE KEY `receipts_amount_unique` (`amount`),
+  ADD UNIQUE KEY `receipts_notes_unique` (`notes`) USING HASH;
 
 --
 -- Indexes for table `roles`
@@ -630,7 +653,10 @@ ALTER TABLE `states`
 -- Indexes for table `transactions`
 --
 ALTER TABLE `transactions`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `transactions_transactions_type_unique` (`transactions_type`),
+  ADD UNIQUE KEY `transactions_amount_unique` (`amount`),
+  ADD UNIQUE KEY `transactions_notes_unique` (`notes`) USING HASH;
 
 --
 -- Indexes for table `users`

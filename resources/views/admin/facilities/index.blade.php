@@ -20,7 +20,7 @@
 <div class="content-body">
     <section class="portlet">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header border-bottom">
                 <h4 class="card-title">
                     <li class="fa fa-list"></li>
                     {{ trans('admin.facilities') }}

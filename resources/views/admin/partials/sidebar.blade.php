@@ -77,6 +77,14 @@
                 </a>
             </li>
             @endif
+            @if (auth()->user()->can('read_services'))
+            <li {{ request()->route()->getName() === 'admin.services.index' ? 'class=active' : '' }}>
+                <a href="{{ route('admin.services.index') }}" class="nav-link">
+                    <i data-feather='droplet'></i>
+                    <span class="menu-item">{{ trans('admin.services') }}</span>
+                </a>
+            </li>
+            @endif
             @if (auth()->user()->can('read_notifications'))
             <li {{ request()->route()->getName() === 'admin.notifications.index' ? 'class=active' : '' }}>
                 <a href="{{ route('admin.notifications.index') }}" class="nav-link">

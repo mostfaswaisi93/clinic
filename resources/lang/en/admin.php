@@ -58,6 +58,7 @@ return [
 
     'create_appointment'        => 'Add New Appointment',
     'create_patient'            => 'Add New Patient',
+    'create_service'            => 'Add New Service',
     'create_country'            => 'Add New Country',
     'create_city'               => 'Add New City',
     'create_state'              => 'Add New State',
@@ -66,6 +67,7 @@ return [
 
     'edit_appointment'          => 'Edit Appointment Data',
     'edit_patient'              => 'Edit Patient Data',
+    'edit_service'              => 'Edit Service Data',
     'edit_country'              => 'Edit Country Data',
     'edit_city'                 => 'Edit City Data',
     'edit_state'                => 'Edit State Data',
@@ -104,6 +106,7 @@ return [
 
     'appointments'              => 'Appointments',
     'patients'                  => 'Patients',
+    'services'                  => 'Services',
     'notifications'             => 'Notifications',
     'contacts'                  => 'Contacts',
     'system_constants'          => 'System Constants',
@@ -122,6 +125,7 @@ return [
 
     'appointment'               => 'Appointment',
     'patient'                   => 'Patient',
+    'service'                   => 'Service',
     'country'                   => 'Country',
     'city'                      => 'City',
     'state'                     => 'State',
