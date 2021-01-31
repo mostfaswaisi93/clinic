@@ -7,31 +7,18 @@
                 <h5 class="modal-title" id="exampleModalLabel">New Record</h5>
             </div>
             <div class="modal-body flex-grow-1">
+                @foreach (config('translatable.locales') as $locale)
                 <div class="form-group">
-                    <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
-                    <input type="text" class="form-control dt-full-name" id="basic-icon-default-fullname"
-                        placeholder="John Doe" aria-label="John Doe" />
+                    <label class="form-label" for="name">{{ trans('admin.' . $locale . '.name') }}</label>
+                    <input id="name" type="text" name="name[{{ $locale }}]" class="form-control dt-name"
+                        value="{{ old('name.' . $locale) }}" placeholder="{{ trans('admin.' . $locale . '.name') }}"
+                        aria-label="John Doe">
                 </div>
+                @endforeach
                 <div class="form-group">
-                    <label class="form-label" for="basic-icon-default-post">Post</label>
-                    <input type="text" id="basic-icon-default-post" class="form-control dt-post"
-                        placeholder="Web Developer" aria-label="Web Developer" />
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="basic-icon-default-email">Email</label>
-                    <input type="text" id="basic-icon-default-email" class="form-control dt-email"
-                        placeholder="john.doe@example.com" aria-label="john.doe@example.com" />
-                    <small class="form-text text-muted"> You can use letters, numbers & periods </small>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="basic-icon-default-date">Joining Date</label>
-                    <input type="text" class="form-control dt-date" id="basic-icon-default-date"
-                        placeholder="MM/DD/YYYY" aria-label="MM/DD/YYYY" />
-                </div>
-                <div class="form-group mb-4">
-                    <label class="form-label" for="basic-icon-default-salary">Salary</label>
-                    <input type="text" id="basic-icon-default-salary" class="form-control dt-salary"
-                        placeholder="$12000" aria-label="$12000" />
+                    <label class="form-label" for="price">{{ trans('admin.price') }}</label>
+                    <input id="price" type="text" name="price" class="form-control dt-price" value="{{ old('price') }}"
+                        placeholder="{{ trans('admin.price') }}" aria-label="Web Developer">
                 </div>
                 <button type="button" class="btn btn-primary data-submit mr-1">Submit</button>
                 <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>

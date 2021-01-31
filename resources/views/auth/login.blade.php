@@ -30,6 +30,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/dark-layout.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/bordered-layout.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/semi-dark-layout.css') }}">
     <!-- END: Theme CSS -->
 
     <!-- BEGIN: Page CSS -->
@@ -56,6 +57,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/dark-layout.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/bordered-layout.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/semi-dark-layout.css') }}">
     <!-- END: Theme CSS -->
 
     <!-- BEGIN: Page CSS -->
@@ -233,6 +235,10 @@
     <script src="{{ url('backend/app-assets/js/core/app-menu.js') }}"></script>
     <script src="{{ url('backend/app-assets/js/core/app.js') }}"></script>
     <!-- END: Theme JS -->
+
+    <!-- BEGIN: Page JS -->
+    <script src="{{ url('backend/app-assets/js/scripts/pages/page-auth-login.js') }}"></script>
+    <!-- END: Page JS -->
 
     <script>
         $(window).on('load', function() {

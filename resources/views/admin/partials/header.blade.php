@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/dark-layout.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/bordered-layout.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/semi-dark-layout.css') }}">
     <!-- END: Theme CSS -->
 
     <!-- BEGIN: Page CSS -->
@@ -55,6 +56,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/dark-layout.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/bordered-layout.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/semi-dark-layout.css') }}">
     <!-- END: Theme CSS -->
 
     <!-- BEGIN: Page CSS -->
@@ -79,7 +81,8 @@
 
     {{-- DataTables CDNs --}}
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.foundation.min.css"> --}}
 
     <link rel="stylesheet" type="text/css" href="{{ url('/css/styles.css') }}">

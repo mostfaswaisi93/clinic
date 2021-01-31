@@ -13,8 +13,8 @@
     href="{{ url('backend/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
 <link rel="stylesheet" type="text/css"
     href="{{ url('backend/app-assets/vendors/css/tables/datatable/rowGroup.bootstrap4.min.css') }}">
-<link rel="stylesheet" type="text/css"
-    href="{{ url('backend/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
+{{-- <link rel="stylesheet" type="text/css"
+    href="{{ url('backend/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css') }}"> --}}
 <!-- END: Vendor CSS -->
 
 @endsection
@@ -22,52 +22,29 @@
 @section('content')
 
 <div class="content-body">
-    <!-- Basic table -->
     <section>
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <table class="datatables-basic table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Date</th>
-                                <th>Salary</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </div>
-        @include('admin.services.modal')
-    </section>
-    <!--/ Basic table -->
-
-
-    <section>
-        <div class="card">
-            <div class="card-header border-bottom">
-                <h4 class="card-title">{{ trans('admin.services') }}</h4>
-            </div>
-            <div class="card-content">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="data-table" class="table table-striped table-bordered dt-responsive nowrap"
+                    <div class="card-header border-bottom">
+                        <h4 class="card-title"><b>{{ trans('admin.services') }}</b></h4>
+                    </div>
+                    <div class="table-responsive" style="padding: 10px">
+                        <table id="data-table"
+                            class="table table-striped table-bordered table-hover table-sm dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
                                     <th>
-                                        <div class="custom-control custom-control-primary custom-checkbox">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input dt-checkboxes" type="checkbox" value=""
+                                                name="" id="checkbox" />
+                                            <label class="custom-control-label" for="checkbox"></label>
+                                        </div>
+                                        {{-- <div class="custom-control custom-control-primary custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" onclick="check_all()"
                                                 name="ids" id="check_all" />
-                                            <label class="custom-control-label" for="colorCheck1"></label>
-                                        </div>
+                                        </div> --}}
                                     </th>
                                     <th>#</th>
                                     <th>{{ trans('admin.name') }}</th>
@@ -87,6 +64,7 @@
                 </div>
             </div>
         </div>
+        @include('admin.services.modal')
     </section>
 </div>
 
@@ -107,7 +85,7 @@
 <script src="{{ url('backend/app-assets/vendors/js/tables/datatable/buttons.html5.min.js') }}"></script>
 <script src="{{ url('backend/app-assets/vendors/js/tables/datatable/buttons.print.min.js') }}"></script>
 <script src="{{ url('backend/app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js') }}"></script>
-<script src="{{ url('backend/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
+{{-- <script src="{{ url('backend/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script> --}}
 <!-- END: Page Vendor JS -->
 
 <!-- BEGIN: Page JS -->
@@ -115,7 +93,7 @@
 <!-- END: Page JS -->
 
 @include('partials.delete')
-@include('admin.services.datatables-basic')
+{{-- @include('admin.services.datatables-basic') --}}
 {{-- @include('partials.multi_delete') --}}
 
 <script type="text/javascript">
@@ -126,15 +104,24 @@
             processing: true,
             serverSide: true,
             responsive: true,
-            order: [[ 3, "desc" ]],
+            order: [[ 2, "desc" ]],
             ajax: {
                 url: "{{ route('admin.services.index') }}",
             },
             columns: [
                 {
                     render: function(data, type, row, meta) {
-                        return '<div class="vs-checkbox-con vs-checkbox-primary"><input type="checkbox" name="item[]" class="item_checkbox" value="' + row.id + '"><span class="vs-checkbox vs-checkbox-sm"><span class="vs-checkbox--check"><i class="vs-icon feather icon-check"></i></span></span></div>';
-                    }, searchable: false, orderable: false
+                        return (
+                            '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes" type="checkbox" value="" id="checkbox' +
+                            data +
+                            '" /><label class="custom-control-label" for="checkbox' +
+                            data +
+                            '"></label></div>'
+                        );
+                    }, searchable: false, orderable: false,
+                    checkboxes: {
+                        selectAllRender: '<div class="custom-control custom-checkbox"> <input class="custom-control-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="custom-control-label" for="checkboxSelectAll"></label></div>'
+                    }
                 },
                 {
                     render: function(data, type, row, meta) {
@@ -147,15 +134,17 @@
                     render: function(data, type, row, meta) {
                         var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
                         var color = data ? "success" : "danger"; 
-                        return "<div class='badge badge-" +color+ "'>"+ text +"</div>";
+                        return "<div class='badge badge-light-"+ color +"'>"+ text +"</div>";
                     }, searchable: false, orderable: false
                 },
                 { data: 'created_at' },
                 { data: 'action', orderable: false }
             ],
-            dom:  "<'row'<''l><'col-sm-8 text-center'B><''f>>" +
-                  "<'row'<'col-sm-12'tr>>" +
-                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            dom: '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+
+            // dom:  "<'row'<''l><'col-sm-8 text-center'B><''f>>" +
+            //       "<'row'<'col-sm-12'tr>>" +
+            //       "<'row'<'col-sm-5'i><'col-sm-7'p>>",
             buttons: [
                 { text: '<i data-feather="refresh-ccw"></i> {{ trans("admin.refresh") }}',
                   className: 'btn dtbtn btn-sm btn-dark',

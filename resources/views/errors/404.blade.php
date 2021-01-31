@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/dark-layout.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/bordered-layout.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css/themes/semi-dark-layout.css') }}">
     <!-- END: Theme CSS -->
 
     <!-- BEGIN: Page CSS -->
@@ -54,6 +55,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/components.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/dark-layout.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/bordered-layout.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url('backend/app-assets/css-rtl/themes/semi-dark-layout.css') }}">
     <!-- END: Theme CSS -->
 
     <!-- BEGIN: Page CSS -->

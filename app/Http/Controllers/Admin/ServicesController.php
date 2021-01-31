@@ -25,7 +25,7 @@ class ServicesController extends Controller
             return datatables()->of($services)
                 ->addColumn('action', function ($data) {
                     if (auth()->user()->can(['update_services', 'delete_services'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="services/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i data-feather="edit"></i></a>';
+                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="services/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="feather icon-edit"></i></a>';
                         $button .= '&nbsp;';
                         $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
                         return $button;
@@ -44,9 +44,17 @@ class ServicesController extends Controller
 
     public function store(ServicesRequest $request)
     {
-        Service::create([
-            'name' => $request->name
-        ]);
+        $rules = [
+            'price'     => 'required'
+        ];
+
+        foreach (config('translatable.locales') as $locale) {
+            $rules += ['name.' . $locale => 'required'];
+        }
+
+        $request->validate($rules);
+
+        Service::create($request->all());
 
         if (app()->getLocale() == 'ar') {
             Toastr::success(__('admin.added_successfully'));
@@ -59,14 +67,22 @@ class ServicesController extends Controller
 
     public function edit(Service $service)
     {
-        return view('admin.services.edit')->with('service', $service);
+        return view('admin.services.edit', compact('service'));
     }
 
     public function update(ServicesRequest $request, Service $service)
     {
-        $service->update([
-            'name' => $request->name
-        ]);
+        $rules = [
+            'price'     => 'required'
+        ];
+
+        foreach (config('translatable.locales') as $locale) {
+            $rules += ['name.' . $locale => 'required'];
+        }
+
+        $request->validate($rules);
+
+        $service->update($request->all());
 
         if (app()->getLocale() == 'ar') {
             Toastr::success(__('admin.updated_successfully'));
@@ -81,5 +97,17 @@ class ServicesController extends Controller
     {
         $service = Service::findOrFail($id);
         $service->delete();
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $service           = Service::find($id);
+        $enabled           = $request->get('enabled');
+        $service->enabled  = $enabled;
+        $service           = $service->save();
+
+        if ($service) {
+            return response(['success' => TRUE, "message" => 'Done']);
+        }
     }
 }
