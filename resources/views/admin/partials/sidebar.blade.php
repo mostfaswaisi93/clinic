@@ -55,15 +55,14 @@
     </div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class="nav-item" {{ request()->route()->getName() === 'admin.index' ? 'class=active' : '' }}>
+            <li {{ request()->route()->getName() === 'admin.index' ? 'class=active' : '' }}>
                 <a href="{{ route('admin.index') }}" class="d-flex align-items-center">
                     <i data-feather="home"></i>
                     <span class="menu-title text-truncate">{{ trans('admin.home') }}</span>
                 </a>
             </li>
             @if (auth()->user()->can('read_appointments'))
-            <li class="nav-item"
-                {{ request()->route()->getName() === 'admin.appointments.index' ? 'class=active' : '' }}>
+            <li {{ request()->route()->getName() === 'admin.appointments.index' ? 'class=active' : '' }}>
                 <a href="{{ route('admin.appointments.index') }}" class="d-flex align-items-center">
                     <i data-feather='calendar'></i>
                     <span class="menu-title text-truncate">{{ trans('admin.appointments') }}</span>
@@ -71,7 +70,7 @@
             </li>
             @endif
             @if (auth()->user()->can('read_patients'))
-            <li class="nav-item" {{ request()->route()->getName() === 'admin.patients.index' ? 'class=active' : '' }}>
+            <li {{ request()->route()->getName() === 'admin.patients.index' ? 'class=active' : '' }}>
                 <a href="{{ route('admin.patients.index') }}" class="d-flex align-items-center">
                     <i data-feather="users"></i>
                     <span class="menu-title text-truncate">{{ trans('admin.patients') }}</span>
@@ -79,7 +78,7 @@
             </li>
             @endif
             @if (auth()->user()->can('read_services'))
-            <li class="nav-item" {{ request()->route()->getName() === 'admin.services.index' ? 'class=active' : '' }}>
+            <li {{ request()->route()->getName() === 'admin.services.index' ? 'class=active' : '' }}>
                 <a href="{{ route('admin.services.index') }}" class="d-flex align-items-center">
                     <i data-feather='droplet'></i>
                     <span class="menu-title text-truncate">{{ trans('admin.services') }}</span>
@@ -87,8 +86,7 @@
             </li>
             @endif
             @if (auth()->user()->can('read_notifications'))
-            <li class="nav-item"
-                {{ request()->route()->getName() === 'admin.notifications.index' ? 'class=active' : '' }}>
+            <li {{ request()->route()->getName() === 'admin.notifications.index' ? 'class=active' : '' }}>
                 <a href="{{ route('admin.notifications.index') }}" class="d-flex align-items-center">
                     <i data-feather="bell"></i>
                     <span class="menu-title text-truncate">{{ trans('admin.notifications') }}</span>
@@ -96,7 +94,7 @@
             </li>
             @endif
             @if (auth()->user()->can('read_contacts'))
-            <li class="nav-item" {{ request()->route()->getName() === 'admin.contacts.index' ? 'class=active' : '' }}>
+            <li {{ request()->route()->getName() === 'admin.contacts.index' ? 'class=active' : '' }}>
                 <a href="{{ route('admin.contacts.index') }}" class="d-flex align-items-center">
                     <i data-feather="mail"></i>
                     <span class="menu-title text-truncate">{{ trans('admin.contacts') }}</span>
@@ -112,8 +110,7 @@
                 </a>
                 <ul class="menu-content">
                     @if (auth()->user()->can('read_countries'))
-                    <li class="nav-item"
-                        {{ request()->route()->getName() === 'admin.countries.index' ? 'class=active' : '' }}>
+                    <li {{ request()->route()->getName() === 'admin.countries.index' ? 'class=active' : '' }}>
                         <a href="{{ route('admin.countries.index') }}" class="d-flex align-items-center">
                             <i data-feather="flag"></i>
                             <span class="menu-title text-truncate">{{ trans('admin.countries') }}</span>
@@ -121,8 +118,7 @@
                     </li>
                     @endif
                     @if (auth()->user()->can('read_cities'))
-                    <li class="nav-item"
-                        {{ request()->route()->getName() === 'admin.cities.index' ? 'class=active' : '' }}>
+                    <li {{ request()->route()->getName() === 'admin.cities.index' ? 'class=active' : '' }}>
                         <a href="{{ route('admin.cities.index') }}" class="d-flex align-items-center">
                             <i data-feather="flag"></i>
                             <span class="menu-title text-truncate">{{ trans('admin.cities') }}</span>
@@ -130,8 +126,7 @@
                     </li>
                     @endif
                     @if (auth()->user()->can('read_states'))
-                    <li class="nav-item"
-                        {{ request()->route()->getName() === 'admin.states.index' ? 'class=active' : '' }}>
+                    <li {{ request()->route()->getName() === 'admin.states.index' ? 'class=active' : '' }}>
                         <a href="{{ route('admin.states.index') }}" class="d-flex align-items-center">
                             <i data-feather="flag"></i>
                             <span class="menu-title text-truncate">{{ trans('admin.states') }}</span>
@@ -147,8 +142,7 @@
                 </a>
                 <ul class="menu-content">
                     @if (auth()->user()->can('read_users'))
-                    <li class="nav-item"
-                        {{ request()->route()->getName() === 'admin.users.index' ? 'class=active' : '' }}>
+                    <li {{ request()->route()->getName() === 'admin.users.index' ? 'class=active' : '' }}>
                         <a href="{{ route('admin.users.index') }}" class="d-flex align-items-center">
                             <i data-feather="users"></i>
                             <span class="menu-title text-truncate">{{ trans('admin.users') }}</span>
@@ -156,8 +150,7 @@
                     </li>
                     @endif
                     @if (auth()->user()->can('read_roles'))
-                    <li class="nav-item"
-                        {{ request()->route()->getName() === 'admin.roles.index' ? 'class=active' : '' }}>
+                    <li {{ request()->route()->getName() === 'admin.roles.index' ? 'class=active' : '' }}>
                         <a href="{{ route('admin.roles.index') }}" class="d-flex align-items-center">
                             <i data-feather="sliders"></i>
                             <span class="menu-title text-truncate">{{ trans('admin.per_roles') }}</span>
@@ -173,8 +166,7 @@
                 </a>
                 <ul class="menu-content">
                     @if (auth()->user()->can('read_patients'))
-                    <li class="nav-item"
-                        {{ request()->route()->getName() === 'admin.reports.patients.index' ? 'class=active' : '' }}>
+                    <li {{ request()->route()->getName() === 'admin.reports.patients.index' ? 'class=active' : '' }}>
                         <a href="#" class="d-flex align-items-center">
                             <i class="fa fa-money"></i>
                             <span class="menu-title text-truncate">{{ trans('admin.reports_patients') }}</span>
@@ -184,7 +176,7 @@
                 </ul>
             </li>
             @if (auth()->user()->can('read_settings'))
-            <li class="nav-item" {{ request()->route()->getName() === 'admin.settings.index' ? 'class=active' : '' }}>
+            <li {{ request()->route()->getName() === 'admin.settings.index' ? 'class=active' : '' }}>
                 <a href="{{ route('admin.settings.index') }}" class="d-flex align-items-center">
                     <i data-feather="settings"></i>
                     <span class="menu-title text-truncate">{{ trans('admin.settings') }}</span>

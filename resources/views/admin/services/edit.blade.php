@@ -46,17 +46,17 @@
                                     <div class="col-xl-6 col-md-6 col-12 mt-1">
                                         <div class="form-group">
                                             <label for="name">{{ trans('admin.' . $locale . '.name') }}</label>
-                                            <input id="name" type="text" name="name[{{ $locale }}]" class="form-control"
+                                            <input id="name[{{ $locale }}]" type="text" name="name[{{ $locale }}]" class="form-control"
                                                 value="{{ old('name.' . $locale, $service->getTranslation('name', $locale)) }}"
                                                 placeholder="{{ trans('admin.' . $locale . '.name') }}">
                                         </div>
                                     </div>
                                     @endforeach
-                                    <div class="col-xl-6 col-md-6 col-12 mt-1">
+                                    <div class="col-xl-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="price">{{ trans('admin.price') }}</label>
                                             <input id="price" type="text" name="price" class="form-control"
-                                                value="{{ old('price') }}" placeholder="{{ trans('admin.price') }}">
+                                                value="{{ $service->price }}" placeholder="{{ trans('admin.price') }}">
                                         </div>
                                     </div>
                                     <div class="col-12">

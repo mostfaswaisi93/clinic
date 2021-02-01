@@ -12,9 +12,11 @@ class DatabaseSeeder extends Seeder
             SpatieSeeder::class,
             ConstantsTableSeeder::class,
             UsersTableSeeder::class,
+            ServicesTableSeeder::class,
             // ContactsTableSeeder::class,
             // CountriesTableSeeder::class,
             // CitiesTableSeeder::class,
+            // StatesTableSeeder::class,
         ]);
     }
 }

@@ -23,14 +23,6 @@ class ServicesController extends Controller
         $services = Service::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
             return datatables()->of($services)
-                ->addColumn('action', function ($data) {
-                    if (auth()->user()->can(['update_services', 'delete_services'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="services/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="feather icon-edit"></i></a>';
-                        $button .= '&nbsp;';
-                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
-                        return $button;
-                    }
-                })
                 ->rawColumns(['action'])
                 ->make(true);
         }

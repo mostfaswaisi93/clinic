@@ -46,7 +46,7 @@
                                     <div class="col-xl-6 col-md-6 col-12 mt-1">
                                         <div class="form-group">
                                             <label for="name">{{ trans('admin.' . $locale . '.name') }}</label>
-                                            <input id="name" type="text" name="name[{{ $locale }}]" class="form-control"
+                                            <input id="name[{{ $locale }}]" type="text" name="name[{{ $locale }}]" class="form-control"
                                                 value="{{ old('name.' . $locale) }}"
                                                 placeholder="{{ trans('admin.' . $locale . '.name') }}">
                                         </div>

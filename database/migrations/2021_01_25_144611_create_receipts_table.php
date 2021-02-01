@@ -17,8 +17,8 @@ class CreateReceiptsTable extends Migration
             $table->id();
             $table->string('rec_serial')->unique();
             $table->integer('patient_id')->unsigned()->onDelete('cascade');
-            $table->string('amount')->unique();
-            $table->longText('notes')->unique();
+            $table->string('amount');
+            $table->longText('notes');
             $table->integer('enabled')->default(1);
             $table->timestamps();
             $table->softDeletes();

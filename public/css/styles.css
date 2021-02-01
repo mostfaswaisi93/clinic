@@ -4,13 +4,8 @@
     padding-top: 5px !important;
 }
 
-.edit.btn.btn-sm.btn-icon:hover {
-    background-color: #6d63e6;
-    color: #fff;
-}
-
-.delete.btn.btn-sm.btn-icon:hover {
-    background-color: #E42728;
+.vertical-layout.vertical-menu-modern.menu-collapsed .main-menu:not(.expanded) .navigation li.active a {
+    background: #6a60df;
     color: #fff;
 }
 

@@ -30,12 +30,11 @@
 
 {{-- CDNs --}}
 <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
-<script src="https://cdn.ckeditor.com/4.13.0/basic/ckeditor.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 {{-- DataTables CDNs --}}
-{{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
 
@@ -46,7 +45,7 @@
 <script src="{{ url('backend/js/pdfMake/pdfmake.js') }}"></script>
 <script src="{{ url('backend/js/pdfMake/vfs_fonts.js') }}"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script> --}}
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
 
 {!! Toastr::message() !!}
 

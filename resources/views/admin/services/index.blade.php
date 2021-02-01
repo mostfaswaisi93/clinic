@@ -4,15 +4,6 @@
 @section('css')
 
 <!-- BEGIN: Vendor CSS -->
-
-<link rel="stylesheet" type="text/css"
-    href="{{ url('backend/app-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" type="text/css"
-    href="{{ url('backend/app-assets/vendors/css/tables/datatable/responsive.bootstrap4.min.css') }}">
-<link rel="stylesheet" type="text/css"
-    href="{{ url('backend/app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css') }}">
-<link rel="stylesheet" type="text/css"
-    href="{{ url('backend/app-assets/vendors/css/tables/datatable/rowGroup.bootstrap4.min.css') }}">
 {{-- <link rel="stylesheet" type="text/css"
     href="{{ url('backend/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css') }}"> --}}
 <!-- END: Vendor CSS -->
@@ -72,28 +63,11 @@
 
 @push('scripts')
 
-<!-- BEGIN: Page Vendor JS -->
-<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
-<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
-<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js') }}"></script>
-<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/responsive.bootstrap4.js') }}"></script>
-<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/datatables.checkboxes.min.js') }}"></script>
-<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/datatables.buttons.min.js') }}"></script>
-<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/jszip.min.js') }}"></script>
-<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/pdfmake.min.js') }}"></script>
-<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/vfs_fonts.js') }}"></script>
-<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/buttons.html5.min.js') }}"></script>
-<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/buttons.print.min.js') }}"></script>
-<script src="{{ url('backend/app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js') }}"></script>
+<!-- START: Page Vendor JS -->
 {{-- <script src="{{ url('backend/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script> --}}
 <!-- END: Page Vendor JS -->
 
-<!-- BEGIN: Page JS -->
-{{-- <script src="{{ url('backend/js/datatables-basic.js') }}"></script> --}}
-<!-- END: Page JS -->
-
 @include('partials.delete')
-{{-- @include('admin.services.datatables-basic') --}}
 {{-- @include('partials.multi_delete') --}}
 
 <script type="text/javascript">
@@ -138,13 +112,33 @@
                     }, searchable: false, orderable: false
                 },
                 { data: 'created_at' },
-                { data: 'action', orderable: false }
+                { data: 'action', orderable: false,
+                    render: function(data, type, row, meta) {
+                        return (
+                            '<div class="d-inline-flex">' +
+                            '<a class="pr-1 dropdown-toggle hide-arrow text-primary" data-toggle="dropdown">' +
+                            feather.icons['more-vertical'].toSvg({ class: 'font-small-4' }) +
+                            '</a>' +
+                            '<div class="dropdown-menu dropdown-menu-right">' +
+                            '<a href="javascript:;" class="dropdown-item">' +
+                            feather.icons['file-text'].toSvg({ class: 'font-small-4 mr-50' }) +
+                            'Details</a>' +
+                            '<a href="javascript:;" class="dropdown-item">' +
+                            feather.icons['archive'].toSvg({ class: 'font-small-4 mr-50' }) +
+                            'Archive</a>' +
+                            '<a href="javascript:;" id="'+ row.id +'" class="dropdown-item delete-record delete" title="{{ trans("admin.delete") }}">' +
+                            feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
+                            '{{ trans("admin.delete") }}</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '<a href="services/'+ row.id +'/edit" class="item-edit edit" title="{{ trans("admin.edit") }}">' +
+                            feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
+                            '</a>'
+                        );
+                    }
+                }
             ],
-            dom: '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-
-            // dom:  "<'row'<''l><'col-sm-8 text-center'B><''f>>" +
-            //       "<'row'<'col-sm-12'tr>>" +
-            //       "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            dom: '<" justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<" justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [
                 { text: '<i data-feather="refresh-ccw"></i> {{ trans("admin.refresh") }}',
                   className: 'btn dtbtn btn-sm btn-dark',
@@ -192,48 +186,12 @@
             language: {
                 url: getDataTableLanguage(),
                 search: ' ',
-                searchPlaceholder: '{{ trans("admin.search") }}...'
-            }
-        });
-    });
-
-    // Multiple Delete
-    $(document).on('click', '.multi_delete', function(){
-        var item_checked = $('input[class="item_checkbox"]:checkbox').filter(":checked").length;
-        var allids = [];
-        var swalAlert;
-        if (item_checked > 0) {
-            swalAlert = swal({
-                title: "{{ trans('admin.multi_delete') }} "+ item_checked +"!",
-                type: 'warning',
-                showCloseButton: true,
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '{{ trans('admin.yes') }}',
-                cancelButtonText: '{{ trans('admin.cancel') }}'
-            }) 
-        } else {
-            swalAlert = swal({
-                title: "{{ trans('admin.no_multi_data') }}",
-                type: "warning",
-                showCloseButton: true,
-                showCancelButton: true,
-                showConfirmButton: false,
-                cancelButtonColor: '#222223',
-                cancelButtonText: '{{ trans('admin.close') }}'
-            })
-        }
-        swalAlert.then(function(result){
-            if(result.value){
-                $.ajax({
-                    type: "DELETE",
-                    url: getLocation + "/multi" + item_checked,
-                    success: function(data){
-                        $('#data-table').DataTable().ajax.reload();
-                        toastr.success('{{ trans('admin.deleted_successfully') }}!');
-                    }
-                });
+                searchPlaceholder: '{{ trans("admin.search") }}...',
+                paginate: {
+                    // remove previous & next text from pagination
+                    previous: '&nbsp;',
+                    next: '&nbsp;'
+                }
             }
         });
     });

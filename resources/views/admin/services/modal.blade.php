@@ -10,7 +10,7 @@
                 @foreach (config('translatable.locales') as $locale)
                 <div class="form-group">
                     <label class="form-label" for="name">{{ trans('admin.' . $locale . '.name') }}</label>
-                    <input id="name" type="text" name="name[{{ $locale }}]" class="form-control dt-name"
+                    <input id="name[{{ $locale }}]" type="text" name="name[{{ $locale }}]" class="form-control dt-name"
                         value="{{ old('name.' . $locale) }}" placeholder="{{ trans('admin.' . $locale . '.name') }}"
                         aria-label="John Doe">
                 </div>
