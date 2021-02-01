@@ -22,9 +22,7 @@ class ServicesController extends Controller
     {
         $services = Service::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
-            return datatables()->of($services)
-                ->rawColumns(['action'])
-                ->make(true);
+            return datatables()->of($services)->make(true);
         }
         return view('admin.services.index');
     }
@@ -42,6 +40,12 @@ class ServicesController extends Controller
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];
+        }
+
+        $error = Validator::make($request->all(), $rules);
+
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
         }
 
         $request->validate($rules);

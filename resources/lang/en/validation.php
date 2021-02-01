@@ -146,6 +146,7 @@ return [
         'permissions'           => 'Permissions',
         'phone_code'            => 'Phone Code',
         'iso_code'              => 'Iso Code',
+        'price'                 => 'Price',
 
         'name' => [
             'ar'        => 'Name in Arabic',

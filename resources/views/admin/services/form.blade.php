@@ -11,19 +11,23 @@
             </div>
             <!-- Modal body-->
             <div class="modal-body">
+                @include('partials.errors')
                 <span id="form_result"></span>
                 <form method="POST" id="serviceForm" class="form-horizontal" accept-charset="UTF-8"
                     enctype="multipart/form-data">
                     @csrf
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="enabled">{{ trans('admin.status') }}</label>
-                            <select id="enabled" name="enabled" class="form-control">
-                                <option value="1">فعال</option>
-                                <option value="0">معطل</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6"></div>
+                    @foreach (config('translatable.locales') as $locale)
+                    <div class="form-group">
+                        <label class="form-label" for="name">{{ trans('admin.' . $locale . '.name') }}</label>
+                        <input id="name[{{ $locale }}]" type="text" name="name[{{ $locale }}]"
+                            class="form-control dt-name" value="{{ old('name.' . $locale) }}"
+                            placeholder="{{ trans('admin.' . $locale . '.name') }}">
+                    </div>
+                    @endforeach
+                    <div class="form-group">
+                        <label class="form-label" for="price">{{ trans('admin.price') }}</label>
+                        <input id="price" type="text" name="price" class="form-control dt-price"
+                            value="{{ old('price') }}" placeholder="{{ trans('admin.price') }}">
                     </div>
             </div>
             <!-- Modal footer-->

@@ -6,9 +6,10 @@
 <div class="content-body">
     <section>
         <div class="card">
-            <div class="card-header border-bottom">
-                <h4 class="card-title">{{ trans('admin.services') }}</h4>
+            <div class="card-header">
+                <div class="tbl-title">{{ trans('admin.services') }}</div>
             </div>
+            <hr>
             <div class="card-content">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -17,15 +18,17 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        <div class="custom-control custom-control-primary custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" onclick="check_all()"
-                                                name="ids" id="check_all" />
-                                            <label class="custom-control-label" for="colorCheck1"></label>
+                                        <div class="vs-checkbox-con vs-checkbox-primary">
+                                            <input type="checkbox" class="check_all" onclick="check_all()" name="ids">
+                                            <span class="vs-checkbox vs-checkbox-sm">
+                                                <span class="vs-checkbox--check">
+                                                    <i class="vs-icon feather icon-check"></i>
+                                                </span>
+                                            </span>
                                         </div>
                                     </th>
                                     <th>#</th>
                                     <th>{{ trans('admin.name') }}</th>
-                                    <th>{{ trans('admin.price') }}</th>
                                     <th>{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>
@@ -49,7 +52,7 @@
 @push('scripts')
 
 @include('partials.delete')
-{{-- @include('partials.multi_delete') --}}
+{{-- @include('partials.multi_delete.blade') --}}
 
 <script type="text/javascript">
     var getLocation = "services";
@@ -59,7 +62,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
-            order: [[ 3, "desc" ]],
+            order: [[ 2, "desc" ]],
             ajax: {
                 url: "{{ route('admin.services.index') }}",
             },
@@ -75,7 +78,6 @@
                     }, searchable: false, orderable: false
                 },
                 { data: 'name_trans' },
-                { data: 'price' },
                 { data: 'enabled',
                     render: function(data, type, row, meta) {
                         var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
@@ -90,7 +92,7 @@
                   "<'row'<'col-sm-12'tr>>" +
                   "<'row'<'col-sm-5'i><'col-sm-7'p>>",
             buttons: [
-                { text: '<i data-feather="refresh-ccw"></i> {{ trans("admin.refresh") }}',
+                { text: '<i class="feather icon-refresh-ccw"></i> {{ trans("admin.refresh") }}',
                   className: 'btn dtbtn btn-sm btn-dark',
                   attr: { title: '{{ trans("admin.refresh") }}' },
                     action: function (e, dt, node, config) {
@@ -103,24 +105,24 @@
                 },
                 { extend: 'csvHtml5', charset: "UTF-8", bom: true,
                   className: 'btn dtbtn btn-sm btn-success',
-                  text: '<i data-feather="file"></i> CSV',
+                  text: '<i class="feather icon-file"></i> CSV',
                   attr: { title: 'CSV' }
                 },
                 { extend: 'excelHtml5', charset: "UTF-8", bom: true,
                   className: 'btn dtbtn btn-sm btn-success',
-                  text: '<i data-feather="file"></i> Excel',
+                  text: '<i class="feather icon-file"></i> Excel',
                   attr: { title: 'Excel' }
                 },
                 { extend: 'print', className: 'btn dtbtn btn-sm btn-primary',
-                  text: '<i data-feather="printer"></i> {{ trans("admin.print") }}',
+                  text: '<i class="feather icon-printer"></i> {{ trans("admin.print") }}',
                   attr: { title: '{{ trans("admin.print") }}' }
                 },
                 { extend: 'pdfHtml5', charset: "UTF-8", bom: true, 
                   className: 'btn dtbtn btn-sm bg-gradient-danger',
-                  text: '<i data-feather="file"></i> PDF',
+                  text: '<i class="feather icon-file"></i> PDF',
                   pageSize: 'A4', attr: { title: 'PDF' }
                 },
-                { text: '<i data-feather="plus"></i> {{ trans("admin.create_service") }}',
+                { text: '<i class="feather icon-plus"></i> {{ trans("admin.create_service") }}',
                   className: '@if (auth()->user()->can("create_services")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
                   attr: {
                           title: '{{ trans("admin.create_service") }}',
@@ -141,6 +143,46 @@
         });
     });
 
+    // Multiple Delete
+    $(document).on('click', '.multi_delete', function(){
+        var item_checked = $('input[class="item_checkbox"]:checkbox').filter(":checked").length;
+        var allids = [];
+        var swalAlert;
+        if (item_checked > 0) {
+            swalAlert = swal({
+                title: "{{ trans('admin.multi_delete') }} "+ item_checked +"!",
+                type: 'warning',
+                showCloseButton: true,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '{{ trans('admin.yes') }}',
+                cancelButtonText: '{{ trans('admin.cancel') }}'
+            }) 
+        } else {
+            swalAlert = swal({
+                title: "{{ trans('admin.no_multi_data') }}",
+                type: "warning",
+                showCloseButton: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonColor: '#222223',
+                cancelButtonText: '{{ trans('admin.close') }}'
+            })
+        }
+        swalAlert.then(function(result){
+            if(result.value){
+                $.ajax({
+                    type: "DELETE",
+                    url: getLocation + "/multi" + item_checked,
+                    success: function(data){
+                        $('#data-table').DataTable().ajax.reload();
+                        toastr.success('{{ trans('admin.deleted_successfully') }}!');
+                    }
+                });
+            }
+        });
+    });
 </script>
 
 @endpush

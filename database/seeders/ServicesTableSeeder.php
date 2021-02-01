@@ -16,5 +16,17 @@ class ServicesTableSeeder extends Seeder
                 'en' => 'Test'
             ], 'price' => '20'
         ]);
+        Service::create([
+            'name' => [
+                'ar' => '1تيست',
+                'en' => 'Test1'
+            ], 'price' => '13'
+        ]);
+        Service::create([
+            'name' => [
+                'ar' => '2تيست',
+                'en' => 'Test2'
+            ], 'price' => '82'
+        ]);
     }
 }

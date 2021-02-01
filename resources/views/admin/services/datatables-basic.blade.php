@@ -1,7 +1,4 @@
 <script>
-    /**
- * DataTables Basic
- */
 
  $(function() {
     'use strict';
@@ -15,8 +12,6 @@
     }
 
     // DataTable with buttons
-    // --------------------------------------------------------------------
-
     if (dt_basic_table.length) {
         var dt_basic = dt_basic_table.DataTable({
             ajax: assetPath + 'data/table-datatable.json',

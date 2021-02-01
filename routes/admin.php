@@ -33,8 +33,10 @@ Route::group(
 
             Route::get('appointments/destroy/{id}', 'AppointmentsController@destroy');
 
+            Route::post('patients/update', 'PatientsController@update')->name('patients.update');
             Route::get('patients/destroy/{id}', 'PatientsController@destroy');
 
+            Route::post('services/update', 'ServicesController@update')->name('services.update');
             Route::get('services/destroy/{id}', 'ServicesController@destroy');
 
             Route::get('invoices/destroy/{id}', 'InvoicesController@destroy');
