@@ -1,43 +1,71 @@
 @extends('layouts.admin')
-@section('title') {{ trans('admin.users') }} @endsection
+@section('title') {{ trans('admin.services') }} @endsection
 
 @section('content')
 
 <div class="content-body">
     <section>
-        <div class="card">
-            <div class="card-header">
-                <div class="tbl-title">{{ trans('admin.users') }}</div>
-            </div>
-            <hr>
-            <div class="card-content">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="users-table" class="table table-striped table-bordered dt-responsive nowrap"
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header border-bottom">
+                        <h4 class="card-title"><b>{{ trans('admin.services') }}</b></h4>
+                        <div class="text-right">
+                            <div class="btn-group btn-group-sm dropup dropdown-icon-wrapper mr-2">
+                                <button type="button"
+                                    class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i data-feather="share"></i>
+                                    Export
+                                    <i data-feather='arrow-down'></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <span class="dropdown-item">
+                                        <i data-feather="wifi-off"></i> 1 wifi-off
+                                    </span>
+                                    <span class="dropdown-item">
+                                        <i data-feather="volume-2"></i> 2 wifi-off
+                                    </span>
+                                    <span class="dropdown-item">
+                                        <i data-feather="volume-x"></i> 3 wifi-off
+                                    </span>
+                                    <div class="dropdown-divider"></div>
+                                    <span class="dropdown-item">
+                                        <i data-feather="volume-2"></i> 4
+                                    </span>
+                                </div>
+                            </div>
+                            <button type="button" name="create_service" id="create_service"
+                                class="btn btn-sm btn-primary" data-toggle="modal" data-target="#serviceModal">
+                                <i class="mr-25" data-feather="plus"></i>
+                                {{ trans('admin.create_service') }}</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive" style="padding: 10px">
+                        <table id="data-table"
+                            class="table table-striped table-bordered table-hover table-sm dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
                                     <th>
-                                        <div class="vs-checkbox-con vs-checkbox-primary">
-                                            <input type="checkbox" class="check_all" onclick="check_all()" name="ids">
-                                            <span class="vs-checkbox vs-checkbox-sm">
-                                                <span class="vs-checkbox--check">
-                                                    <i class="vs-icon feather icon-check"></i>
-                                                </span>
-                                            </span>
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input dt-checkboxes" type="checkbox" value=""
+                                                name="" id="checkbox" />
+                                            <label class="custom-control-label" for="checkbox"></label>
                                         </div>
+                                        {{-- <div class="custom-control custom-control-primary custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" onclick="check_all()"
+                                                name="ids" id="check_all" />
+                                        </div> --}}
                                     </th>
                                     <th>#</th>
-                                    <th>{{ trans('admin.image') }}</th>
-                                    <th>{{ trans('admin.full_name') }}</th>
-                                    {{-- <th>{{ trans('admin.username') }}</th> --}}
-                                    {{-- <th>{{ trans('admin.email') }}</th> --}}
-                                    <th>{{ trans('admin.last_login') }}</th>
-                                    <th>{{ trans('admin.created_at') }}</th>
+                                    <th>{{ trans('admin.name') }}</th>
+                                    <th>{{ trans('admin.price') }}</th>
                                     <th>{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.change_status') }}</th>
+                                    <th>{{ trans('admin.created_at') }}</th>
                                     <th>
-                                        @if(auth()->user()->can(['update_users', 'delete_users']))
+                                        @if(auth()->user()->can(['update_services', 'delete_services']))
                                         {{ trans('admin.action') }}
                                         @endif
                                     </th>
@@ -49,96 +77,89 @@
                 </div>
             </div>
         </div>
+        @include('admin.services.modal')
     </section>
-</div>
-
-<div id="mutlipleDelete" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">{{ trans('admin.delete') }}</h4>
-            </div>
-            <div class="modal-body">
-
-                <div class="alert alert-danger">
-                    <div class="empty_record hidden">
-                        <h4>{{ trans('admin.please_check_some_records') }} </h4>
-                    </div>
-                    <div class="not_empty_record hidden">
-                        <h4>{{ trans('admin.ask_delete_itme') }} <span class="record_count"></span>؟</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="empty_record hidden">
-                    <button type="button" class="btn btn-default"
-                        data-dismiss="modal">{{ trans('admin.close') }}</button>
-                </div>
-                <div class="not_empty_record hidden">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('admin.no') }}</button>
-                    <input type="submit" value="{{ trans('admin.yes') }}" class="btn btn-danger del_all" />
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 @endsection
 
 @push('scripts')
 
+@include('partials.delete')
+{{-- @include('partials.multi_delete') --}}
+
 <script type="text/javascript">
-    var status  = '';
+    var status = '';
+    var getLocation = "services";
     $(document).ready(function(){
         // DataTable
-        $('#users-table').DataTable({
+        $('#data-table').DataTable({
             processing: true,
             serverSide: true,
             responsive: true,
-            order: [[ 3, "desc" ]],
+            order: [[ 2, "desc" ]],
             ajax: {
-                url: "{{ route('admin.users.index') }}",
+                url: "{{ route('admin.services.index') }}",
             },
             columns: [
                 {
                     render: function(data, type, row, meta) {
-                        return '<div class="vs-checkbox-con vs-checkbox-primary"><input type="checkbox" name="item[]" class="item_checkbox" value="' + row.id + '"><span class="vs-checkbox vs-checkbox-sm"><span class="vs-checkbox--check"><i class="vs-icon feather icon-check"></i></span></span></div>';
-                    }, searchable: false, orderable: false
+                        return (
+                            '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes" type="checkbox" value="" id="checkbox' +
+                            data +
+                            '" /><label class="custom-control-label" for="checkbox' +
+                            data +
+                            '"></label></div>'
+                        );
+                    }, searchable: false, orderable: false,
+                    checkboxes: {
+                        selectAllRender: '<div class="custom-control custom-checkbox"> <input class="custom-control-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="custom-control-label" for="checkboxSelectAll"></label></div>'
+                    }
                 },
                 {
                     render: function(data, type, row, meta) {
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }, searchable: false, orderable: false
                 },
-                { data: 'image_path',
-                    render: function(data, type, row, meta) {
-                        return "<img src=" + data + " width='60px' class='img-thumbnail' />";
-                    }, searchable: false, orderable: false
-                },
-                { data: 'full_name' },
-                // { data: 'username' },
-                // { data: 'email' },
-                { data: 'last_login_at',
-                    render: function(data, type, row, meta){
-                        var text1 = "<div>"+row.last_login+"</div>";
-                        var text2 = "<div>"+data+"</div>";
-                        return text1 + text2;
-                    }
-                },
-                { data: 'created_at' },
+                { data: 'name_trans' },
+                { data: 'price' },
                 { data: 'enabled',
                     render: function(data, type, row, meta) {
                         var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
                         var color = data ? "success" : "danger"; 
-                        return "<div class='badge badge-" +color+ "'>"+ text +"</div>";
+                        return "<div class='badge badge-light-"+ color +"'>"+ text +"</div>";
                     }, searchable: false, orderable: false
                 },
                 { data: 'enabled' },
-                { data: 'action', orderable: false }
-            ], "columnDefs": [ {
-                "targets": 7,
+                { data: 'created_at' },
+                { data: 'action', orderable: false,
+                    render: function(data, type, row, meta) {
+                        return (
+                            '<div class="d-inline-flex">' +
+                            '<a class="pr-1 dropdown-toggle hide-arrow text-primary" data-toggle="dropdown">' +
+                            feather.icons['more-vertical'].toSvg({ class: 'font-small-4' }) +
+                            '</a>' +
+                            '<div class="dropdown-menu dropdown-menu-right">' +
+                            '<a href="javascript:;" class="dropdown-item">' +
+                            feather.icons['file-text'].toSvg({ class: 'font-small-4 mr-50' }) +
+                            'Details</a>' +
+                            '<a href="javascript:;" class="dropdown-item">' +
+                            feather.icons['archive'].toSvg({ class: 'font-small-4 mr-50' }) +
+                            'Archive</a>' +
+                            '<a href="javascript:;" id="'+ row.id +'" class="dropdown-item delete-record delete" title="{{ trans("admin.delete") }}">' +
+                            feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
+                            '{{ trans("admin.delete") }}</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '<a id="'+ row.id +'" name="edit" class="item-edit edit" data-toggle="modal" data-target="#serviceModal" title="{{ trans("admin.edit") }}">' +
+                            feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
+                            '</a>'
+                        );
+                    }
+                }
+            ],
+            "columnDefs": [ {
+                "targets": 5,
                 render: function (data, type, row, meta){
                 var $select = $(`
                     <select class='status form-control'
@@ -150,154 +171,235 @@
                 $select.find('option[value="'+row.enabled+'"]').attr('selected', 'selected');
                 return $select[0].outerHTML
                 }
-            } ],            
-            dom:  "<'row'<''l><'col-sm-8 text-center'B><''f>>" +
-                  "<'row'<'col-sm-12'tr>>" +
-                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            buttons: [
-                { text: '<i class="feather icon-refresh-ccw"></i> {{ trans("admin.refresh") }}',
-                  className: 'btn dtbtn btn-sm btn-dark',
-                  attr: { title: '{{ trans("admin.refresh") }}' },
-                    action: function (e, dt, node, config) {
-                        dt.ajax.reload(null, false);
-                    }
-                },
-                { text: '<i data-feather="trash-2"></i> {{ trans("admin.trash") }}',
-                  className: 'btn dtbtn btn-sm btn-danger multi_delete delBtn',
-                  attr: { title: '{{ trans("admin.trash") }}' }
-                },
-                { extend: 'print', className: 'btn dtbtn btn-sm btn-primary',
-                  text: '<i class="feather icon-printer"></i> {{ trans("admin.print") }}',
-                  attr: { title: '{{ trans("admin.print") }}' }
-                },
-                { extend: 'csvHtml5', charset: "UTF-8", bom: true,
-                  className: 'btn dtbtn btn-sm btn-success',
-                  text: '<i class="feather icon-file"></i> CSV',
-                  attr: { title: 'CSV' }
-                },
-                { extend: 'excelHtml5', charset: "UTF-8", bom: true,
-                  className: 'btn dtbtn btn-sm btn-success',
-                  text: '<i class="feather icon-file"></i> Excel',
-                  attr: { title: 'Excel' }
-                },
-                { extend: 'pdfHtml5', charset: "UTF-8", bom: true, 
-                  className: 'btn dtbtn btn-sm bg-gradient-danger',
-                  text: '<i class="feather icon-file"></i> PDF',
-                  pageSize: 'A4', attr: { title: 'PDF' }
-                },
-                { text: '<i class="feather icon-plus"></i> {{ trans("admin.create_user") }}',
-                  className: '@if (auth()->user()->can("create_users")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
-                  attr: {
-                          title: '{{ trans("admin.create_user") }}',
-                          href: '{{ route("admin.users.create") }}' 
+            } ],
+            dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-right"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                    extend: 'collection',
+                    className: 'btn btn-sm btn-outline-secondary dropdown-toggle mr-2',
+                    text: feather.icons['share'].toSvg({ class: 'font-small-4 mr-50' }) + 'Export',
+                    buttons: [{
+                            extend: 'print',
+                            text: feather.icons['printer'].toSvg({ class: 'font-small-4 mr-50' }) + 'Print',
+                            className: 'dropdown-item',
+                            exportOptions: { columns: [3, 4, 5, 6, 7] }
                         },
-                    action: function (e, dt, node, config)
-                    {
-                        // href location
-                        window.location.href = '{{ route("admin.users.create") }}';
+                        {
+                            extend: 'csv',
+                            text: feather.icons['file-text'].toSvg({ class: 'font-small-4 mr-50' }) + 'Csv',
+                            className: 'dropdown-item',
+                            exportOptions: { columns: [3, 4, 5, 6, 7] }
+                        },
+                        {
+                            extend: 'excel',
+                            text: feather.icons['file'].toSvg({ class: 'font-small-4 mr-50' }) + 'Excel',
+                            className: 'dropdown-item',
+                            exportOptions: { columns: [3, 4, 5, 6, 7] }
+                        },
+                        {
+                            extend: 'pdf',
+                            text: feather.icons['clipboard'].toSvg({ class: 'font-small-4 mr-50' }) + 'Pdf',
+                            className: 'dropdown-item',
+                            exportOptions: { columns: [3, 4, 5, 6, 7] }
+                        },
+                        {
+                            extend: 'copy',
+                            text: feather.icons['copy'].toSvg({ class: 'font-small-4 mr-50' }) + 'Copy',
+                            className: 'dropdown-item',
+                            exportOptions: { columns: [3, 4, 5, 6, 7] }
+                        }
+                    ],
+                    init: function(api, node, config) {
+                        $(node).removeClass('btn-secondary');
+                        $(node).parent().removeClass('btn-group');
+                        setTimeout(function() {
+                            $(node).closest('.dt-buttons').removeClass('btn-group').addClass('d-inline-flex');
+                        }, 50);
                     }
                 },
+                {
+                    text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + '{{ trans("admin.create_service") }}',
+                    className: 'create-new btn btn-sm btn-primary',
+                    attr: {
+                        'data-toggle': 'modal',
+                        'data-target': '#modals-slide-in'
+                    },
+                    init: function(api, node, config) {
+                        $(node).removeClass('btn-secondary');
+                    }
+                }
             ],
+            // dom: '<" justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<" justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            // buttons: [
+            //     { text: '<i data-feather="refresh-ccw"></i> {{ trans("admin.refresh") }}',
+            //       className: 'btn dtbtn btn-sm btn-dark',
+            //       attr: { title: '{{ trans("admin.refresh") }}' },
+            //         action: function (e, dt, node, config) {
+            //             dt.ajax.reload(null, false);
+            //         }
+            //     },
+            //     { text: '<i data-feather="trash-2"></i> {{ trans("admin.trash") }}',
+            //     className: 'btn dtbtn btn-sm btn-danger multi_delete delBtn',
+            //       attr: { title: '{{ trans("admin.trash") }}' }
+            //     },
+            //     { extend: 'csvHtml5', charset: "UTF-8", bom: true,
+            //       className: 'btn dtbtn btn-sm btn-success',
+            //       text: '<i data-feather="file"></i> CSV',
+            //       attr: { title: 'CSV' }
+            //     },
+            //     { extend: 'excelHtml5', charset: "UTF-8", bom: true,
+            //       className: 'btn dtbtn btn-sm btn-success',
+            //       text: '<i data-feather="file"></i> Excel',
+            //       attr: { title: 'Excel' }
+            //     },
+            //     { extend: 'print', className: 'btn dtbtn btn-sm btn-primary',
+            //       text: '<i data-feather="printer"></i> {{ trans("admin.print") }}',
+            //       attr: { title: '{{ trans("admin.print") }}' }
+            //     },
+            //     { extend: 'pdfHtml5', charset: "UTF-8", bom: true, 
+            //       className: 'btn dtbtn btn-sm bg-gradient-danger',
+            //       text: '<i data-feather="file"></i> PDF',
+            //       pageSize: 'A4', attr: { title: 'PDF' }
+            //     },
+            //     { text: '<i data-feather="plus"></i> {{ trans("admin.create_service") }}',
+            //       className: '@if (auth()->user()->can("create_services")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
+            //       attr: {
+            //               title: '{{ trans("admin.create_service") }}',
+            //               href: '{{ route("admin.services.create") }}' 
+            //             },
+            //         action: function (e, dt, node, config)
+            //         {
+            //             // href location
+            //             window.location.href = '{{ route("admin.services.create") }}';
+            //         }
+            //     },
+            // ],
             language: {
                 url: getDataTableLanguage(),
                 search: ' ',
                 searchPlaceholder: '{{ trans("admin.search") }}...'
             }
         });
-    });
-    
-    // Delete
-    $(document).on('click', '.delete', function(){
-        user_id = $(this).attr('id');
-        swal({
-            title: "{{ trans('admin.delete_msg') }}",
-            type: 'warning',
-            showCloseButton: true,
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '{{ trans('admin.yes') }}',
-            cancelButtonText: '{{ trans('admin.cancel') }}'
-        }).then(function(result){
-            if(result.value){
+
+        // Open Modal
+        $('#create_service').click(function(){
+            $('.modal-title').text("{{ trans('admin.create_service') }}");
+            $('#action_button').val("Add");
+            $('#serviceForm').trigger("reset");
+            $('#form_result').html('');
+            $('#action').val("Add");
+        });
+
+        // Add
+        $('#serviceForm').on('submit', function(event){
+            event.preventDefault();
+            if($('#action').val() == 'Add')
+            {
+                var formData = new FormData(this);
                 $.ajax({
-                    url:"users/destroy/" + user_id,
+                    url: "{{ route('admin.services.store') }}",
+                    method: "POST",
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    dataType: "json",
                     success: function(data){
-                        $('#users-table').DataTable().ajax.reload();
-                        toastr.success('{{ trans('admin.deleted_successfully') }}!');
+                        console.log(data.responseJSON.errors);
+                    },
+                    error: function(data){
+                        var text = data.responseJSON.errors;
+                        console.log(data.responseJSON.errors);
+                        $('#form_result').html(text);
+                    }
+                });
+            }
+            if($('#action').val() == "Edit")
+            {
+                var formData = new FormData(this);
+                $.ajax({
+                    url: "{{ route('admin.services.update') }}",
+                    method: "POST",
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function(data)
+                    {
+                        var html = '';
+                    if(data.errors)
+                    {
+                        html = '<div class="alert alert-danger">';
+                    for(var count = 0; count < data.errors.length; count++)
+                    {
+                        html += '<p>' + data.errors[count] + '</p>';
+                    }
+                        html += '</div>';
+                    }
+                    if(data.success)
+                    {
+                        $('#serviceForm')[0].reset();
+                        $('#data-table').DataTable().ajax.reload();
+                        $("[data-dismiss=modal]").trigger({ type: "click" });
+                        var lang = "{{ app()->getLocale() }}";
+                        if (lang == "ar") {
+                            toastr.success('{{ trans('admin.updated_successfully') }}');
+                        } else {
+                            toastr.success('{{ trans('admin.updated_successfully') }}', '', {positionClass: 'toast-bottom-left'});
+                        }
+                    }
+                        $('#form_result').html(html);
                     }
                 });
             }
         });
-    });
 
-    // Multiple Delete
-    $(document).on('click', '.multi_delete', function(){
-        var item_checked = $('input[class="item_checkbox"]:checkbox').filter(":checked").length;
-        var allids = [];
-        var swalAlert;
-        if (item_checked > 0) {
-            swalAlert = swal({
-                title: "{{ trans('admin.multi_delete') }} "+ item_checked +"!",
-                type: 'warning',
-                showCloseButton: true,
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '{{ trans('admin.yes') }}',
-                cancelButtonText: '{{ trans('admin.cancel') }}'
-            }) 
-        } else {
-            swalAlert = swal({
-                title: "{{ trans('admin.no_multi_data') }}",
-                type: "warning",
-                showCloseButton: true,
-                showCancelButton: true,
-                showConfirmButton: false,
-                cancelButtonColor: '#222223',
-                cancelButtonText: '{{ trans('admin.close') }}'
-            })
-        }
-        swalAlert.then(function(result){
-            if(result.value){
-                $.ajax({
-                    type: "DELETE",
-                    url: "users/multi" + item_checked,
-                    success: function(data){
-                        $('#users-table').DataTable().ajax.reload();
-                        toastr.success('{{ trans('admin.deleted_successfully') }}!');
-                    }
-                });
-            }
+        // Edit
+        $(document).on('click', '.edit', function(){
+            var id = $(this).attr('id');
+            $('#form_result').html('');
+            $.ajax({
+                url:"/admin/services/"+id+"/edit",
+                dataType:"json",
+                success:function(html){
+                    $('#name_ar').val(html.data.name.ar);
+                    $('#name_en').val(html.data.name.en);
+                    $('#price').val(html.data.price);
+                    $('#hidden_id').val(html.data.id);
+                    $('.modal-title').text("{{ trans('admin.edit_service') }}");
+                    $('#action_button').val("Edit");
+                    $('#action').val("Edit");
+                }
+            });
         });
     });
 
     // Change Status
     function selectStatus(id){
-        user_id = id;
+        service_id = id;
     }
 
     $(document).on('change', '#status', function(e) {
-        var status_user = $(this).find("option:selected").val();
-        // console.log(status_user)
-        if(status_user == "1"){
+        var status_service = $(this).find("option:selected").val();
+        console.log(status_service)
+        if(status_service == "1"){
             toastr.success('{{ trans('admin.status_changed') }}!');
-        }else if(status_user == "0"){
+        }else if(status_service == "0"){
             toastr.success('{{ trans('admin.status_changed') }}!');
         } else {
             toastr.error('{{ trans('admin.status_not_changed') }}!');
         }
         $.ajax({
-            url:"users/updateStatus/"+user_id+"?enabled="+status_user,
+            url: "services/updateStatus/"+service_id+"?enabled="+status_service,
             headers: {
                 'X-CSRF-Token': "{{ csrf_token() }}"
             },
-            method:"POST",
-            data:{},
+            method: "POST",
+            data: {},
             contentType: false,
             cache: false,
             processData: false,
-            dataType:"json",
+            dataType: "json",
             success:function(data)
                 {
                 var html = '';
@@ -312,7 +414,7 @@
                 }
                 if(data.success)
                 {
-                    $('#users-table').DataTable().ajax.reload();
+                    $('#data-table').DataTable().ajax.reload();
                 }
             }
         });

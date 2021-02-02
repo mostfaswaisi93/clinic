@@ -31,13 +31,17 @@ Route::group(
                 'settings'          => SettingsController::class
             ]);
 
+            Route::post('appointments/update', 'AppointmentsController@update')->name('appointments.update');
             Route::get('appointments/destroy/{id}', 'AppointmentsController@destroy');
+            Route::post('appointments/updateStatus/{id}', 'AppointmentsController@updateStatus');
 
             Route::post('patients/update', 'PatientsController@update')->name('patients.update');
             Route::get('patients/destroy/{id}', 'PatientsController@destroy');
+            Route::post('patients/updateStatus/{id}', 'PatientsController@updateStatus');
 
             Route::post('services/update', 'ServicesController@update')->name('services.update');
             Route::get('services/destroy/{id}', 'ServicesController@destroy');
+            Route::post('services/updateStatus/{id}', 'ServicesController@updateStatus');
 
             Route::get('invoices/destroy/{id}', 'InvoicesController@destroy');
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ServicesRequest;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Validator;
@@ -32,7 +31,7 @@ class ServicesController extends Controller
         return view('admin.services.create');
     }
 
-    public function store(ServicesRequest $request)
+    public function store(Request $request)
     {
         $rules = array(
             'price'    =>  'required'
@@ -61,7 +60,7 @@ class ServicesController extends Controller
         }
     }
 
-    public function update(ServicesRequest $request, Service $service)
+    public function update(Request $request, Service $service)
     {
         $rules = array(
             'price'    =>  'required'

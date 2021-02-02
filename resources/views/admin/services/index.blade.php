@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <button type="button" name="create_service" id="create_service"
-                                class="btn btn-sm btn-primary">
+                                class="btn btn-sm btn-primary" data-toggle="modal" data-target="#serviceModal">
                                 <i class="mr-25" data-feather="plus"></i>
                                 {{ trans('admin.create_service') }}</button>
                         </div>
@@ -62,6 +62,7 @@
                                     <th>{{ trans('admin.name') }}</th>
                                     <th>{{ trans('admin.price') }}</th>
                                     <th>{{ trans('admin.status') }}</th>
+                                    <th>{{ trans('admin.change_status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>
                                         @if(auth()->user()->can(['update_services', 'delete_services']))
@@ -88,6 +89,7 @@
 {{-- @include('partials.multi_delete') --}}
 
 <script type="text/javascript">
+    var status = '';
     var getLocation = "services";
     $(document).ready(function(){
         // DataTable
@@ -128,6 +130,7 @@
                         return "<div class='badge badge-light-"+ color +"'>"+ text +"</div>";
                     }, searchable: false, orderable: false
                 },
+                { data: 'enabled' },
                 { data: 'created_at' },
                 { data: 'action', orderable: false,
                     render: function(data, type, row, meta) {
@@ -148,13 +151,27 @@
                             '{{ trans("admin.delete") }}</a>' +
                             '</div>' +
                             '</div>' +
-                            '<a id="'+ row.id +'" name="edit" class="item-edit edit" title="{{ trans("admin.edit") }}">' +
+                            '<a id="'+ row.id +'" name="edit" class="item-edit edit" data-toggle="modal" data-target="#serviceModal" title="{{ trans("admin.edit") }}">' +
                             feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
                             '</a>'
                         );
                     }
                 }
             ],
+            "columnDefs": [ {
+                "targets": 5,
+                render: function (data, type, row, meta){
+                var $select = $(`
+                    <select class='status form-control'
+                    id='status' onchange=selectStatus(${row.id})>
+                    <option value='1'>{{ trans('admin.active') }}</option>
+                    <option value='0'>{{ trans('admin.inactive') }}</option>
+                    </select>
+                `);
+                $select.find('option[value="'+row.enabled+'"]').attr('selected', 'selected');
+                return $select[0].outerHTML
+                }
+            } ],
             dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-right"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
                     extend: 'collection',
@@ -270,7 +287,6 @@
             $('#serviceForm').trigger("reset");
             $('#form_result').html('');
             $('#action').val("Add");
-            $('.modal').modal('show');
         });
 
         // Add
@@ -287,31 +303,13 @@
                     cache: false,
                     processData: false,
                     dataType: "json",
-                    success: function(data)
-                    {
-                        var html = '';
-                    if(data.errors)
-                    {
-                        html = '<div class="alert alert-danger">';
-                        for(var count = 0; count < data.errors.length; count++)
-                            {
-                                html += '<p>' + data.errors[count] + '</p>';
-                            }
-                        html += '</div>';
-                    }
-                    if(data.success)
-                    {
-                        $('#serviceForm')[0].reset();
-                        $('#data-table').DataTable().ajax.reload();
-                        $('.modal').modal('hide');
-                        var lang = "{{ app()->getLocale() }}";
-                        if (lang == "ar") {
-                            toastr.success('{{ trans('admin.added_successfully') }}');
-                        } else {
-                            toastr.success('{{ trans('admin.added_successfully') }}', '', {positionClass: 'toast-bottom-left'});
-                        }
-                    }
-                        $('#form_result').html(html);
+                    success: function(data){
+                        console.log(data.responseJSON.errors);
+                    },
+                    error: function(data){
+                        var text = data.responseJSON.errors;
+                        console.log(data.responseJSON.errors);
+                        $('#form_result').html(text);
                     }
                 });
             }
@@ -342,7 +340,7 @@
                     {
                         $('#serviceForm')[0].reset();
                         $('#data-table').DataTable().ajax.reload();
-                        $('.modal').modal('hide');
+                        $("[data-dismiss=modal]").trigger({ type: "click" });
                         var lang = "{{ app()->getLocale() }}";
                         if (lang == "ar") {
                             toastr.success('{{ trans('admin.updated_successfully') }}');
@@ -371,9 +369,54 @@
                     $('.modal-title').text("{{ trans('admin.edit_service') }}");
                     $('#action_button').val("Edit");
                     $('#action').val("Edit");
-                    $('.modal').modal('show');
                 }
             });
+        });
+    });
+
+    // Change Status
+    function selectStatus(id){
+        service_id = id;
+    }
+
+    $(document).on('change', '#status', function(e) {
+        var status_service = $(this).find("option:selected").val();
+        console.log(status_service)
+        if(status_service == "1"){
+            toastr.success('{{ trans('admin.status_changed') }}!');
+        }else if(status_service == "0"){
+            toastr.success('{{ trans('admin.status_changed') }}!');
+        } else {
+            toastr.error('{{ trans('admin.status_not_changed') }}!');
+        }
+        $.ajax({
+            url: "services/updateStatus/"+service_id+"?enabled="+status_service,
+            headers: {
+                'X-CSRF-Token': "{{ csrf_token() }}"
+            },
+            method: "POST",
+            data: {},
+            contentType: false,
+            cache: false,
+            processData: false,
+            dataType: "json",
+            success:function(data)
+                {
+                var html = '';
+                if(data.errors)
+                {
+                    html = '<div class="alert alert-danger">';
+                    for(var count = 0; count < data.errors.length; count++)
+                {
+                    html += '<p>' + data.errors[count] + '</p>';
+                }
+                    html += '</div>';
+                }
+                if(data.success)
+                {
+                    $('#data-table').DataTable().ajax.reload();
+                }
+            }
         });
     });
 </script>

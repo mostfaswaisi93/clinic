@@ -11,6 +11,7 @@ return [
     'logout'                    => 'Logout',
     'available'                 => 'Available',
     'add'                       => 'Add',
+    'save'                      => 'Save',
     'create'                    => 'Create',
     'read'                      => 'Rread',
     'edit'                      => 'Edit',
