@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ServicesRequest;
 use App\Models\Service;
 use Illuminate\Http\Request;
-use Brian2694\Toastr\Facades\Toastr;
+use Validator;
 
 class ServicesController extends Controller
 {
@@ -34,9 +34,9 @@ class ServicesController extends Controller
 
     public function store(ServicesRequest $request)
     {
-        $rules = [
-            'price'     => 'required'
-        ];
+        $rules = array(
+            'price'    =>  'required'
+        );
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];
@@ -48,45 +48,43 @@ class ServicesController extends Controller
             return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        $request->validate($rules);
-
         Service::create($request->all());
 
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.added_successfully'));
-        } else {
-            Toastr::success(__('admin.added_successfully'), '', ["positionClass" => "toast-bottom-left"]);
-        }
-
-        return redirect()->route('admin.services.index');
+        return response()->json(['success' => 'Data Added Successfully.']);
     }
 
-    public function edit(Service $service)
+    public function edit($id)
     {
-        return view('admin.services.edit', compact('service'));
+        if (request()->ajax()) {
+            $data = Service::findOrFail($id);
+            return response()->json(['data' => $data]);
+        }
     }
 
     public function update(ServicesRequest $request, Service $service)
     {
-        $rules = [
-            'price'     => 'required'
-        ];
+        $rules = array(
+            'price'    =>  'required'
+        );
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];
         }
 
-        $request->validate($rules);
+        $error = Validator::make($request->all(), $rules);
 
-        $service->update($request->all());
-
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.updated_successfully'));
-        } else {
-            Toastr::success(__('admin.updated_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        return redirect()->route('admin.services.index');
+        $request_data = array(
+            'name'       =>   $request->name,
+            'price'      =>   $request->price,
+        );
+
+        $service::whereId($request->hidden_id)->update($request_data);
+
+        return response()->json(['success' => 'Data is Successfully Updated']);
     }
 
     public function destroy($id)

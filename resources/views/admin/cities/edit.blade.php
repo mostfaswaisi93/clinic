@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title') {{ trans('admin.edit_city') }} @endsection
+@section('title') {{ trans('admin.edit_service') }} @endsection
 
 @section('content')
 
@@ -7,16 +7,16 @@
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
             <div class="col-12">
-                <h2 class="content-header-title float-left mb-0">{{ trans('admin.edit_city') }}</h2>
-                <div class="breadcrumb-wrapper col-12">
+                <h2 class="content-header-title float-left mb-0">{{ trans('admin.edit_service') }}</h2>
+                <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.index') }}">{{ trans('admin.home') }}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.cities.index') }}">{{ trans('admin.cities') }}</a>
+                            <a href="{{ route('admin.services.index') }}">{{ trans('admin.services') }}</a>
                         </li>
-                        <li class="breadcrumb-item active">{{ trans('admin.edit_city') }}</li>
+                        <li class="breadcrumb-item active">{{ trans('admin.edit_service') }}</li>
                     </ol>
                 </div>
             </div>
@@ -31,58 +31,39 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">
-                            <i class="feather icon-edit mr-25"></i>
-                            {{ trans('admin.edit_city') }} - {{ $city->name }}
+                            <i class="mr-25" data-feather='edit'></i>
+                            {{ trans('admin.edit_service') }} - {{ $service->name }}
                         </h4>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
                             @include('partials.errors')
-                            <form action="{{ route('admin.cities.update', $city->id) }}" method="post"
-                                enctype="multipart/form-data">
+                            <form action="{{ route('admin.services.update', $service->id) }}" method="post">
                                 @csrf
                                 @method('PUT')
                                 <div class="row">
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <div class="controls">
-                                                <label>{{ trans('admin.countries') }}</label>
-                                                <select name="country_id" class="form-control select2">
-                                                    <option value="">{{ trans('admin.all_countries') }}</option>
-                                                    @foreach ($countries as $country)
-                                                    <option value="{{ $country->id }}"
-                                                        {{ $city->country_id == $country->id ? 'selected' : '' }}>
-                                                        {{ $country->name_trans }}
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
                                     @foreach (config('translatable.locales') as $locale)
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-xl-6 col-md-6 col-12 mt-1">
                                         <div class="form-group">
-                                            <div class="controls">
-                                                <label>{{ trans('admin.' . $locale . '.name') }}</label>
-                                                <input id="name" type="text" name="name[{{ $locale }}]"
-                                                    class="form-control"
-                                                    value="{{ old('name.' . $locale, $city->getTranslation('name', $locale)) }}"
-                                                    placeholder="{{ trans('admin.' . $locale . '.name') }}">
-                                            </div>
+                                            <label for="name">{{ trans('admin.' . $locale . '.name') }}</label>
+                                            <input id="name[{{ $locale }}]" type="text" name="name[{{ $locale }}]" class="form-control"
+                                                value="{{ old('name.' . $locale, $service->getTranslation('name', $locale)) }}"
+                                                placeholder="{{ trans('admin.' . $locale . '.name') }}">
                                         </div>
                                     </div>
                                     @endforeach
+                                    <div class="col-xl-6 col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="price">{{ trans('admin.price') }}</label>
+                                            <input id="price" type="text" name="price" class="form-control"
+                                                value="{{ $service->price }}" placeholder="{{ trans('admin.price') }}">
+                                        </div>
+                                    </div>
                                     <div class="col-12">
                                         <hr>
                                     </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <div class="controls">
-                                                <button type="submit" class="btn btn-primary">
-                                                    {{ trans('admin.edit') }}
-                                                </button>
-                                            </div>
-                                        </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary">{{ trans('admin.edit') }}</button>
                                     </div>
                                 </div>
                             </form>

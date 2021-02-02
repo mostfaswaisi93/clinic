@@ -1,7 +1,28 @@
 @extends('layouts.admin')
-@section('title') {{ trans('admin.edit_patient') }} @endsection
+@section('title') {{ trans('admin.edit_service') }} @endsection
 
 @section('content')
+
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-left mb-0">{{ trans('admin.edit_service') }}</h2>
+                <div class="breadcrumb-wrapper">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('admin.index') }}">{{ trans('admin.home') }}</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('admin.services.index') }}">{{ trans('admin.services') }}</a>
+                        </li>
+                        <li class="breadcrumb-item active">{{ trans('admin.edit_service') }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="content-body">
     <section class="portlet">
@@ -10,88 +31,39 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">
-                            <i class="feather icon-edit mr-25"></i>
-                            {{ trans('admin.edit_patient') }} - {{ $patient->name }}
+                            <i class="mr-25" data-feather='edit'></i>
+                            {{ trans('admin.edit_service') }} - {{ $service->name }}
                         </h4>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
                             @include('partials.errors')
-                            <form action="{{ route('admin.patients.update', $patient->id) }}" method="post"
-                                enctype="multipart/form-data">
+                            <form action="{{ route('admin.services.update', $service->id) }}" method="post">
                                 @csrf
                                 @method('PUT')
                                 <div class="row">
-                                    <div class="col-md-6 col-12">
+                                    @foreach (config('translatable.locales') as $locale)
+                                    <div class="col-xl-6 col-md-6 col-12 mt-1">
                                         <div class="form-group">
-                                            <div class="controls">
-                                                <label>{{ trans('admin.first_name') }}</label>
-                                                <input id="first_name" type="text" name="first_name"
-                                                    class="form-control" value="{{ $patient->first_name }}"
-                                                    placeholder="{{ trans('admin.first_name') }}">
-                                            </div>
+                                            <label for="name">{{ trans('admin.' . $locale . '.name') }}</label>
+                                            <input id="name[{{ $locale }}]" type="text" name="name[{{ $locale }}]" class="form-control"
+                                                value="{{ old('name.' . $locale, $service->getTranslation('name', $locale)) }}"
+                                                placeholder="{{ trans('admin.' . $locale . '.name') }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-12">
+                                    @endforeach
+                                    <div class="col-xl-6 col-md-6 col-12">
                                         <div class="form-group">
-                                            <div class="controls">
-                                                <label>{{ trans('admin.last_name') }}</label>
-                                                <input id="last_name" type="text" name="last_name" class="form-control"
-                                                    value="{{ $patient->last_name }}"
-                                                    placeholder="{{ trans('admin.last_name') }}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <div class="controls">
-                                                <label>{{ trans('admin.username') }}</label>
-                                                <input id="username" type="text" name="username" class="form-control"
-                                                    value="{{ $user->username }}"
-                                                    placeholder="{{ trans('admin.username') }}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <div class="controls">
-                                                <label>{{ trans('admin.email') }}</label>
-                                                <input id="email" type="email" name="email" class="form-control"
-                                                    value="{{ $patient->email }}" placeholder="{{ trans('admin.email') }}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="media mb-2">
-                                            <a class="mr-2 my-25" href="#">
-                                                <img src="{{ $patient->image_path }}" alt="patients avatar"
-                                                    class="patients-avatar-shadow rounded image img-thumbnail image-preview"
-                                                    height="70" width="70">
-                                            </a>
-                                            <div class="media-body mt-50">
-                                                <label>{{ trans('admin.patient_image') }}</label>
-                                                <div class="col-4 d-flex mt-1 px-0">
-                                                    <input type="file" class="form-control-file image" name="image"
-                                                        id="image" style="display:none;">
-                                                    <button class="btn btn-primary" onclick="FileUpload();">
-                                                        <i class="fa fa-plus"></i>
-                                                        {{ trans('admin.file_upload') }}
-                                                    </button>
-                                                </div>
-                                            </div>
+                                            <label for="price">{{ trans('admin.price') }}</label>
+                                            <input id="price" type="text" name="price" class="form-control"
+                                                value="{{ $service->price }}" placeholder="{{ trans('admin.price') }}">
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <hr>
                                     </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <div class="controls">
-                                                <button type="submit" class="btn btn-primary">
-                                                    {{ trans('admin.edit') }}
-                                                </button>
-                                            </div>
-                                        </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary">{{ trans('admin.edit') }}</button>
                                     </div>
                                 </div>
                             </form>

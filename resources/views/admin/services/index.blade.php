@@ -1,15 +1,6 @@
 @extends('layouts.admin')
 @section('title') {{ trans('admin.services') }} @endsection
 
-@section('css')
-
-<!-- BEGIN: Vendor CSS -->
-{{-- <link rel="stylesheet" type="text/css"
-    href="{{ url('backend/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css') }}"> --}}
-<!-- END: Vendor CSS -->
-
-@endsection
-
 @section('content')
 
 <div class="content-body">
@@ -44,7 +35,8 @@
                                     </span>
                                 </div>
                             </div>
-                            <button type="button" name="create_service" id="create_service" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#serviceModal">
+                            <button type="button" name="create_service" id="create_service"
+                                class="btn btn-sm btn-primary">
                                 <i class="mr-25" data-feather="plus"></i>
                                 {{ trans('admin.create_service') }}</button>
                         </div>
@@ -84,18 +76,13 @@
                 </div>
             </div>
         </div>
-        {{-- @include('admin.services.modal') --}}
-        @include('admin.services.form')
+        @include('admin.services.modal')
     </section>
 </div>
 
 @endsection
 
 @push('scripts')
-
-<!-- START: Page Vendor JS -->
-{{-- <script src="{{ url('backend/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script> --}}
-<!-- END: Page Vendor JS -->
 
 @include('partials.delete')
 {{-- @include('partials.multi_delete') --}}
@@ -161,7 +148,7 @@
                             '{{ trans("admin.delete") }}</a>' +
                             '</div>' +
                             '</div>' +
-                            '<a href="services/'+ row.id +'/edit" class="item-edit edit" title="{{ trans("admin.edit") }}">' +
+                            '<a id="'+ row.id +'" name="edit" class="item-edit edit" title="{{ trans("admin.edit") }}">' +
                             feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
                             '</a>'
                         );
@@ -213,7 +200,7 @@
                     }
                 },
                 {
-                    text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + 'Add New Record',
+                    text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + '{{ trans("admin.create_service") }}',
                     className: 'create-new btn btn-sm btn-primary',
                     attr: {
                         'data-toggle': 'modal',
@@ -283,9 +270,7 @@
             $('#serviceForm').trigger("reset");
             $('#form_result').html('');
             $('#action').val("Add");
-            // $('.modal').modal('show');
-
-            // $('#serviceModal').modal('show');
+            $('.modal').modal('show');
         });
 
         // Add
@@ -318,7 +303,7 @@
                     {
                         $('#serviceForm')[0].reset();
                         $('#data-table').DataTable().ajax.reload();
-                        $('#serviceModal').modal('hide');
+                        $('.modal').modal('hide');
                         var lang = "{{ app()->getLocale() }}";
                         if (lang == "ar") {
                             toastr.success('{{ trans('admin.added_successfully') }}');
@@ -330,40 +315,65 @@
                     }
                 });
             }
-            // if($('#action').val() == "Edit")
-            // {
-            //     var formData = new FormData(this);
-            //     $.ajax({
-            //         url: "{{ route('admin.services.update') }}",
-            //         method: "POST",
-            //         data: formData,
-            //         contentType: false,
-            //         cache: false,
-            //         processData: false,
-            //         dataType: "json",
-            //         success: function(data)
-            //         {
-            //             var html = '';
-            //         if(data.errors)
-            //         {
-            //             html = '<div class="alert alert-danger">';
-            //         for(var count = 0; count < data.errors.length; count++)
-            //         {
-            //             html += '<p>' + data.errors[count] + '</p>';
-            //         }
-            //             html += '</div>';
-            //         }
-            //         if(data.success)
-            //         {
-            //             $('#serviceForm')[0].reset();
-            //             $('#data-table').DataTable().ajax.reload();
-            //             $('#serviceModal').modal('hide');
-            //             toastr.success('Edited Done!', 'Success!');
-            //         }
-            //             $('#form_result').html(html);
-            //         }
-            //     });
-            // }
+            if($('#action').val() == "Edit")
+            {
+                var formData = new FormData(this);
+                $.ajax({
+                    url: "{{ route('admin.services.update') }}",
+                    method: "POST",
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function(data)
+                    {
+                        var html = '';
+                    if(data.errors)
+                    {
+                        html = '<div class="alert alert-danger">';
+                    for(var count = 0; count < data.errors.length; count++)
+                    {
+                        html += '<p>' + data.errors[count] + '</p>';
+                    }
+                        html += '</div>';
+                    }
+                    if(data.success)
+                    {
+                        $('#serviceForm')[0].reset();
+                        $('#data-table').DataTable().ajax.reload();
+                        $('.modal').modal('hide');
+                        var lang = "{{ app()->getLocale() }}";
+                        if (lang == "ar") {
+                            toastr.success('{{ trans('admin.updated_successfully') }}');
+                        } else {
+                            toastr.success('{{ trans('admin.updated_successfully') }}', '', {positionClass: 'toast-bottom-left'});
+                        }
+                    }
+                        $('#form_result').html(html);
+                    }
+                });
+            }
+        });
+
+        // Edit
+        $(document).on('click', '.edit', function(){
+            var id = $(this).attr('id');
+            $('#form_result').html('');
+            $.ajax({
+                url:"/admin/services/"+id+"/edit",
+                dataType:"json",
+                success:function(html){
+                    $('#name_ar').val(html.data.name.ar);
+                    $('#name_en').val(html.data.name.en);
+                    $('#price').val(html.data.price);
+                    $('#hidden_id').val(html.data.id);
+                    $('.modal-title').text("{{ trans('admin.edit_service') }}");
+                    $('#action_button').val("Edit");
+                    $('#action').val("Edit");
+                    $('.modal').modal('show');
+                }
+            });
         });
     });
 </script>
