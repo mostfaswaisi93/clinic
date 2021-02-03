@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title') {{ trans('admin.services') }} @endsection
+@section('title') {{ trans('admin.appointments') }} @endsection
 
 @section('content')
 
@@ -9,7 +9,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header border-bottom">
-                        <h4 class="card-title"><b>{{ trans('admin.services') }}</b></h4>
+                        <h4 class="card-title"><b>{{ trans('admin.appointments') }}</b></h4>
                         <div class="text-right">
                             <div class="btn-group btn-group-sm dropup dropdown-icon-wrapper mr-2">
                                 <button type="button"
@@ -35,10 +35,10 @@
                                     </span>
                                 </div>
                             </div>
-                            <button type="button" name="create_service" id="create_service"
-                                class="btn btn-sm btn-primary" data-toggle="modal" data-target="#serviceModal">
+                            <button type="button" name="create_appointment" id="create_appointment"
+                                class="btn btn-sm btn-primary" data-toggle="modal" data-target="#appointmentModal">
                                 <i class="mr-25" data-feather="plus"></i>
-                                {{ trans('admin.create_service') }}</button>
+                                {{ trans('admin.create_appointment') }}</button>
                         </div>
                     </div>
                     <div class="table-responsive" style="padding: 10px">
@@ -65,7 +65,7 @@
                                     <th>{{ trans('admin.change_status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>
-                                        @if(auth()->user()->can(['update_services', 'delete_services']))
+                                        @if(auth()->user()->can(['update_appointments', 'delete_appointments']))
                                         {{ trans('admin.action') }}
                                         @endif
                                     </th>
@@ -77,7 +77,7 @@
                 </div>
             </div>
         </div>
-        @include('admin.services.modal')
+        @include('admin.appointments.modal')
     </section>
 </div>
 
@@ -90,7 +90,7 @@
 
 <script type="text/javascript">
     var status = '';
-    var getLocation = "services";
+    var getLocation = "appointments";
     $(document).ready(function(){
         // DataTable
         $('#data-table').DataTable({
@@ -99,7 +99,7 @@
             responsive: true,
             order: [[ 2, "desc" ]],
             ajax: {
-                url: "{{ route('admin.services.index') }}",
+                url: "{{ route('admin.appointments.index') }}",
             },
             columns: [
                 {
@@ -151,7 +151,7 @@
                             '{{ trans("admin.delete") }}</a>' +
                             '</div>' +
                             '</div>' +
-                            '<a id="'+ row.id +'" name="edit" class="item-edit edit" data-toggle="modal" data-target="#serviceModal" title="{{ trans("admin.edit") }}">' +
+                            '<a id="'+ row.id +'" name="edit" class="item-edit edit" data-toggle="modal" data-target="#appointmentModal" title="{{ trans("admin.edit") }}">' +
                             feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
                             '</a>'
                         );
@@ -217,7 +217,7 @@
                     }
                 },
                 {
-                    text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + '{{ trans("admin.create_service") }}',
+                    text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + '{{ trans("admin.create_appointment") }}',
                     className: 'create-new btn btn-sm btn-primary',
                     attr: {
                         'data-toggle': 'modal',
@@ -260,16 +260,16 @@
             //       text: '<i data-feather="file"></i> PDF',
             //       pageSize: 'A4', attr: { title: 'PDF' }
             //     },
-            //     { text: '<i data-feather="plus"></i> {{ trans("admin.create_service") }}',
-            //       className: '@if (auth()->user()->can("create_services")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
+            //     { text: '<i data-feather="plus"></i> {{ trans("admin.create_appointment") }}',
+            //       className: '@if (auth()->user()->can("create_appointments")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
             //       attr: {
-            //               title: '{{ trans("admin.create_service") }}',
-            //               href: '{{ route("admin.services.create") }}' 
+            //               title: '{{ trans("admin.create_appointment") }}',
+            //               href: '{{ route("admin.appointments.create") }}' 
             //             },
             //         action: function (e, dt, node, config)
             //         {
             //             // href location
-            //             window.location.href = '{{ route("admin.services.create") }}';
+            //             window.location.href = '{{ route("admin.appointments.create") }}';
             //         }
             //     },
             // ],
@@ -281,22 +281,22 @@
         });
 
         // Open Modal
-        $('#create_service').click(function(){
-            $('.modal-title').text("{{ trans('admin.create_service') }}");
+        $('#create_appointment').click(function(){
+            $('.modal-title').text("{{ trans('admin.create_appointment') }}");
             $('#action_button').val("Add");
-            $('#serviceForm').trigger("reset");
+            $('#appointmentForm').trigger("reset");
             $('#form_result').html('');
             $('#action').val("Add");
         });
 
         // Add
-        $('#serviceForm').on('submit', function(event){
+        $('#appointmentForm').on('submit', function(event){
             event.preventDefault();
             if($('#action').val() == 'Add')
             {
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "{{ route('admin.services.store') }}",
+                    url: "{{ route('admin.appointments.store') }}",
                     method: "POST",
                     data: formData,
                     contentType: false,
@@ -317,7 +317,7 @@
             {
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "{{ route('admin.services.update') }}",
+                    url: "{{ route('admin.appointments.update') }}",
                     method: "POST",
                     data: formData,
                     contentType: false,
@@ -338,7 +338,7 @@
                     }
                     if(data.success)
                     {
-                        $('#serviceForm')[0].reset();
+                        $('#appointmentForm')[0].reset();
                         $('#data-table').DataTable().ajax.reload();
                         $("[data-dismiss=modal]").trigger({ type: "click" });
                         var lang = "{{ app()->getLocale() }}";
@@ -359,14 +359,14 @@
             var id = $(this).attr('id');
             $('#form_result').html('');
             $.ajax({
-                url:"/admin/services/"+id+"/edit",
+                url:"/admin/appointments/"+id+"/edit",
                 dataType:"json",
                 success:function(html){
                     $('#name_ar').val(html.data.name.ar);
                     $('#name_en').val(html.data.name.en);
                     $('#price').val(html.data.price);
                     $('#hidden_id').val(html.data.id);
-                    $('.modal-title').text("{{ trans('admin.edit_service') }}");
+                    $('.modal-title').text("{{ trans('admin.edit_appointment') }}");
                     $('#action_button').val("Edit");
                     $('#action').val("Edit");
                 }
@@ -376,21 +376,21 @@
 
     // Change Status
     function selectStatus(id){
-        service_id = id;
+        appointment_id = id;
     }
 
     $(document).on('change', '#status', function(e) {
-        var status_service = $(this).find("option:selected").val();
-        console.log(status_service)
-        if(status_service == "1"){
+        var status_appointment = $(this).find("option:selected").val();
+        console.log(status_appointment)
+        if(status_appointment == "1"){
             toastr.success('{{ trans('admin.status_changed') }}!');
-        }else if(status_service == "0"){
+        }else if(status_appointment == "0"){
             toastr.success('{{ trans('admin.status_changed') }}!');
         } else {
             toastr.error('{{ trans('admin.status_not_changed') }}!');
         }
         $.ajax({
-            url: "services/updateStatus/"+service_id+"?enabled="+status_service,
+            url: "appointments/updateStatus/"+appointment_id+"?enabled="+status_appointment,
             headers: {
                 'X-CSRF-Token': "{{ csrf_token() }}"
             },

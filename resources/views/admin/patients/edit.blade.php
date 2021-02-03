@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title') {{ trans('admin.edit_service') }} @endsection
+@section('title') {{ trans('admin.edit_patient') }} @endsection
 
 @section('content')
 
@@ -7,16 +7,16 @@
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
             <div class="col-12">
-                <h2 class="content-header-title float-left mb-0">{{ trans('admin.edit_service') }}</h2>
+                <h2 class="content-header-title float-left mb-0">{{ trans('admin.edit_patient') }}</h2>
                 <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.index') }}">{{ trans('admin.home') }}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.services.index') }}">{{ trans('admin.services') }}</a>
+                            <a href="{{ route('admin.patients.index') }}">{{ trans('admin.patients') }}</a>
                         </li>
-                        <li class="breadcrumb-item active">{{ trans('admin.edit_service') }}</li>
+                        <li class="breadcrumb-item active">{{ trans('admin.edit_patient') }}</li>
                     </ol>
                 </div>
             </div>
@@ -32,13 +32,13 @@
                     <div class="card-header">
                         <h4 class="card-title">
                             <i class="mr-25" data-feather='edit'></i>
-                            {{ trans('admin.edit_service') }} - {{ $service->name }}
+                            {{ trans('admin.edit_patient') }} - {{ $patient->name }}
                         </h4>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
                             @include('partials.errors')
-                            <form action="{{ route('admin.services.update', $service->id) }}" method="post">
+                            <form action="{{ route('admin.patients.update', $patient->id) }}" method="post">
                                 @csrf
                                 @method('PUT')
                                 <div class="row">
@@ -46,8 +46,9 @@
                                     <div class="col-xl-6 col-md-6 col-12 mt-1">
                                         <div class="form-group">
                                             <label for="name">{{ trans('admin.' . $locale . '.name') }}</label>
-                                            <input id="name[{{ $locale }}]" type="text" name="name[{{ $locale }}]" class="form-control"
-                                                value="{{ old('name.' . $locale, $service->getTranslation('name', $locale)) }}"
+                                            <input id="name[{{ $locale }}]" type="text" name="name[{{ $locale }}]"
+                                                class="form-control"
+                                                value="{{ old('name.' . $locale, $patient->getTranslation('name', $locale)) }}"
                                                 placeholder="{{ trans('admin.' . $locale . '.name') }}">
                                         </div>
                                     </div>
@@ -56,7 +57,7 @@
                                         <div class="form-group">
                                             <label for="price">{{ trans('admin.price') }}</label>
                                             <input id="price" type="text" name="price" class="form-control"
-                                                value="{{ $service->price }}" placeholder="{{ trans('admin.price') }}">
+                                                value="{{ $patient->price }}" placeholder="{{ trans('admin.price') }}">
                                         </div>
                                     </div>
                                     <div class="col-12">

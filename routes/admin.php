@@ -49,12 +49,15 @@ Route::group(
 
             Route::get('contacts/destroy/{id}', 'ContactsController@destroy');
 
+            Route::post('countries/update', 'CountriesController@update')->name('countries.update');
             Route::get('countries/destroy/{id}', 'CountriesController@destroy');
             Route::post('countries/updateStatus/{id}', 'CountriesController@updateStatus');
 
+            Route::post('cities/update', 'CitiesController@update')->name('cities.update');
             Route::get('cities/destroy/{id}', 'CitiesController@destroy');
             Route::post('cities/updateStatus/{id}', 'CitiesController@updateStatus');
 
+            Route::post('states/update', 'StatesController@update')->name('states.update');
             Route::get('states/destroy/{id}', 'StatesController@destroy');
             Route::post('states/updateStatus/{id}', 'StatesController@updateStatus');
 
@@ -64,8 +67,10 @@ Route::group(
 
             Route::get('transactions/destroy/{id}', 'TransactionsController@destroy');
 
+            Route::post('roles/update', 'RolesController@update')->name('roles.update');
             Route::get('roles/destroy/{id}', 'RolesController@destroy');
 
+            Route::post('users/update', 'UsersController@update')->name('users.update');
             Route::get('users/destroy/{id}', 'UsersController@destroy');
             Route::post('users/updateStatus/{id}', 'UsersController@updateStatus');
 

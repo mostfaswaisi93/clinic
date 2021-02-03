@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title') {{ trans('admin.services') }} @endsection
+@section('title') {{ trans('admin.patients') }} @endsection
 
 @section('content')
 
@@ -9,7 +9,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header border-bottom">
-                        <h4 class="card-title"><b>{{ trans('admin.services') }}</b></h4>
+                        <h4 class="card-title"><b>{{ trans('admin.patients') }}</b></h4>
                         <div class="text-right">
                             <div class="btn-group btn-group-sm dropup dropdown-icon-wrapper mr-2">
                                 <button type="button"
@@ -35,10 +35,10 @@
                                     </span>
                                 </div>
                             </div>
-                            <button type="button" name="create_service" id="create_service"
-                                class="btn btn-sm btn-primary" data-toggle="modal" data-target="#serviceModal">
+                            <button type="button" name="create_patient" id="create_patient"
+                                class="btn btn-sm btn-primary" data-toggle="modal" data-target="#patientModal">
                                 <i class="mr-25" data-feather="plus"></i>
-                                {{ trans('admin.create_service') }}</button>
+                                {{ trans('admin.create_patient') }}</button>
                         </div>
                     </div>
                     <div class="table-responsive" style="padding: 10px">
@@ -65,7 +65,7 @@
                                     <th>{{ trans('admin.change_status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>
-                                        @if(auth()->user()->can(['update_services', 'delete_services']))
+                                        @if(auth()->user()->can(['update_patients', 'delete_patients']))
                                         {{ trans('admin.action') }}
                                         @endif
                                     </th>
@@ -77,7 +77,7 @@
                 </div>
             </div>
         </div>
-        @include('admin.services.modal')
+        @include('admin.patients.modal')
     </section>
 </div>
 
@@ -90,7 +90,7 @@
 
 <script type="text/javascript">
     var status = '';
-    var getLocation = "services";
+    var getLocation = "patients";
     $(document).ready(function(){
         // DataTable
         $('#data-table').DataTable({
@@ -99,7 +99,7 @@
             responsive: true,
             order: [[ 2, "desc" ]],
             ajax: {
-                url: "{{ route('admin.services.index') }}",
+                url: "{{ route('admin.patients.index') }}",
             },
             columns: [
                 {
@@ -151,7 +151,7 @@
                             '{{ trans("admin.delete") }}</a>' +
                             '</div>' +
                             '</div>' +
-                            '<a id="'+ row.id +'" name="edit" class="item-edit edit" data-toggle="modal" data-target="#serviceModal" title="{{ trans("admin.edit") }}">' +
+                            '<a id="'+ row.id +'" name="edit" class="item-edit edit" data-toggle="modal" data-target="#patientModal" title="{{ trans("admin.edit") }}">' +
                             feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
                             '</a>'
                         );
@@ -217,7 +217,7 @@
                     }
                 },
                 {
-                    text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + '{{ trans("admin.create_service") }}',
+                    text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + '{{ trans("admin.create_patient") }}',
                     className: 'create-new btn btn-sm btn-primary',
                     attr: {
                         'data-toggle': 'modal',
@@ -260,16 +260,16 @@
             //       text: '<i data-feather="file"></i> PDF',
             //       pageSize: 'A4', attr: { title: 'PDF' }
             //     },
-            //     { text: '<i data-feather="plus"></i> {{ trans("admin.create_service") }}',
-            //       className: '@if (auth()->user()->can("create_services")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
+            //     { text: '<i data-feather="plus"></i> {{ trans("admin.create_patient") }}',
+            //       className: '@if (auth()->user()->can("create_patients")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
             //       attr: {
-            //               title: '{{ trans("admin.create_service") }}',
-            //               href: '{{ route("admin.services.create") }}' 
+            //               title: '{{ trans("admin.create_patient") }}',
+            //               href: '{{ route("admin.patients.create") }}' 
             //             },
             //         action: function (e, dt, node, config)
             //         {
             //             // href location
-            //             window.location.href = '{{ route("admin.services.create") }}';
+            //             window.location.href = '{{ route("admin.patients.create") }}';
             //         }
             //     },
             // ],
@@ -281,22 +281,22 @@
         });
 
         // Open Modal
-        $('#create_service').click(function(){
-            $('.modal-title').text("{{ trans('admin.create_service') }}");
+        $('#create_patient').click(function(){
+            $('.modal-title').text("{{ trans('admin.create_patient') }}");
             $('#action_button').val("Add");
-            $('#serviceForm').trigger("reset");
+            $('#patientForm').trigger("reset");
             $('#form_result').html('');
             $('#action').val("Add");
         });
 
         // Add
-        $('#serviceForm').on('submit', function(event){
+        $('#patientForm').on('submit', function(event){
             event.preventDefault();
             if($('#action').val() == 'Add')
             {
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "{{ route('admin.services.store') }}",
+                    url: "{{ route('admin.patients.store') }}",
                     method: "POST",
                     data: formData,
                     contentType: false,
@@ -317,7 +317,7 @@
             {
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "{{ route('admin.services.update') }}",
+                    url: "{{ route('admin.patients.update') }}",
                     method: "POST",
                     data: formData,
                     contentType: false,
@@ -338,7 +338,7 @@
                     }
                     if(data.success)
                     {
-                        $('#serviceForm')[0].reset();
+                        $('#patientForm')[0].reset();
                         $('#data-table').DataTable().ajax.reload();
                         $("[data-dismiss=modal]").trigger({ type: "click" });
                         var lang = "{{ app()->getLocale() }}";
@@ -359,14 +359,14 @@
             var id = $(this).attr('id');
             $('#form_result').html('');
             $.ajax({
-                url:"/admin/services/"+id+"/edit",
+                url:"/admin/patients/"+id+"/edit",
                 dataType:"json",
                 success:function(html){
                     $('#name_ar').val(html.data.name.ar);
                     $('#name_en').val(html.data.name.en);
                     $('#price').val(html.data.price);
                     $('#hidden_id').val(html.data.id);
-                    $('.modal-title').text("{{ trans('admin.edit_service') }}");
+                    $('.modal-title').text("{{ trans('admin.edit_patient') }}");
                     $('#action_button').val("Edit");
                     $('#action').val("Edit");
                 }
@@ -376,21 +376,21 @@
 
     // Change Status
     function selectStatus(id){
-        service_id = id;
+        patient_id = id;
     }
 
     $(document).on('change', '#status', function(e) {
-        var status_service = $(this).find("option:selected").val();
-        console.log(status_service)
-        if(status_service == "1"){
+        var status_patient = $(this).find("option:selected").val();
+        console.log(status_patient)
+        if(status_patient == "1"){
             toastr.success('{{ trans('admin.status_changed') }}!');
-        }else if(status_service == "0"){
+        }else if(status_patient == "0"){
             toastr.success('{{ trans('admin.status_changed') }}!');
         } else {
             toastr.error('{{ trans('admin.status_not_changed') }}!');
         }
         $.ajax({
-            url: "services/updateStatus/"+service_id+"?enabled="+status_service,
+            url: "patients/updateStatus/"+patient_id+"?enabled="+status_patient,
             headers: {
                 'X-CSRF-Token': "{{ csrf_token() }}"
             },
