@@ -86,7 +86,8 @@
 @push('scripts')
 
 @include('partials.delete')
-{{-- @include('partials.multi_delete') --}}
+@include('partials.status')
+@include('partials.multi_delete')
 
 <script type="text/javascript">
     var status = '';
@@ -128,12 +129,13 @@
                         var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
                         var color = data ? "success" : "danger"; 
                         return "<div class='badge badge-light-"+ color +"'>"+ text +"</div>";
-                    }, searchable: false, orderable: false
+                    }
                 },
                 { data: 'enabled' },
                 { data: 'created_at' },
                 { data: 'action', orderable: false,
                     render: function(data, type, row, meta) {
+                        // Action Buttons
                         return (
                             '<div class="d-inline-flex">' +
                             '<a class="pr-1 dropdown-toggle hide-arrow text-primary" data-toggle="dropdown">' +
@@ -141,12 +143,12 @@
                             '</a>' +
                             '<div class="dropdown-menu dropdown-menu-right">' +
                             '<a href="javascript:;" class="dropdown-item">' +
-                            feather.icons['file-text'].toSvg({ class: 'font-small-4 mr-50' }) +
-                            'Details</a>' +
-                            '<a href="javascript:;" class="dropdown-item">' +
                             feather.icons['archive'].toSvg({ class: 'font-small-4 mr-50' }) +
                             'Archive</a>' +
-                            '<a href="javascript:;" id="'+ row.id +'" class="dropdown-item delete-record delete" title="{{ trans("admin.delete") }}">' +
+                            '<a href="javascript:;" class="dropdown-item">' +
+                            feather.icons['edit-3'].toSvg({ class: 'font-small-4 mr-50' }) +
+                            '{{ trans("admin.change_status") }}</a>' +
+                            '<a href="javascript:;" id="'+ row.id +'" class="dropdown-item delete" title="{{ trans("admin.delete") }}">' +
                             feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
                             '{{ trans("admin.delete") }}</a>' +
                             '</div>' +
@@ -168,7 +170,7 @@
                     <option value='0'>{{ trans('admin.inactive') }}</option>
                     </select>
                 `);
-                $select.find('option[value="'+row.enabled+'"]').attr('selected', 'selected');
+                $select.find('option[value="'+ row.enabled +'"]').attr('selected', 'selected');
                 return $select[0].outerHTML
                 }
             } ],
@@ -228,51 +230,6 @@
                     }
                 }
             ],
-            // dom: '<" justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<" justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            // buttons: [
-            //     { text: '<i data-feather="refresh-ccw"></i> {{ trans("admin.refresh") }}',
-            //       className: 'btn dtbtn btn-sm btn-dark',
-            //       attr: { title: '{{ trans("admin.refresh") }}' },
-            //         action: function (e, dt, node, config) {
-            //             dt.ajax.reload(null, false);
-            //         }
-            //     },
-            //     { text: '<i data-feather="trash-2"></i> {{ trans("admin.trash") }}',
-            //     className: 'btn dtbtn btn-sm btn-danger multi_delete delBtn',
-            //       attr: { title: '{{ trans("admin.trash") }}' }
-            //     },
-            //     { extend: 'csvHtml5', charset: "UTF-8", bom: true,
-            //       className: 'btn dtbtn btn-sm btn-success',
-            //       text: '<i data-feather="file"></i> CSV',
-            //       attr: { title: 'CSV' }
-            //     },
-            //     { extend: 'excelHtml5', charset: "UTF-8", bom: true,
-            //       className: 'btn dtbtn btn-sm btn-success',
-            //       text: '<i data-feather="file"></i> Excel',
-            //       attr: { title: 'Excel' }
-            //     },
-            //     { extend: 'print', className: 'btn dtbtn btn-sm btn-primary',
-            //       text: '<i data-feather="printer"></i> {{ trans("admin.print") }}',
-            //       attr: { title: '{{ trans("admin.print") }}' }
-            //     },
-            //     { extend: 'pdfHtml5', charset: "UTF-8", bom: true, 
-            //       className: 'btn dtbtn btn-sm bg-gradient-danger',
-            //       text: '<i data-feather="file"></i> PDF',
-            //       pageSize: 'A4', attr: { title: 'PDF' }
-            //     },
-            //     { text: '<i data-feather="plus"></i> {{ trans("admin.create_appointment") }}',
-            //       className: '@if (auth()->user()->can("create_appointments")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
-            //       attr: {
-            //               title: '{{ trans("admin.create_appointment") }}',
-            //               href: '{{ route("admin.appointments.create") }}' 
-            //             },
-            //         action: function (e, dt, node, config)
-            //         {
-            //             // href location
-            //             window.location.href = '{{ route("admin.appointments.create") }}';
-            //         }
-            //     },
-            // ],
             language: {
                 url: getDataTableLanguage(),
                 search: ' ',
@@ -289,7 +246,7 @@
             $('#action').val("Add");
         });
 
-        // Add
+        // Add Data
         $('#appointmentForm').on('submit', function(event){
             event.preventDefault();
             if($('#action').val() == 'Add')
@@ -354,7 +311,7 @@
             }
         });
 
-        // Edit
+        // Edit Data
         $(document).on('click', '.edit', function(){
             var id = $(this).attr('id');
             $('#form_result').html('');
@@ -371,52 +328,6 @@
                     $('#action').val("Edit");
                 }
             });
-        });
-    });
-
-    // Change Status
-    function selectStatus(id){
-        appointment_id = id;
-    }
-
-    $(document).on('change', '#status', function(e) {
-        var status_appointment = $(this).find("option:selected").val();
-        console.log(status_appointment)
-        if(status_appointment == "1"){
-            toastr.success('{{ trans('admin.status_changed') }}!');
-        }else if(status_appointment == "0"){
-            toastr.success('{{ trans('admin.status_changed') }}!');
-        } else {
-            toastr.error('{{ trans('admin.status_not_changed') }}!');
-        }
-        $.ajax({
-            url: "appointments/updateStatus/"+appointment_id+"?enabled="+status_appointment,
-            headers: {
-                'X-CSRF-Token': "{{ csrf_token() }}"
-            },
-            method: "POST",
-            data: {},
-            contentType: false,
-            cache: false,
-            processData: false,
-            dataType: "json",
-            success:function(data)
-                {
-                var html = '';
-                if(data.errors)
-                {
-                    html = '<div class="alert alert-danger">';
-                    for(var count = 0; count < data.errors.length; count++)
-                {
-                    html += '<p>' + data.errors[count] + '</p>';
-                }
-                    html += '</div>';
-                }
-                if(data.success)
-                {
-                    $('#data-table').DataTable().ajax.reload();
-                }
-            }
         });
     });
 </script>
