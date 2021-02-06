@@ -10,6 +10,7 @@
                 type: 'warning',
                 showCloseButton: true,
                 showCancelButton: true,
+                focusCancel: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: '{{ trans('admin.yes') }}',
@@ -22,6 +23,7 @@
                 showCloseButton: true,
                 showCancelButton: true,
                 showConfirmButton: false,
+                focusCancel: true,
                 cancelButtonColor: '#222223',
                 cancelButtonText: '{{ trans('admin.close') }}'
             })

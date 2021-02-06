@@ -38,7 +38,7 @@
                                     <th>{{ trans('admin.update_status') }}</th>
                                     <th>
                                         @if(auth()->user()->can(['update_users', 'delete_users']))
-                                        {{ trans('admin.action') }}
+                                        {{ trans('admin.actions') }}
                                         @endif
                                     </th>
                                 </tr>

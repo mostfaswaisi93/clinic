@@ -5,7 +5,7 @@ return [
         'super_admin'   => [
             'appointments'      => 'c,r,u,d',
             'patients'          => 'c,r,u,d',
-            'services'          => 'c,r,u,d',
+            'services'          => 'c,r,u,d,p,da',
             'invoices'          => 'c,r,u,d',
             // 'notifications'     => 'c,r,u,d',
             'contacts'          => 'c,r,u,d',
@@ -21,6 +21,7 @@ return [
             'settings'          => 'c,r,u,d',
         ],
         'doctor'       => [
+            'services'          => 'r,u,d',
             'users'             => 'c,r,u,d',
         ],
         'secretary'    => [
@@ -29,10 +30,11 @@ return [
     ],
 
     'permissions_map'       => [
-        'c' => 'create',
-        'r' => 'read',
-        'u' => 'update',
-        'd' => 'delete',
-        'p' => 'print'
+        'c'     => 'create',
+        'r'     => 'read',
+        'u'     => 'update',
+        'd'     => 'delete',
+        'p'     => 'print',
+        'da'    => 'del_all',
     ]
 ];

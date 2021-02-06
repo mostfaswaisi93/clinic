@@ -66,7 +66,7 @@
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>
                                         @if(auth()->user()->can(['update_services', 'delete_services']))
-                                        {{ trans('admin.action') }}
+                                        {{ trans('admin.actions') }}
                                         @endif
                                     </th>
                                 </tr>

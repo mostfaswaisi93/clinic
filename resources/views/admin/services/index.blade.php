@@ -24,11 +24,7 @@
                                     <th>{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.update_status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
-                                    <th>
-                                        @if(auth()->user()->can(['update_services', 'delete_services']))
-                                        {{ trans('admin.action') }}
-                                        @endif
-                                    </th>
+                                    <th>{{ trans('admin.actions') }}</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -100,9 +96,16 @@
                             '{{ trans("admin.delete") }}</a>' +
                             '</div>' +
                             '</div>' +
-                            '<a id="'+ row.id +'" name="edit" class="item-edit edit" data-toggle="modal" data-target="#serviceModal" title="{{ trans("admin.edit") }}">' +
+                            '<span>@if(auth()->user()->can('update_services'))' +
+                            '<a id="'+ row.id +'" name="edit" class="item-edit edit mr-1" data-toggle="modal" data-target="#serviceModal" title="{{ trans("admin.edit") }}">' +
                             feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
-                            '</a>'
+                            '</a>' +
+                            '@endif </span>' +
+                            '<span>@if(auth()->user()->can('delete_services'))' +
+                            '<a id="'+ row.id +'" class="item-edit delete" title="{{ trans("admin.delete") }}">' +
+                            feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
+                            '</a>' +
+                            '@endif </span>'
                         );
                     }
                 }
@@ -115,11 +118,9 @@
                 responsivePriority: 3,
                 render: function(data, type, row, meta) {
                     return (
-                        '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes" type="checkbox" value="" id="checkbox' +
-                        data +
-                        '" /><label class="custom-control-label" for="checkbox' +
-                        data +
-                        '"></label></div>'
+                        '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes item_checkbox" type="checkbox" value="" id="'+ row.id +'" />' +
+                        '<label class="custom-control-label" for="'+ row.id +'">' +
+                        '</label></div>'
                     );
                 },
                 checkboxes: {
@@ -152,7 +153,7 @@
                     }
                 },
                 { text: '<i data-feather="trash-2"></i> {{ trans("admin.trash") }}',
-                  className: 'btn dtbtn btn-sm btn-danger delBtn',
+                  className: '@if (auth()->user()->can("del_all_services")) btn dtbtn btn-sm btn-danger delBtn multi_delete @else btn dtbtn btn-sm btn-danger delBtn disabled @endif',
                   attr: { 'title': '{{ trans("admin.trash") }}' }
                 },
                 { extend: 'csvHtml5', charset: "UTF-8", bom: true,
@@ -165,9 +166,9 @@
                   text: '<i data-feather="file"></i> Excel',
                   attr: { 'title': 'Excel' }
                 },
-                { extend: 'print', className: 'btn dtbtn btn-sm btn-primary',
-                  text: '<i data-feather="printer"></i> {{ trans("admin.print") }}',
-                  attr: { 'title': '{{ trans("admin.print") }}' }
+                { text: '<i data-feather="printer"></i> {{ trans("admin.print") }}',
+                  className: '@if (auth()->user()->can("print_services")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
+                  extend: 'print', attr: { 'title': '{{ trans("admin.print") }}' }
                 },
                 { extend: 'pdfHtml5', charset: "UTF-8", bom: true, 
                   className: 'btn dtbtn btn-sm btn-danger',
@@ -222,7 +223,7 @@
                         html = '<div class="alert alert-danger">';
                     for(var count = 0; count < data.errors.length; count++)
                     {
-                        html += '<p>' + data.errors[count] + '</p>';
+                        html += '<div class="alert-body">' + data.errors[count] + '</div>';
                     }
                         html += '</div>';
                     }
@@ -261,7 +262,7 @@
                         html = '<div class="alert alert-danger">';
                     for(var count = 0; count < data.errors.length; count++)
                     {
-                        html += '<p>' + data.errors[count] + '</p>';
+                        html += '<div class="alert-body">' + data.errors[count] + '</div>';
                     }
                         html += '</div>';
                     }

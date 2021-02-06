@@ -8,6 +8,7 @@ use App\Models\Role as AppRole;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Validator;
 
 class RolesController extends Controller
 {
@@ -23,44 +24,34 @@ class RolesController extends Controller
     {
         $roles = AppRole::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
-            return datatables()->of($roles)
-                ->addColumn('action', function ($data) {
-                    if (auth()->user()->can(['update_roles', 'delete_roles'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="roles/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i data-feather="edit"></i></a>';
-                        $button .= '&nbsp;';
-                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
-                        return $button;
-                    }
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+            return datatables()->of($roles)->make(true);
         }
         return view('admin.roles.index');
     }
 
-    public function create()
-    {
-        return view('admin.roles.create');
-    }
-
     public function store(RolesRequest $request)
     {
-        Role::create([
-            'name' => $request->name
-        ]);
+        $rules = array(
+            'name'    =>  'required'
+        );
 
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.added_successfully'));
-        } else {
-            Toastr::success(__('admin.added_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        $error = Validator::make($request->all(), $rules);
+
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        return redirect()->route('admin.roles.index');
+        Role::create($request->all());
+
+        return response()->json(['success' => 'Data Added Successfully.']);
     }
 
-    public function edit(Role $role)
+    public function edit($id)
     {
-        return view('admin.roles.edit')->with('role', $role);
+        if (request()->ajax()) {
+            $data = Role::findOrFail($id);
+            return response()->json(['data' => $data]);
+        }
     }
 
     public function update(RolesRequest $request, Role $role)
@@ -82,5 +73,17 @@ class RolesController extends Controller
     {
         $role = Role::findOrFail($id);
         $role->delete();
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $role           = Role::find($id);
+        $enabled        = $request->get('enabled');
+        $role->enabled  = $enabled;
+        $role           = $role->save();
+
+        if ($role) {
+            return response(['success' => TRUE, "message" => 'Done']);
+        }
     }
 }

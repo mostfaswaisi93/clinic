@@ -33,7 +33,7 @@
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>
                                         @if(auth()->user()->can(['update_invoices', 'delete_invoices']))
-                                        {{ trans('admin.action') }}
+                                        {{ trans('admin.actions') }}
                                         @endif
                                     </th>
                                 </tr>

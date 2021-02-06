@@ -95,7 +95,7 @@ return [
     'icon'                      => 'الأيقونة',
     'file_upload'               => 'استعراض',
     'icon_upload'               => 'إضافة أيقونة',
-    'action'                    => 'خيارات',
+    'actions'                   => 'خيارات',
 
     'enabled'                   => 'مفعل',
     'active'                    => 'مفعل',

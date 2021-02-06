@@ -26,11 +26,6 @@ class ServicesController extends Controller
         return view('admin.services.index');
     }
 
-    public function create()
-    {
-        return view('admin.services.create');
-    }
-
     public function store(Request $request)
     {
         $rules = array(
@@ -90,6 +85,17 @@ class ServicesController extends Controller
     {
         $service = Service::findOrFail($id);
         $service->delete();
+    }
+
+    public function multi_delete()
+    {
+        if (is_array(request('item'))) {
+            Service::destroy(request('item'));
+        } else {
+            Service::find(request('item'))->delete();
+        }
+        session()->flash('success', trans('admin.deleted_record'));
+        return redirect(aurl('services'));
     }
 
     public function updateStatus(Request $request, $id)

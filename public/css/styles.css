@@ -55,6 +55,10 @@ label {
     width: 20%;
 }
 
+#form_result .alert .alert-body {
+    padding: 0.4rem 1rem;
+}
+
 
 /* Portlet */
 

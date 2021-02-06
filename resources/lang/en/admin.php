@@ -95,7 +95,7 @@ return [
     'icon'                      => 'Icon',
     'file_upload'               => 'File Upload',
     'icon_upload'               => 'Icon Upload',
-    'action'                    => 'Action',
+    'actions'                   => 'Actions',
 
     'enabled'                   => 'Enabled',
     'active'                    => 'Active',

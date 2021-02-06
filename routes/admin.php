@@ -42,6 +42,7 @@ Route::group(
             Route::post('services/update', 'ServicesController@update')->name('services.update');
             Route::get('services/destroy/{id}', 'ServicesController@destroy');
             Route::post('services/updateStatus/{id}', 'ServicesController@updateStatus');
+            Route::delete('services/destroy/all', 'ServicesController@multi_delete');
 
             Route::get('invoices/destroy/{id}', 'InvoicesController@destroy');
 
@@ -69,6 +70,7 @@ Route::group(
 
             Route::post('roles/update', 'RolesController@update')->name('roles.update');
             Route::get('roles/destroy/{id}', 'RolesController@destroy');
+            Route::post('roles/updateStatus/{id}', 'RolesController@updateStatus');
 
             Route::post('users/update', 'UsersController@update')->name('users.update');
             Route::get('users/destroy/{id}', 'UsersController@destroy');
