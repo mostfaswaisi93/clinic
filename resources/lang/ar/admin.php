@@ -101,8 +101,8 @@ return [
     'active'                    => 'مفعل',
     'inactive'                  => 'غير مفعل',
 
-    'change_status'             => 'تحديث الحالة',
-    'status_changed'            => 'تم تحديث الحالة',
+    'update_status'             => 'تحديث الحالة',
+    'status_changed'            => 'تم تحديث الحالة بنجاح',
     'status_not_changed'        => 'الحالة لم يتم تحديثها',
 
     'appointments'              => 'مواعيد المرضى',

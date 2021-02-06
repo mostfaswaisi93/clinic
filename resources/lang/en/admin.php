@@ -101,9 +101,9 @@ return [
     'active'                    => 'Active',
     'inactive'                  => 'Inactive',
 
-    'change_status'             => 'Change Status',
-    'status_changed'            => 'Status Changed',
-    'status_not_changed'        => 'Status Not Changed',
+    'update_status'             => 'Update Status',
+    'status_changed'            => 'Status has been Successfully Updated',
+    'status_not_changed'        => 'Status has not been Updated!',
 
     'appointments'              => 'Appointments',
     'patients'                  => 'Patients',

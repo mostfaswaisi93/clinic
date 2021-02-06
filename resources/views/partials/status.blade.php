@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    // Change Status
+    // Update Status
     function selectStatus(id){
         status_id = id;
     }

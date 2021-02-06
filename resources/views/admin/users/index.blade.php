@@ -35,7 +35,7 @@
                                     <th>{{ trans('admin.last_login') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.status') }}</th>
-                                    <th>{{ trans('admin.change_status') }}</th>
+                                    <th>{{ trans('admin.update_status') }}</th>
                                     <th>
                                         @if(auth()->user()->can(['update_users', 'delete_users']))
                                         {{ trans('admin.action') }}
@@ -272,7 +272,7 @@
         });
     });
 
-    // Change Status
+    // Update Status
     function selectStatus(id){
         user_id = id;
     }

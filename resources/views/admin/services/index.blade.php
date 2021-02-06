@@ -22,7 +22,7 @@
                                     <th>{{ trans('admin.name') }}</th>
                                     <th>{{ trans('admin.price') }}</th>
                                     <th>{{ trans('admin.status') }}</th>
-                                    <th>{{ trans('admin.change_status') }}</th>
+                                    <th>{{ trans('admin.update_status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>
                                         @if(auth()->user()->can(['update_services', 'delete_services']))
@@ -94,7 +94,7 @@
                             'Archive</a>' +
                             '<a href="javascript:;" class="dropdown-item">' +
                             feather.icons['edit-3'].toSvg({ class: 'font-small-4 mr-50' }) +
-                            '{{ trans("admin.change_status") }}</a>' +
+                            '{{ trans("admin.update_status") }}</a>' +
                             '<a href="javascript:;" id="'+ row.id +'" class="dropdown-item delete" title="{{ trans("admin.delete") }}">' +
                             feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
                             '{{ trans("admin.delete") }}</a>' +
@@ -146,45 +146,42 @@
             buttons: [
                 { text: '<i data-feather="refresh-ccw"></i> {{ trans("admin.refresh") }}',
                   className: 'btn dtbtn btn-sm btn-dark',
-                  attr: { title: '{{ trans("admin.refresh") }}' },
+                  attr: { 'title': '{{ trans("admin.refresh") }}' },
                     action: function (e, dt, node, config) {
                         dt.ajax.reload(null, false);
                     }
                 },
                 { text: '<i data-feather="trash-2"></i> {{ trans("admin.trash") }}',
                   className: 'btn dtbtn btn-sm btn-danger delBtn',
-                  attr: { title: '{{ trans("admin.trash") }}' }
+                  attr: { 'title': '{{ trans("admin.trash") }}' }
                 },
                 { extend: 'csvHtml5', charset: "UTF-8", bom: true,
                   className: 'btn dtbtn btn-sm btn-success',
                   text: '<i data-feather="file"></i> CSV',
-                  attr: { title: 'CSV' }
+                  attr: { 'title': 'CSV' }
                 },
                 { extend: 'excelHtml5', charset: "UTF-8", bom: true,
                   className: 'btn dtbtn btn-sm btn-success',
                   text: '<i data-feather="file"></i> Excel',
-                  attr: { title: 'Excel' }
+                  attr: { 'title': 'Excel' }
                 },
                 { extend: 'print', className: 'btn dtbtn btn-sm btn-primary',
                   text: '<i data-feather="printer"></i> {{ trans("admin.print") }}',
-                  attr: { title: '{{ trans("admin.print") }}' }
+                  attr: { 'title': '{{ trans("admin.print") }}' }
                 },
                 { extend: 'pdfHtml5', charset: "UTF-8", bom: true, 
                   className: 'btn dtbtn btn-sm btn-danger',
                   text: '<i data-feather="file"></i> PDF',
-                  pageSize: 'A4', attr: { title: 'PDF' }
+                  pageSize: 'A4', attr: { 'title': 'PDF' }
                 },
                 { text: '<i data-feather="plus"></i> {{ trans("admin.create_service") }}',
                   className: '@if (auth()->user()->can("create_services")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
                   attr: {
-                          title: '{{ trans("admin.create_service") }}',
-                          href: '{{ route("admin.services.create") }}' 
-                        },
-                    action: function (e, dt, node, config)
-                    {
-                        // href location
-                        window.location.href = '{{ route("admin.services.create") }}';
-                    }
+                    'title': '{{ trans("admin.create_service") }}',
+                    'data-toggle': 'modal',
+                    'data-target': '#serviceModal',
+                    'name': 'create_service',
+                    'id': 'create_service' }
                 },
             ],
             language: {
@@ -195,7 +192,7 @@
         });
 
         // Open Modal
-        $('#create_service').click(function(){
+        $(document).on('click', '#create_service', function(){
             $('.modal-title').text("{{ trans('admin.create_service') }}");
             $('#action_button').val("Add");
             $('#serviceForm').trigger("reset");
@@ -217,13 +214,31 @@
                     cache: false,
                     processData: false,
                     dataType: "json",
-                    success: function(data){
-                        console.log(data.responseJSON.errors);
-                    },
-                    error: function(data){
-                        var text = data.responseJSON.errors;
-                        console.log(data.responseJSON.errors);
-                        $('#form_result').html(text);
+                    success: function(data)
+                    {
+                        var html = '';
+                    if(data.errors)
+                    {
+                        html = '<div class="alert alert-danger">';
+                    for(var count = 0; count < data.errors.length; count++)
+                    {
+                        html += '<p>' + data.errors[count] + '</p>';
+                    }
+                        html += '</div>';
+                    }
+                    if(data.success)
+                    {
+                        $('#serviceForm')[0].reset();
+                        $('#data-table').DataTable().ajax.reload();
+                        $("[data-dismiss=modal]").trigger({ type: "click" });
+                        var lang = "{{ app()->getLocale() }}";
+                        if (lang == "ar") {
+                            toastr.success('{{ trans('admin.added_successfully') }}');
+                        } else {
+                            toastr.success('{{ trans('admin.added_successfully') }}', '', {positionClass: 'toast-bottom-left'});
+                        }
+                    }
+                        $('#form_result').html(html);
                     }
                 });
             }

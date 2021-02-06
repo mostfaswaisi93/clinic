@@ -62,7 +62,7 @@
                                     <th>{{ trans('admin.name') }}</th>
                                     <th>{{ trans('admin.price') }}</th>
                                     <th>{{ trans('admin.status') }}</th>
-                                    <th>{{ trans('admin.change_status') }}</th>
+                                    <th>{{ trans('admin.update_status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>
                                         @if(auth()->user()->can(['update_patients', 'delete_patients']))
@@ -374,7 +374,7 @@
         });
     });
 
-    // Change Status
+    // Update Status
     function selectStatus(id){
         patient_id = id;
     }

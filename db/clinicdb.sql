@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 02, 2021 at 04:13 PM
+-- Generation Time: Feb 06, 2021 at 06:38 PM
 -- Server version: 10.5.4-MariaDB-log
 -- PHP Version: 7.4.10
 
@@ -451,9 +451,10 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `name`, `price`, `enabled`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(19, '{\"ar\":\"mostfaswaisi93\",\"en\":\"mostfaswaisi93\"}', '12', 0, '2021-02-02 14:47:03', '2021-02-02 14:47:03', NULL),
-(20, '{\"ar\":\"Mustafa Al-Swasi\",\"en\":\"Mustafa Al-Swasi\"}', '18', 0, '2021-02-02 14:47:34', '2021-02-02 16:05:41', NULL),
-(21, '{\"ar\":\"mostfaswaisi93\",\"en\":\"mostfaswaisi93\"}', '74', 1, '2021-02-02 14:48:30', '2021-02-02 14:48:30', NULL);
+(19, '{\"ar\":\"mostfaswaisi93\",\"en\":\"mostfaswaisi93\"}', '12', 0, '2021-02-02 14:47:03', '2021-02-04 12:57:24', NULL),
+(20, '{\"ar\":\"mostfaswaisi93\",\"en\":\"mostfaswaisi93\"}', '12', 1, '2021-02-02 14:47:34', '2021-02-06 16:27:38', NULL),
+(21, '{\"ar\":\"mostfaswaisi93\",\"en\":\"mostfaswaisi93\"}', '18.00', 0, '2021-02-02 14:48:30', '2021-02-06 17:14:58', NULL),
+(22, '{\"ar\":\"mostfaswaisi93\",\"en\":\"mostfaswaisi93\"}', '18.00', 1, '2021-02-06 16:32:12', '2021-02-06 17:15:01', NULL);
 
 -- --------------------------------------------------------
 
@@ -532,8 +533,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `image`, `enabled`, `email_verified_at`, `password`, `remember_token`, `last_login_at`, `last_login_ip`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'super', 'admin', 'super_admin', 'super@admin.com', 'default.png', 1, NULL, '$2y$10$MzeEgoUFLyh5fdHswDs2OOx9WPAIuRTYZWgIXBCJLw7z9pnIPHKFm', NULL, '2021-02-02 14:22:53', NULL, '2021-02-01 22:00:00', '2021-02-01 22:00:00', NULL),
-(2, 'Mustafa', 'Al-Swaisi', 'mostfaswaisi93', 'mostfaswaisi93@doctor.com', 'default.png', 1, NULL, '$2y$10$qRIrb7K6Hoe/jzDlbr31peqtC6zRZ7j.NMR5AKsaV7aOUNootZ4jW', NULL, '2021-02-02 14:22:54', NULL, '2021-02-01 22:00:00', '2021-02-01 22:00:00', NULL),
+(1, 'super', 'admin', 'super_admin', 'super@admin.com', 'default.png', 1, NULL, '$2y$10$MzeEgoUFLyh5fdHswDs2OOx9WPAIuRTYZWgIXBCJLw7z9pnIPHKFm', NULL, '2021-02-06 15:16:10', '127.0.0.1', '2021-02-01 22:00:00', '2021-02-06 15:16:10', NULL),
+(2, 'Mustafa', 'Al-Swaisi', 'mostfaswaisi93', 'mostfaswaisi93@doctor.com', 'default.png', 1, NULL, '$2y$10$qRIrb7K6Hoe/jzDlbr31peqtC6zRZ7j.NMR5AKsaV7aOUNootZ4jW', NULL, '2021-02-04 17:20:49', '127.0.0.1', '2021-02-01 22:00:00', '2021-02-04 17:20:49', NULL),
 (3, 'Ahmad', 'Ali', 'ahmadali', 'ahmadali@secretary.com', 'default.png', 1, NULL, '$2y$10$znb37bf5dgQlihRpjy7dmO9TrxiSvW9wNIHFKgtxfSRZgkUTBoiQa', NULL, '2021-02-02 14:22:54', NULL, '2021-02-01 22:00:00', '2021-02-01 22:00:00', NULL);
 
 --
@@ -753,7 +754,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `settings`

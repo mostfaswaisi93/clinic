@@ -22,7 +22,7 @@
                                     <th>{{ trans('admin.name') }}</th>
                                     <th>{{ trans('admin.price') }}</th>
                                     <th>{{ trans('admin.status') }}</th>
-                                    <th>{{ trans('admin.change_status') }}</th>
+                                    <th>{{ trans('admin.update_status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>
                                         @if(auth()->user()->can(['update_patients', 'delete_patients']))
@@ -94,7 +94,7 @@
                             'Archive</a>' +
                             '<a href="javascript:;" class="dropdown-item">' +
                             feather.icons['edit-3'].toSvg({ class: 'font-small-4 mr-50' }) +
-                            '{{ trans("admin.change_status") }}</a>' +
+                            '{{ trans("admin.update_status") }}</a>' +
                             '<a href="javascript:;" id="'+ row.id +'" class="dropdown-item delete" title="{{ trans("admin.delete") }}">' +
                             feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
                             '{{ trans("admin.delete") }}</a>' +
