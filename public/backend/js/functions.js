@@ -33,21 +33,3 @@ $(window).on('load', function() {
         });
     }
 });
-
-// Check all
-function check_all() {
-    $('input[class="item_checkbox"]:checkbox').each(function() {
-        if ($('input[class="check_all"]:checkbox:checked').length == 0) {
-            $(this).prop('checked', false);
-        } else {
-            $(this).prop('checked', true);
-        }
-    });
-}
-
-// Delete all
-function delete_all() {
-    $(document).on('click', '.del_all', function() {
-        $('#form_data').submit();
-    });
-}

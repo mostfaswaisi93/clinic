@@ -118,13 +118,13 @@
                 responsivePriority: 3,
                 render: function(data, type, row, meta) {
                     return (
-                        '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes item_checkbox" type="checkbox" value="" id="'+ row.id +'" />' +
+                        '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes item_checkbox" name="item[]" type="checkbox" value="'+ row.id +'" id="'+ row.id +'" />' +
                         '<label class="custom-control-label" for="'+ row.id +'">' +
                         '</label></div>'
                     );
                 },
                 checkboxes: {
-                    selectAllRender: '<div class="custom-control custom-checkbox"> <input class="custom-control-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="custom-control-label" for="checkboxSelectAll"></label></div>'
+                    selectAllRender: '<div class="custom-control custom-checkbox"> <input class="custom-control-input check_all" type="checkbox" value="" id="checkboxSelectAll" /><label class="custom-control-label" for="checkboxSelectAll"></label></div>'
                 }
             },
             {

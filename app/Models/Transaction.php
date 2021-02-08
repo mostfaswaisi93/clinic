@@ -9,4 +9,5 @@ class Transaction extends BaseModel
     use HasFactory;
 
     protected $table        = 'transactions';
+    protected $fillable     = ['patient_id', 'transactions_type', 'amount', 'notes', 'enabled'];
 }

@@ -41,8 +41,8 @@ Route::group(
 
             Route::post('services/update', 'ServicesController@update')->name('services.update');
             Route::get('services/destroy/{id}', 'ServicesController@destroy');
+            Route::delete('services/selected-services', 'ServicesController@deleteChecked')->name('services.deleteChecked');
             Route::post('services/updateStatus/{id}', 'ServicesController@updateStatus');
-            Route::delete('services/destroy/all', 'ServicesController@multi_delete');
 
             Route::get('invoices/destroy/{id}', 'InvoicesController@destroy');
 

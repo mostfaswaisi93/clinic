@@ -1,7 +1,7 @@
 <script type="text/javascript">
     // Multiple Delete
     $(document).on('click', '.multi_delete', function(){
-        var item_checked = $('input[class="item_checkbox"]:checkbox').filter(":checked").length;
+        var item_checked = $('[name="item[]"]:checked').length;
         var allids = [];
         var swalAlert;
         if (item_checked > 0) {
@@ -32,7 +32,10 @@
             if(result.value){
                 $.ajax({
                     type: "DELETE",
-                    url: getLocation + "/multi" + item_checked,
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    url: getLocation + "destroy/all/multi",
                     success: function(data){
                         $('#data-table').DataTable().ajax.reload();
                         var lang = "{{ app()->getLocale() }}";
@@ -41,6 +44,8 @@
                         } else {
                             toastr.success('{{ trans('admin.deleted_successfully') }}', '', {positionClass: 'toast-bottom-left'});
                         }
+                    }, error: function(xhr) {
+                        console.log(xhr.responseText);
                     }
                 });
             }

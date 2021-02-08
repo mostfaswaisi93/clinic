@@ -10,4 +10,5 @@ class Receipt extends Model
     use HasFactory;
 
     protected $table        = 'receipts';
+    protected $fillable     = ['rec_serial', 'patient_id', 'amount', 'notes', 'enabled'];
 }
