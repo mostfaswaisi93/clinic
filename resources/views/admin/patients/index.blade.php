@@ -21,14 +21,10 @@
                                     <th>#</th>
                                     <th>{{ trans('admin.name') }}</th>
                                     <th>{{ trans('admin.price') }}</th>
-                                    <th>{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.update_status') }}</th>
+                                    <th>{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
-                                    <th>
-                                        @if(auth()->user()->can(['update_patients', 'delete_patients']))
-                                        {{ trans('admin.actions') }}
-                                        @endif
-                                    </th>
+                                    <th>{{ trans('admin.actions') }}</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -71,13 +67,7 @@
                 },
                 { data: 'name_trans' },
                 { data: 'price' },
-                { data: 'enabled',
-                    render: function(data, type, row, meta) {
-                        var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
-                        var color = data ? "success" : "danger"; 
-                        return "<div class='badge badge-light-"+ color +"'>"+ text +"</div>";
-                    }
-                },
+                { data: 'enabled' },
                 { data: 'enabled' },
                 { data: 'created_at' },
                 { data: 'action', orderable: false,
@@ -100,9 +90,16 @@
                             '{{ trans("admin.delete") }}</a>' +
                             '</div>' +
                             '</div>' +
-                            '<a id="'+ row.id +'" name="edit" class="item-edit edit" data-toggle="modal" data-target="#patientModal" title="{{ trans("admin.edit") }}">' +
+                            '<span>@if(auth()->user()->can('update_patients'))' +
+                            '<a id="'+ row.id +'" name="edit" class="item-edit edit mr-1" data-toggle="modal" data-target="#patientModal" title="{{ trans("admin.edit") }}">' +
                             feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
-                            '</a>'
+                            '</a>' +
+                            '@endif </span>' +
+                            '<span>@if(auth()->user()->can('delete_patients'))' +
+                            '<a id="'+ row.id +'" class="item-edit delete" title="{{ trans("admin.delete") }}">' +
+                            feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
+                            '</a>' +
+                            '@endif </span>'
                         );
                     }
                 }
@@ -115,19 +112,17 @@
                 responsivePriority: 3,
                 render: function(data, type, row, meta) {
                     return (
-                        '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes" type="checkbox" value="" id="checkbox' +
-                        data +
-                        '" /><label class="custom-control-label" for="checkbox' +
-                        data +
-                        '"></label></div>'
+                        '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes item_checkbox" name="item[]" type="checkbox" value="'+ row.id +'" id="'+ row.id +'" />' +
+                        '<label class="custom-control-label" for="'+ row.id +'">' +
+                        '</label></div>'
                     );
                 },
                 checkboxes: {
-                    selectAllRender: '<div class="custom-control custom-checkbox"> <input class="custom-control-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="custom-control-label" for="checkboxSelectAll"></label></div>'
+                    selectAllRender: '<div class="custom-control custom-checkbox"> <input class="custom-control-input check_all" type="checkbox" value="" id="checkboxSelectAll" /><label class="custom-control-label" for="checkboxSelectAll"></label></div>'
                 }
             },
             {
-                "targets": 5,
+                "targets": 4,
                 render: function (data, type, row, meta){
                 var $select = $(`
                     <select class='status form-control'
@@ -139,6 +134,24 @@
                 $select.find('option[value="'+ row.enabled +'"]').attr('selected', 'selected');
                 return $select[0].outerHTML
                 }
+            },
+            {
+                "targets": 5,
+                render: function (data, type, row, meta){
+                    var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
+                    var color = data ? "success" : "danger"; 
+                    var $select = $(`
+                        <div class="custom-control custom-control-success custom-switch">
+                            <input type="checkbox" data-id="${row.id}" name="enabled" 
+                            class="js-switch custom-control-input" ${ row.enabled == 1 ? 'checked' : '' }
+                            onchange=selectStatus(${row.id}) >
+                            <label class="custom-control-label" for="status" title="{{ trans('admin.update_status') }}"></label>
+                            <div class='badge badge-light-${color}'>${text}</div>
+                        </div>
+                    `);
+                    $select.find('option[value="'+ row.enabled +'"]').attr('selected', 'selected');
+                    return $select[0].outerHTML
+                }
             } ],
             dom:  "<'row'<''l><'col-sm-8 text-center'B><''f>>" +
                   "<'row'<'col-sm-12'tr>>" +
@@ -146,45 +159,42 @@
             buttons: [
                 { text: '<i data-feather="refresh-ccw"></i> {{ trans("admin.refresh") }}',
                   className: 'btn dtbtn btn-sm btn-dark',
-                  attr: { title: '{{ trans("admin.refresh") }}' },
+                  attr: { 'title': '{{ trans("admin.refresh") }}' },
                     action: function (e, dt, node, config) {
                         dt.ajax.reload(null, false);
                     }
                 },
                 { text: '<i data-feather="trash-2"></i> {{ trans("admin.trash") }}',
-                  className: 'btn dtbtn btn-sm btn-danger delBtn',
-                  attr: { title: '{{ trans("admin.trash") }}' }
+                  className: '@if (auth()->user()->can("del_all_patients")) btn dtbtn btn-sm btn-danger delBtn multi_delete @else btn dtbtn btn-sm btn-danger delBtn disabled @endif',
+                  attr: { 'title': '{{ trans("admin.trash") }}' }
                 },
                 { extend: 'csvHtml5', charset: "UTF-8", bom: true,
                   className: 'btn dtbtn btn-sm btn-success',
                   text: '<i data-feather="file"></i> CSV',
-                  attr: { title: 'CSV' }
+                  attr: { 'title': 'CSV' }
                 },
                 { extend: 'excelHtml5', charset: "UTF-8", bom: true,
                   className: 'btn dtbtn btn-sm btn-success',
                   text: '<i data-feather="file"></i> Excel',
-                  attr: { title: 'Excel' }
+                  attr: { 'title': 'Excel' }
                 },
-                { extend: 'print', className: 'btn dtbtn btn-sm btn-primary',
-                  text: '<i data-feather="printer"></i> {{ trans("admin.print") }}',
-                  attr: { title: '{{ trans("admin.print") }}' }
+                { text: '<i data-feather="printer"></i> {{ trans("admin.print") }}',
+                  className: '@if (auth()->user()->can("print_patients")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
+                  extend: 'print', attr: { 'title': '{{ trans("admin.print") }}' }
                 },
                 { extend: 'pdfHtml5', charset: "UTF-8", bom: true, 
                   className: 'btn dtbtn btn-sm btn-danger',
                   text: '<i data-feather="file"></i> PDF',
-                  pageSize: 'A4', attr: { title: 'PDF' }
+                  pageSize: 'A4', attr: { 'title': 'PDF' }
                 },
                 { text: '<i data-feather="plus"></i> {{ trans("admin.create_patient") }}',
                   className: '@if (auth()->user()->can("create_patients")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
                   attr: {
-                          title: '{{ trans("admin.create_patient") }}',
-                          href: '{{ route("admin.patients.create") }}' 
-                        },
-                    action: function (e, dt, node, config)
-                    {
-                        // href location
-                        window.location.href = '{{ route("admin.patients.create") }}';
-                    }
+                    'title': '{{ trans("admin.create_patient") }}',
+                    'data-toggle': 'modal',
+                    'data-target': '#patientModal',
+                    'name': 'create_patient',
+                    'id': 'create_patient' }
                 },
             ],
             language: {
@@ -195,7 +205,7 @@
         });
 
         // Open Modal
-        $('#create_patient').click(function(){
+        $(document).on('click', '#create_patient', function(){
             $('.modal-title').text("{{ trans('admin.create_patient') }}");
             $('#action_button').val("Add");
             $('#patientForm').trigger("reset");
@@ -217,13 +227,31 @@
                     cache: false,
                     processData: false,
                     dataType: "json",
-                    success: function(data){
-                        console.log(data.responseJSON.errors);
-                    },
-                    error: function(data){
-                        var text = data.responseJSON.errors;
-                        console.log(data.responseJSON.errors);
-                        $('#form_result').html(text);
+                    success: function(data)
+                    {
+                        var html = '';
+                    if(data.errors)
+                    {
+                        html = '<div class="alert alert-danger">';
+                    for(var count = 0; count < data.errors.length; count++)
+                    {
+                        html += '<div class="alert-body">' + data.errors[count] + '</div>';
+                    }
+                        html += '</div>';
+                    }
+                    if(data.success)
+                    {
+                        $('#patientForm')[0].reset();
+                        $('#data-table').DataTable().ajax.reload();
+                        $("[data-dismiss=modal]").trigger({ type: "click" });
+                        var lang = "{{ app()->getLocale() }}";
+                        if (lang == "ar") {
+                            toastr.success('{{ trans('admin.added_successfully') }}');
+                        } else {
+                            toastr.success('{{ trans('admin.added_successfully') }}', '', {positionClass: 'toast-bottom-left'});
+                        }
+                    }
+                        $('#form_result').html(html);
                     }
                 });
             }
@@ -246,7 +274,7 @@
                         html = '<div class="alert alert-danger">';
                     for(var count = 0; count < data.errors.length; count++)
                     {
-                        html += '<p>' + data.errors[count] + '</p>';
+                        html += '<div class="alert-body">' + data.errors[count] + '</div>';
                     }
                         html += '</div>';
                     }

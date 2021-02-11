@@ -21,8 +21,8 @@
                                     <th>#</th>
                                     <th>{{ trans('admin.name') }}</th>
                                     <th>{{ trans('admin.price') }}</th>
-                                    <th>{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.update_status') }}</th>
+                                    <th>{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.actions') }}</th>
                                 </tr>
@@ -67,13 +67,7 @@
                 },
                 { data: 'name_trans' },
                 { data: 'price' },
-                { data: 'enabled',
-                    render: function(data, type, row, meta) {
-                        var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
-                        var color = data ? "success" : "danger"; 
-                        return "<div class='badge badge-light-"+ color +"'>"+ text +"</div>";
-                    }
-                },
+                { data: 'enabled' },
                 { data: 'enabled' },
                 { data: 'created_at' },
                 { data: 'action', orderable: false,
@@ -128,7 +122,7 @@
                 }
             },
             {
-                "targets": 5,
+                "targets": 4,
                 render: function (data, type, row, meta){
                 var $select = $(`
                     <select class='status form-control'
@@ -139,6 +133,24 @@
                 `);
                 $select.find('option[value="'+ row.enabled +'"]').attr('selected', 'selected');
                 return $select[0].outerHTML
+                }
+            },
+            {
+                "targets": 5,
+                render: function (data, type, row, meta){
+                    var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
+                    var color = data ? "success" : "danger"; 
+                    var $select = $(`
+                        <div class="custom-control custom-control-success custom-switch">
+                            <input type="checkbox" data-id="${row.id}" name="enabled" 
+                            class="js-switch custom-control-input" ${ row.enabled == 1 ? 'checked' : '' }
+                            onchange=selectStatus(${row.id}) >
+                            <label class="custom-control-label" for="status" title="{{ trans('admin.update_status') }}"></label>
+                            <div class='badge badge-light-${color}'>${text}</div>
+                        </div>
+                    `);
+                    $select.find('option[value="'+ row.enabled +'"]').attr('selected', 'selected');
+                    return $select[0].outerHTML
                 }
             } ],
             dom:  "<'row'<''l><'col-sm-8 text-center'B><''f>>" +

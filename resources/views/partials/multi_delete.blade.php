@@ -35,7 +35,8 @@
                     data: {
                         _token: '{{ csrf_token() }}'
                     },
-                    url: getLocation + "destroy/all/multi",
+                    url: "services/deleteAll",
+                    // url: getLocation + "deleteAll",
                     success: function(data){
                         $('#data-table').DataTable().ajax.reload();
                         var lang = "{{ app()->getLocale() }}";

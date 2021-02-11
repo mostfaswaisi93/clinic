@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Validator;
 
 class ServicesController extends Controller
@@ -88,11 +87,11 @@ class ServicesController extends Controller
         $service->delete();
     }
 
-    public function deleteChecked(Request $request)
+    public function delete_all(Request $request)
     {
-        $ids = $request->ids;
+        $ids = explode(",", $request->ids);
         Service::whereIn('id', $ids)->delete();
-        return response()->json(['success' => 'Services have been deleted!']);
+        return redirect()->route('services.index');
     }
 
     public function updateStatus(Request $request, $id)

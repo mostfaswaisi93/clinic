@@ -48,15 +48,19 @@ label {
 
 .table-striped thead>tr>th:first-child,
 .table-striped thead>tr>th:nth-child(2) {
-    width: 5%;
+    width: 3%;
 }
 
 .table-striped thead>tr>th:last-child {
-    width: 20%;
+    width: 15%;
 }
 
 #form_result .alert .alert-body {
     padding: 0.4rem 1rem;
+}
+
+.custom-switch .custom-control-label::before {
+    background-color: #ea5455;
 }
 
 

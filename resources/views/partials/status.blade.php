@@ -5,6 +5,7 @@
     }
 
     $(document).on('change', '#status', function(e) {
+        // var status_option = $(this).prop('checked') == true ? 1 : 0; 
         var status_option = $(this).find("option:selected").val();
         if(status_option == "1"){
             var lang = "{{ app()->getLocale() }}";
@@ -47,7 +48,7 @@
                     html = '<div class="alert alert-danger">';
                     for(var count = 0; count < data.errors.length; count++)
                 {
-                    html += '<p>' + data.errors[count] + '</p>';
+                    html += '<div class="alert-body">' + data.errors[count] + '</div>';
                 }
                     html += '</div>';
                 }
