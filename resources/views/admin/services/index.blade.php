@@ -21,8 +21,7 @@
                                     <th>#</th>
                                     <th>{{ trans('admin.name') }}</th>
                                     <th>{{ trans('admin.price') }}</th>
-                                    <th>{{ trans('admin.update_status') }}</th>
-                                    <th>{{ trans('admin.status') }}</th>
+                                    <th class="status">{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.actions') }}</th>
                                 </tr>
@@ -68,28 +67,11 @@
                 { data: 'name_trans' },
                 { data: 'price' },
                 { data: 'enabled' },
-                { data: 'enabled' },
                 { data: 'created_at' },
                 { data: 'action', orderable: false,
                     render: function(data, type, row, meta) {
                         // Action Buttons
                         return (
-                            '<div class="d-inline-flex">' +
-                            '<a class="pr-1 dropdown-toggle hide-arrow text-primary" data-toggle="dropdown">' +
-                            feather.icons['more-vertical'].toSvg({ class: 'font-small-4' }) +
-                            '</a>' +
-                            '<div class="dropdown-menu dropdown-menu-right">' +
-                            '<a href="javascript:;" class="dropdown-item">' +
-                            feather.icons['archive'].toSvg({ class: 'font-small-4 mr-50' }) +
-                            'Archive</a>' +
-                            '<a href="javascript:;" class="dropdown-item">' +
-                            feather.icons['edit-3'].toSvg({ class: 'font-small-4 mr-50' }) +
-                            '{{ trans("admin.update_status") }}</a>' +
-                            '<a href="javascript:;" id="'+ row.id +'" class="dropdown-item delete" title="{{ trans("admin.delete") }}">' +
-                            feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
-                            '{{ trans("admin.delete") }}</a>' +
-                            '</div>' +
-                            '</div>' +
                             '<span>@if(auth()->user()->can('update_services'))' +
                             '<a id="'+ row.id +'" name="edit" class="item-edit edit mr-1" data-toggle="modal" data-target="#serviceModal" title="{{ trans("admin.edit") }}">' +
                             feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
@@ -124,33 +106,19 @@
             {
                 "targets": 4,
                 render: function (data, type, row, meta){
-                var $select = $(`
-                    <select class='status form-control'
-                    id='status' onchange=selectStatus(${row.id})>
-                    <option value='1'>{{ trans('admin.active') }}</option>
-                    <option value='0'>{{ trans('admin.inactive') }}</option>
-                    </select>
-                `);
-                $select.find('option[value="'+ row.enabled +'"]').attr('selected', 'selected');
-                return $select[0].outerHTML
-                }
-            },
-            {
-                "targets": 5,
-                render: function (data, type, row, meta){
                     var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
                     var color = data ? "success" : "danger"; 
-                    var $select = $(`
+                    var $checked = $(`
                         <div class="custom-control custom-control-success custom-switch">
-                            <input type="checkbox" data-id="${row.id}" name="enabled" 
-                            class="js-switch custom-control-input" ${ row.enabled == 1 ? 'checked' : '' }
+                            <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
+                            class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
                             onchange=selectStatus(${row.id}) >
-                            <label class="custom-control-label" for="status" title="{{ trans('admin.update_status') }}"></label>
+                            <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}"></label>
                             <div class='badge badge-light-${color}'>${text}</div>
                         </div>
                     `);
-                    $select.find('option[value="'+ row.enabled +'"]').attr('selected', 'selected');
-                    return $select[0].outerHTML
+                    $checked.prop('checked', true).attr('checked', 'checked');
+                    return $checked[0].outerHTML
                 }
             } ],
             dom:  "<'row'<''l><'col-sm-8 text-center'B><''f>>" +

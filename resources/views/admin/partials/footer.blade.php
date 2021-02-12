@@ -3,7 +3,7 @@
     <p class="clearfix mb-0">
         <span class="float-md-left d-block d-md-inline-block">
             <b>{{ trans('admin.copyright') }} &copy; <span id="year"></span></b>
-            <a href="https://github.com/mostfaswaisi93">mostfaswaisi93</a>
+            <a href="https://github.com/mostfaswaisi93" title="Github">mostfaswaisi93</a>
             <b> - {{ trans('admin.all_rights') }}.</b>
         </span>
         <span class="float-md-right d-none d-md-block"><b>v1.0.0</b></span>

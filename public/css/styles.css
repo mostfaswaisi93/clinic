@@ -51,6 +51,10 @@ label {
     width: 3%;
 }
 
+.table-striped thead>tr>th.status {
+    width: 20%;
+}
+
 .table-striped thead>tr>th:last-child {
     width: 15%;
 }
