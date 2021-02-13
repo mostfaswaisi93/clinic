@@ -87,11 +87,20 @@ class ServicesController extends Controller
         $service->delete();
     }
 
-    public function delete_all(Request $request)
+    public function multi_delete(Request $request)
     {
-        $ids = explode(",", $request->ids);
-        Service::whereIn('id', $ids)->delete();
-        return redirect()->route('services.index');
+        if (is_array(request('item'))) {
+            Service::destroy(request('item'));
+        } else {
+            Service::find(request('item'))->delete();
+        }
+        return response()->json(['success' => 'Services have been deleted!']);
+
+        // $ids = explode(",", $request->ids);
+        // Service::whereIn('id', $ids)->delete();
+        // return response(['status' => true, "message" => 'Services have been deleted']);
+        // return response()->json(['success' => 'Services have been deleted!']);
+        // return redirect()->route('services.index');
     }
 
     public function updateStatus(Request $request, $id)
@@ -102,7 +111,7 @@ class ServicesController extends Controller
         $service           = $service->save();
 
         if ($service) {
-            return response(['success' => TRUE, "message" => 'Done']);
+            return response(['success' => true, "message" => 'Status has been Successfully Updated']);
         }
     }
 }

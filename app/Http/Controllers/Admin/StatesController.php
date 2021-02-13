@@ -121,7 +121,7 @@ class StatesController extends Controller
         $state           = $state->save();
 
         if ($state) {
-            return response(['success' => TRUE, "message" => 'Done']);
+            return response(['success' => true, "message" => 'Status has been Successfully Updated']);
         }
     }
 }

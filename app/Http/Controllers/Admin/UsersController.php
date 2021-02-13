@@ -26,17 +26,7 @@ class UsersController extends Controller
         // $users = User::OrderBy('created_at', 'desc')->role('admin')->get();
         $users = User::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
-            return datatables()->of($users)
-                ->addColumn('action', function ($data) {
-                    if (auth()->user()->can(['update_users', 'delete_users'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="users/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="fa fa-edit"></i></a>';
-                        $button .= '&nbsp;';
-                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i class="fa fa-trash"></i></a>';
-                        return $button;
-                    }
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+            return datatables()->of($users)->make(true);
         }
         return view('admin.users.index');
     }
@@ -162,7 +152,7 @@ class UsersController extends Controller
         $user = $user->save();
 
         if ($user) {
-            return response(['success' => true, "message" => 'Done']);
+            return response(['success' => true, "message" => 'Status has been Successfully Updated']);
         }
     }
 }

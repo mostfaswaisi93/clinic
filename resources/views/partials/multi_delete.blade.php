@@ -1,8 +1,13 @@
 <script type="text/javascript">
     // Multiple Delete
     $(document).on('click', '.multi_delete', function(){
-        var item_checked = $('[name="item[]"]:checked').length;
         var allids = [];
+        $('.item_checkbox:checked').each(function() {
+            allids.push($(this).attr('data-id'))
+        });
+        var item_checked = allids.length;
+        var string_ids = allids.join(",");
+        console.log(string_ids);
         var swalAlert;
         if (item_checked > 0) {
             swalAlert = swal({
@@ -31,22 +36,21 @@
         swalAlert.then(function(result){
             if(result.value){
                 $.ajax({
+                    url: getLocation + "/destroy/all",
+                    // url: getLocation + "/multi_delete",
                     type: "DELETE",
-                    data: {
-                        _token: '{{ csrf_token() }}'
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "services/deleteAll",
-                    // url: getLocation + "deleteAll",
+                    data: 'ids='+string_ids,
                     success: function(data){
-                        $('#data-table').DataTable().ajax.reload();
-                        var lang = "{{ app()->getLocale() }}";
-                        if (lang == "ar") {
-                            toastr.success('{{ trans('admin.deleted_successfully') }}');
-                        } else {
-                            toastr.success('{{ trans('admin.deleted_successfully') }}', '', {positionClass: 'toast-bottom-left'});
-                        }
-                    }, error: function(xhr) {
-                        console.log(xhr.responseText);
+                        // $('#data-table').DataTable().ajax.reload();
+                        // var lang = "{{ app()->getLocale() }}";
+                        // if (lang == "ar") {
+                        //     toastr.success('{{ trans('admin.deleted_successfully') }}');
+                        // } else {
+                        //     toastr.success('{{ trans('admin.deleted_successfully') }}', '', {positionClass: 'toast-bottom-left'});
+                        // }
                     }
                 });
             }

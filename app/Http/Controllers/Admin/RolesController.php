@@ -83,7 +83,7 @@ class RolesController extends Controller
         $role           = $role->save();
 
         if ($role) {
-            return response(['success' => TRUE, "message" => 'Done']);
+            return response(['success' => true, "message" => 'Status has been Successfully Updated']);
         }
     }
 }

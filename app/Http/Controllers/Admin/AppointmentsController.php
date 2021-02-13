@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AppointmentsRequest;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
-use Brian2694\Toastr\Facades\Toastr;
+use Validator;
 
 class AppointmentsController extends Controller
 {
@@ -22,64 +21,81 @@ class AppointmentsController extends Controller
     {
         $appointments = Appointment::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
-            return datatables()->of($appointments)
-                ->addColumn('action', function ($data) {
-                    if (auth()->user()->can(['update_appointments', 'delete_appointments'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="appointments/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i data-feather="edit"></i></a>';
-                        $button .= '&nbsp;';
-                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
-                        return $button;
-                    }
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+            return datatables()->of($appointments)->make(true);
         }
         return view('admin.appointments.index');
     }
 
-    public function create()
+    public function store(Request $request)
     {
-        return view('admin.appointments.create');
-    }
+        $rules = array(
+            'price'    =>  'required'
+        );
 
-    public function store(AppointmentsRequest $request)
-    {
-        Appointment::create([
-            'name' => $request->name
-        ]);
-
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.added_successfully'));
-        } else {
-            Toastr::success(__('admin.added_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        foreach (config('translatable.locales') as $locale) {
+            $rules += ['name.' . $locale => 'required'];
         }
 
-        return redirect()->route('admin.appointments.index');
-    }
+        $error = Validator::make($request->all(), $rules);
 
-    public function edit(Appointment $appointment)
-    {
-        return view('admin.appointments.edit')->with('appointment', $appointment);
-    }
-
-    public function update(AppointmentsRequest $request, Appointment $appointment)
-    {
-        $appointment->update([
-            'name' => $request->name
-        ]);
-
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.updated_successfully'));
-        } else {
-            Toastr::success(__('admin.updated_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        return redirect()->route('admin.appointments.index');
+        Appointment::create($request->all());
+
+        return response()->json(['success' => 'Data Added Successfully.']);
+    }
+
+    public function edit($id)
+    {
+        if (request()->ajax()) {
+            $data = Appointment::findOrFail($id);
+            return response()->json(['data' => $data]);
+        }
+    }
+
+    public function update(Request $request, Appointment $appointment)
+    {
+        $rules = array(
+            'price'    =>  'required'
+        );
+
+        foreach (config('translatable.locales') as $locale) {
+            $rules += ['name.' . $locale => 'required'];
+        }
+
+        $error = Validator::make($request->all(), $rules);
+
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
+        }
+
+        $request_data = array(
+            'name'       =>   $request->name,
+            'price'      =>   $request->price,
+        );
+
+        $appointment::whereId($request->hidden_id)->update($request_data);
+
+        return response()->json(['success' => 'Data is Successfully Updated']);
     }
 
     public function destroy($id)
     {
         $appointment = Appointment::findOrFail($id);
         $appointment->delete();
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $appointment           = Appointment::find($id);
+        $enabled               = $request->get('enabled');
+        $appointment->enabled  = $enabled;
+        $appointment           = $appointment->save();
+
+        if ($appointment) {
+            return response(['success' => true, "message" => 'Status has been Successfully Updated']);
+        }
     }
 }

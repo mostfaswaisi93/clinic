@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use Illuminate\Http\Request;
+use Validator;
 
 class NotificationsController extends Controller
 {
@@ -17,54 +19,84 @@ class NotificationsController extends Controller
 
     public function index()
     {
-        $notifications = Department::OrderBy('created_at', 'desc')->get();
+        $notifications = Notification::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
-            return datatables()->of($notifications)
-                ->addColumn('action', function ($data) {
-                    if (auth()->user()->can(['update_notifications', 'delete_notifications'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="notifications/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="feather icon-edit"></i></a>';
-                        $button .= '&nbsp;';
-                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
-                        return $button;
-                    }
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+            return datatables()->of($notifications)->make(true);
         }
         return view('admin.notifications.index');
     }
 
-    public function create()
+    public function store(Request $request)
     {
-        return view('admin.notifications.create');
+        $rules = array(
+            'price'    =>  'required'
+        );
+
+        foreach (config('translatable.locales') as $locale) {
+            $rules += ['name.' . $locale => 'required'];
+        }
+
+        $error = Validator::make($request->all(), $rules);
+
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
+        }
+
+        Notification::create($request->all());
+
+        return response()->json(['success' => 'Data Added Successfully.']);
     }
 
-    public function store(NotificationsRequest $request)
+    public function edit($id)
     {
-        Role::create([
-            'name' => $request->name
-        ]);
-        Toastr::success(__('admin.added_successfully'));
-        return redirect()->route('admin.notifications.index');
+        if (request()->ajax()) {
+            $data = Notification::findOrFail($id);
+            return response()->json(['data' => $data]);
+        }
     }
 
-    public function edit(Role $role)
+    public function update(Request $request, Notification $notification)
     {
-        return view('admin.notifications.edit')->with('role', $role);
-    }
+        $rules = array(
+            'price'    =>  'required'
+        );
 
-    public function update(NotificationsRequest $request, Role $role)
-    {
-        $role->update([
-            'name' => $request->name
-        ]);
-        Toastr::success(__('admin.updated_successfully'));
-        return redirect()->route('admin.notifications.index');
+        foreach (config('translatable.locales') as $locale) {
+            $rules += ['name.' . $locale => 'required'];
+        }
+
+        $error = Validator::make($request->all(), $rules);
+
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
+        }
+
+        $request_data = array(
+            'name'       =>   $request->name,
+            'price'      =>   $request->price,
+        );
+
+        $notification::whereId($request->hidden_id)->update($request_data);
+
+        return response()->json(['success' => 'Data is Successfully Updated']);
     }
 
     public function destroy($id)
     {
-        $role = Role::findOrFail($id);
-        $role->delete();
+        $notification = Notification::findOrFail($id);
+        $notification->delete();
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $notification           = Notification::find($id);
+        $enabled                = $request->get('enabled');
+        $notification->enabled  = $enabled;
+        $notification           = $notification->save();
+
+        if ($notification) {
+            return response(['success' => true, "message" => 'Status has been Successfully Updated']);
+        }
     }
 }
+

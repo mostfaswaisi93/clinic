@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PatientsRequest;
 use App\Models\Patient;
 use Illuminate\Http\Request;
-use Brian2694\Toastr\Facades\Toastr;
+use Validator;
 
 class PatientsController extends Controller
 {
@@ -22,64 +21,81 @@ class PatientsController extends Controller
     {
         $patients = Patient::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
-            return datatables()->of($patients)
-                ->addColumn('action', function ($data) {
-                    if (auth()->user()->can(['update_patients', 'delete_patients'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="patients/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="feather icon-edit"></i></a>';
-                        $button .= '&nbsp;';
-                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
-                        return $button;
-                    }
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+            return datatables()->of($patients)->make(true);
         }
         return view('admin.patients.index');
     }
 
-    public function create()
+    public function store(Request $request)
     {
-        return view('admin.patients.create');
-    }
+        $rules = array(
+            'price'    =>  'required'
+        );
 
-    public function store(PatientsRequest $request)
-    {
-        Patient::create([
-            'name' => $request->name
-        ]);
-
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.added_successfully'));
-        } else {
-            Toastr::success(__('admin.added_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        foreach (config('translatable.locales') as $locale) {
+            $rules += ['name.' . $locale => 'required'];
         }
 
-        return redirect()->route('admin.patients.index');
-    }
+        $error = Validator::make($request->all(), $rules);
 
-    public function edit(Patient $patient)
-    {
-        return view('admin.patients.edit')->with('patient', $patient);
-    }
-
-    public function update(PatientsRequest $request, Patient $patient)
-    {
-        $patient->update([
-            'name' => $request->name
-        ]);
-
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.updated_successfully'));
-        } else {
-            Toastr::success(__('admin.updated_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        return redirect()->route('admin.patients.index');
+        Patient::create($request->all());
+
+        return response()->json(['success' => 'Data Added Successfully.']);
+    }
+
+    public function edit($id)
+    {
+        if (request()->ajax()) {
+            $data = Patient::findOrFail($id);
+            return response()->json(['data' => $data]);
+        }
+    }
+
+    public function update(Request $request, Patient $patient)
+    {
+        $rules = array(
+            'price'    =>  'required'
+        );
+
+        foreach (config('translatable.locales') as $locale) {
+            $rules += ['name.' . $locale => 'required'];
+        }
+
+        $error = Validator::make($request->all(), $rules);
+
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
+        }
+
+        $request_data = array(
+            'name'       =>   $request->name,
+            'price'      =>   $request->price,
+        );
+
+        $patient::whereId($request->hidden_id)->update($request_data);
+
+        return response()->json(['success' => 'Data is Successfully Updated']);
     }
 
     public function destroy($id)
     {
         $patient = Patient::findOrFail($id);
         $patient->delete();
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $patient           = Patient::find($id);
+        $enabled           = $request->get('enabled');
+        $patient->enabled  = $enabled;
+        $patient           = $patient->save();
+
+        if ($patient) {
+            return response(['success' => true, "message" => 'Status has been Successfully Updated']);
+        }
     }
 }

@@ -111,7 +111,7 @@ class CountriesController extends Controller
         $country           = $country->save();
 
         if ($country) {
-            return response(['success' => TRUE, "message" => 'Done']);
+            return response(['success' => true, "message" => 'Status has been Successfully Updated']);
         }
     }
 }

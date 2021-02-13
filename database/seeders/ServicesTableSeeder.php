@@ -12,21 +12,27 @@ class ServicesTableSeeder extends Seeder
     {
         Service::create([
             'name' => [
-                'ar' => 'تيست',
-                'en' => 'Test'
-            ], 'price' => '20'
+                'ar' => 'جلسة أولى',
+                'en' => 'First Session'
+            ], 'price' => '15.00'
         ]);
         Service::create([
             'name' => [
-                'ar' => '1تيست',
-                'en' => 'Test1'
-            ], 'price' => '13'
+                'ar' => 'جلسة ثانية',
+                'en' => 'Second Session'
+            ], 'price' => '20.00'
         ]);
         Service::create([
             'name' => [
-                'ar' => '2تيست',
-                'en' => 'Test2'
-            ], 'price' => '82'
+                'ar' => 'جلسة ثالثة',
+                'en' => 'Third Session'
+            ], 'price' => '25.00'
+        ]);
+        Service::create([
+            'name' => [
+                'ar' => 'فحص عام',
+                'en' => 'General Examination'
+            ], 'price' => '30.00'
         ]);
     }
 }
