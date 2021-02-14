@@ -3,8 +3,8 @@
 return [
     'roles_structure'       => [
         'super_admin'   => [
-            'appointments'      => 'c,r,u,d',
-            'patients'          => 'c,r,u,d',
+            'appointments'      => 'c,r,u,d,p,da',
+            'patients'          => 'c,r,u,d,p,da',
             'services'          => 'c,r,u,d,p,da',
             'invoices'          => 'c,r,u,d',
             // 'notifications'     => 'c,r,u,d',

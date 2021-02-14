@@ -15,11 +15,13 @@ class CreatePatientsTable extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('address');
             $table->string('phone');
-            $table->integer('constant_id')->unsigned()->onDelete('cascade');
+            $table->date('dob');
+            $table->integer('constant_id')->unsigned()->onDelete('cascade')->nullable();
             $table->integer('user_id')->unsigned()->onDelete('cascade');
             $table->integer('enabled')->default(1);
             $table->timestamps();

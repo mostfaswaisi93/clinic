@@ -8,10 +8,6 @@
                 <h5 class="modal-title"></h5>
             </div>
             <div class="modal-body flex-grow-1">
-                <div class="alert alert-success d-none" id="msg_div">
-                    <span id="res_message"></span>
-                </div>
-                {{-- @include('partials.errors') --}}
                 <span id="form_result"></span>
                 <div class="form-group">
                     <label class="form-label" for="name">{{ trans('admin.ar.name') }}</label>

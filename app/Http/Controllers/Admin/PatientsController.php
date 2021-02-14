@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class PatientsController extends Controller
@@ -85,6 +86,13 @@ class PatientsController extends Controller
     {
         $patient = Patient::findOrFail($id);
         $patient->delete();
+    }
+
+    public function multi_delete(Request $request)
+    {
+        $ids = $request->ids;
+        DB::table("patients")->whereIn('id', explode(",", $ids))->delete();
+        return response()->json(['success' => 'The data has been deleted successfully']);
     }
 
     public function updateStatus(Request $request, $id)

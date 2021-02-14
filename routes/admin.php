@@ -33,10 +33,12 @@ Route::group(
 
             Route::post('appointments/update', 'AppointmentsController@update')->name('appointments.update');
             Route::get('appointments/destroy/{id}', 'AppointmentsController@destroy');
+            Route::delete('appointments/destroy/all', 'AppointmentsController@multi_delete');
             Route::post('appointments/updateStatus/{id}', 'AppointmentsController@updateStatus');
 
             Route::post('patients/update', 'PatientsController@update')->name('patients.update');
             Route::get('patients/destroy/{id}', 'PatientsController@destroy');
+            Route::delete('patients/destroy/all', 'PatientsController@multi_delete');
             Route::post('patients/updateStatus/{id}', 'PatientsController@updateStatus');
 
             Route::post('services/update', 'ServicesController@update')->name('services.update');
@@ -52,14 +54,17 @@ Route::group(
 
             Route::post('countries/update', 'CountriesController@update')->name('countries.update');
             Route::get('countries/destroy/{id}', 'CountriesController@destroy');
+            Route::delete('countries/destroy/all', 'CountriesController@multi_delete');
             Route::post('countries/updateStatus/{id}', 'CountriesController@updateStatus');
 
             Route::post('cities/update', 'CitiesController@update')->name('cities.update');
             Route::get('cities/destroy/{id}', 'CitiesController@destroy');
+            Route::delete('cities/destroy/all', 'CitiesController@multi_delete');
             Route::post('cities/updateStatus/{id}', 'CitiesController@updateStatus');
 
             Route::post('states/update', 'StatesController@update')->name('states.update');
             Route::get('states/destroy/{id}', 'StatesController@destroy');
+            Route::delete('states/destroy/all', 'StatesController@multi_delete');
             Route::post('states/updateStatus/{id}', 'StatesController@updateStatus');
 
             Route::get('payments/destroy/{id}', 'PaymentsController@destroy');
@@ -70,10 +75,12 @@ Route::group(
 
             Route::post('roles/update', 'RolesController@update')->name('roles.update');
             Route::get('roles/destroy/{id}', 'RolesController@destroy');
+            Route::delete('roles/destroy/all', 'RolesController@multi_delete');
             Route::post('roles/updateStatus/{id}', 'RolesController@updateStatus');
 
             Route::post('users/update', 'UsersController@update')->name('users.update');
             Route::get('users/destroy/{id}', 'UsersController@destroy');
+            Route::delete('users/destroy/all', 'UsersController@multi_delete');
             Route::post('users/updateStatus/{id}', 'UsersController@updateStatus');
 
             Route::get('reports/destroy/{id}', 'ReportsController@destroy');

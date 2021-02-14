@@ -10,4 +10,18 @@ class Patient extends BaseModel
 
     protected $table        = 'patients';
     protected $fillable     = ['first_name', 'last_name', 'address', 'phone', 'constant_id', 'user_id', 'enabled'];
+
+    // Full Name
+    // Address
+    // Phone
+    // Birthdate
+    // Gender
+    // Notes
+    // AddedUser-AddedBy
+    // DoctorId
+
+    public function user()
+    {
+        $this->belongsTo(User::class);
+    }
 }
