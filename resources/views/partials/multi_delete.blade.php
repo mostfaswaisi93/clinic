@@ -7,7 +7,6 @@
         });
         var item_checked = allids.length;
         var string_ids = allids.join(",");
-        console.log(string_ids);
         var swalAlert;
         if (item_checked > 0) {
             swalAlert = swal({
@@ -37,20 +36,19 @@
             if(result.value){
                 $.ajax({
                     url: getLocation + "/destroy/all",
-                    // url: getLocation + "/multi_delete",
                     type: "DELETE",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     data: 'ids='+string_ids,
                     success: function(data){
-                        // $('#data-table').DataTable().ajax.reload();
-                        // var lang = "{{ app()->getLocale() }}";
-                        // if (lang == "ar") {
-                        //     toastr.success('{{ trans('admin.deleted_successfully') }}');
-                        // } else {
-                        //     toastr.success('{{ trans('admin.deleted_successfully') }}', '', {positionClass: 'toast-bottom-left'});
-                        // }
+                        $('#data-table').DataTable().ajax.reload();
+                        var lang = "{{ app()->getLocale() }}";
+                        if (lang == "ar") {
+                            toastr.success('{{ trans('admin.deleted_successfully') }}');
+                        } else {
+                            toastr.success('{{ trans('admin.deleted_successfully') }}', '', {positionClass: 'toast-bottom-left'});
+                        }
                     }
                 });
             }

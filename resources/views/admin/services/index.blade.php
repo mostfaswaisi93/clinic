@@ -94,7 +94,7 @@
                 responsivePriority: 3,
                 render: function(data, type, row, meta) {
                     return (
-                        '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes item_checkbox" name="item[]" data-id="'+ row.id +'" type="checkbox" value="'+ row.id +'" id="'+ row.id +'" />' +
+                        '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes item_checkbox" data-id="'+ row.id +'" type="checkbox" id="'+ row.id +'" />' +
                         '<label class="custom-control-label" for="'+ row.id +'">' +
                         '</label></div>'
                     );

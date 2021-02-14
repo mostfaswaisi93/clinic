@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class ServicesController extends Controller
@@ -89,18 +90,9 @@ class ServicesController extends Controller
 
     public function multi_delete(Request $request)
     {
-        if (is_array(request('item'))) {
-            Service::destroy(request('item'));
-        } else {
-            Service::find(request('item'))->delete();
-        }
-        return response()->json(['success' => 'Services have been deleted!']);
-
-        // $ids = explode(",", $request->ids);
-        // Service::whereIn('id', $ids)->delete();
-        // return response(['status' => true, "message" => 'Services have been deleted']);
-        // return response()->json(['success' => 'Services have been deleted!']);
-        // return redirect()->route('services.index');
+        $ids = $request->ids;
+        DB::table("services")->whereIn('id', explode(",", $ids))->delete();
+        return response()->json(['success' => 'The data has been deleted successfully']);
     }
 
     public function updateStatus(Request $request, $id)

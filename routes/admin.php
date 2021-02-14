@@ -42,7 +42,6 @@ Route::group(
             Route::post('services/update', 'ServicesController@update')->name('services.update');
             Route::get('services/destroy/{id}', 'ServicesController@destroy');
             Route::delete('services/destroy/all', 'ServicesController@multi_delete');
-            // Route::delete('services/multi_delete', 'ServicesController@multi_delete');
             Route::post('services/updateStatus/{id}', 'ServicesController@updateStatus');
 
             Route::get('invoices/destroy/{id}', 'InvoicesController@destroy');
