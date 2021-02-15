@@ -19,8 +19,10 @@
                                 <tr>
                                     <th></th>
                                     <th>#</th>
-                                    <th>{{ trans('admin.name') }}</th>
-                                    <th>{{ trans('admin.price') }}</th>
+                                    <th>{{ trans('admin.id_number') }}</th>
+                                    <th>{{ trans('admin.full_name') }}</th>
+                                    <th>{{ trans('admin.phone') }}</th>
+                                    <th>{{ trans('admin.doctor_id') }}</th>
                                     <th class="status">{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.actions') }}</th>
@@ -64,8 +66,10 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }, searchable: false, orderable: false
                 },
-                { data: 'name_trans' },
-                { data: 'price' },
+                { data: 'id_number' },
+                { data: 'first_name_trans' },
+                { data: 'phone' },
+                { data: 'user_id' },
                 { data: 'enabled' },
                 { data: 'created_at' },
                 { data: 'action', orderable: false,
@@ -104,7 +108,7 @@
                 }
             },
             {
-                "targets": 4,
+                "targets": 6,
                 render: function (data, type, row, meta){
                     var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
                     var color = data ? "success" : "danger"; 

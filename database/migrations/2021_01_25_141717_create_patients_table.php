@@ -15,14 +15,16 @@ class CreatePatientsTable extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('id_number')->unique();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('address');
             $table->string('phone');
-            $table->date('dob');
-            $table->integer('constant_id')->unsigned()->onDelete('cascade')->nullable();
-            $table->integer('user_id')->unsigned()->onDelete('cascade');
+            $table->date('dob'); // Date of Birth
+            $table->longText('notes');
+            $table->integer('user'); // Added By
+            $table->integer('constant_id')->unsigned()->onDelete('cascade')->nullable(); // Gender
+            $table->integer('user_id')->unsigned()->onDelete('cascade'); // Doctor
             $table->integer('enabled')->default(1);
             $table->timestamps();
             $table->softDeletes();

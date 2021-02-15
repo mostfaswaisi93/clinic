@@ -67,6 +67,12 @@ label {
     background-color: #ea5455;
 }
 
+@media (min-width: 576px) {
+    .modal-slide-in .modal-dialog.sidebar-lg {
+        width: 60rem;
+    }
+}
+
 
 /* Portlet */
 
@@ -77,7 +83,7 @@ label {
 
 .portlet .card .card-header .card-title {
     color: #fff;
-    font-size: 1.20rem;
+    font-size: 1.2rem;
 }
 
 
@@ -98,16 +104,30 @@ label {
 
 /* Modal */
 
-
-/* .modal-header {
+.modal-header {
     border-top-right-radius: unset;
     border-top-left-radius: unset;
-    border-bottom: unset;
+}
+
+.modal .modal-header {
+    background-color: #7367f0;
 }
 
 .modal-title {
     color: #fff;
 }
+
+.modal-slide-in .close {
+    color: #fff;
+}
+
+.modal-slide-in button:focus {
+    outline: 1px;
+    outline: unset;
+}
+
+
+/* 
 
 .modal-header .close {
     color: #ffffff;
@@ -135,15 +155,6 @@ label {
     }
 }
 
-.modal .modal-footer {
-    border: 0;
-    padding: 15px;
-}
-
-.bg-authentication .login-footer {
-    margin: auto;
-}
-
 .navbar-brand .feather {
     color: #fff;
 } */
@@ -160,9 +171,9 @@ textarea.parsley-success {
 input.parsley-error,
 select.parsley-error,
 textarea.parsley-error {
-    color: #B94A48;
-    background-color: #F2DEDE;
-    border: 1px solid #B94A48;
+    color: #b94a48;
+    background-color: #f2dede;
+    border: 1px solid #b94a48;
 }
 
 .parsley-errors-list {
@@ -172,10 +183,10 @@ textarea.parsley-error {
     font-size: 0.9em;
     line-height: 0.9em;
     opacity: 0;
-    transition: all .3s ease-in;
-    -o-transition: all .3s ease-in;
-    -moz-transition: all .3s ease-in;
-    -webkit-transition: all .3s ease-in;
+    transition: all 0.3s ease-in;
+    -o-transition: all 0.3s ease-in;
+    -moz-transition: all 0.3s ease-in;
+    -webkit-transition: all 0.3s ease-in;
 }
 
 .parsley-errors-list.filled {

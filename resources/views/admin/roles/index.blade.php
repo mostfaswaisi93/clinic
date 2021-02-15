@@ -20,9 +20,8 @@
                                     <th></th>
                                     <th>#</th>
                                     <th>{{ trans('admin.name') }}</th>
-                                    <th>{{ trans('admin.users_count') }}</th>
-                                    <th>{{ trans('admin.status') }}</th>
-                                    <th>{{ trans('admin.update_status') }}</th>
+                                    <th>{{ trans('admin.price') }}</th>
+                                    <th class="status">{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.actions') }}</th>
                                 </tr>
@@ -65,41 +64,14 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }, searchable: false, orderable: false
                 },
-                { data: 'name' },
-                { data: 'users_count', 
-                    render: function(data, type, row, meta) {
-                        return "<div class='badge badge-success'>"+ data +"</div>";
-                    }
-                },
-                { data: 'enabled',
-                    render: function(data, type, row, meta) {
-                        var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
-                        var color = data ? "success" : "danger"; 
-                        return "<div class='badge badge-light-"+ color +"'>"+ text +"</div>";
-                    }
-                },
+                { data: 'name_trans' },
+                { data: 'price' },
                 { data: 'enabled' },
                 { data: 'created_at' },
                 { data: 'action', orderable: false,
                     render: function(data, type, row, meta) {
                         // Action Buttons
                         return (
-                            '<div class="d-inline-flex">' +
-                            '<a class="pr-1 dropdown-toggle hide-arrow text-primary" data-toggle="dropdown">' +
-                            feather.icons['more-vertical'].toSvg({ class: 'font-small-4' }) +
-                            '</a>' +
-                            '<div class="dropdown-menu dropdown-menu-right">' +
-                            '<a href="javascript:;" class="dropdown-item">' +
-                            feather.icons['archive'].toSvg({ class: 'font-small-4 mr-50' }) +
-                            'Archive</a>' +
-                            '<a href="javascript:;" class="dropdown-item">' +
-                            feather.icons['edit-3'].toSvg({ class: 'font-small-4 mr-50' }) +
-                            '{{ trans("admin.update_status") }}</a>' +
-                            '<a href="javascript:;" id="'+ row.id +'" class="dropdown-item delete" title="{{ trans("admin.delete") }}">' +
-                            feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
-                            '{{ trans("admin.delete") }}</a>' +
-                            '</div>' +
-                            '</div>' +
                             '<span>@if(auth()->user()->can('update_roles'))' +
                             '<a id="'+ row.id +'" name="edit" class="item-edit edit mr-1" data-toggle="modal" data-target="#roleModal" title="{{ trans("admin.edit") }}">' +
                             feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
@@ -122,27 +94,31 @@
                 responsivePriority: 3,
                 render: function(data, type, row, meta) {
                     return (
-                        '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes item_checkbox" type="checkbox" value="" id="'+ row.id +'" />' +
+                        '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes item_checkbox" data-id="'+ row.id +'" type="checkbox" id="'+ row.id +'" />' +
                         '<label class="custom-control-label" for="'+ row.id +'">' +
                         '</label></div>'
                     );
                 },
                 checkboxes: {
-                    selectAllRender: '<div class="custom-control custom-checkbox"> <input class="custom-control-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="custom-control-label" for="checkboxSelectAll"></label></div>'
+                    selectAllRender: '<div class="custom-control custom-checkbox"> <input class="custom-control-input" type="checkbox" id="checkboxSelectAll" /><label class="custom-control-label" for="checkboxSelectAll"></label></div>'
                 }
             },
             {
-                "targets": 5,
+                "targets": 4,
                 render: function (data, type, row, meta){
-                var $select = $(`
-                    <select class='status form-control'
-                    id='status' onchange=selectStatus(${row.id})>
-                    <option value='1'>{{ trans('admin.active') }}</option>
-                    <option value='0'>{{ trans('admin.inactive') }}</option>
-                    </select>
-                `);
-                $select.find('option[value="'+ row.enabled +'"]').attr('selected', 'selected');
-                return $select[0].outerHTML
+                    var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
+                    var color = data ? "success" : "danger"; 
+                    var $checked = $(`
+                        <div class="custom-control custom-control-success custom-switch">
+                            <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
+                            class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
+                            onchange=selectStatus(${row.id}) >
+                            <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}"></label>
+                            <div class='badge badge-light-${color}'>${text}</div>
+                        </div>
+                    `);
+                    $checked.prop('checked', true).attr('checked', 'checked');
+                    return $checked[0].outerHTML
                 }
             } ],
             dom:  "<'row'<''l><'col-sm-8 text-center'B><''f>>" +
@@ -157,7 +133,7 @@
                     }
                 },
                 { text: '<i data-feather="trash-2"></i> {{ trans("admin.trash") }}',
-                  className: '@if (auth()->user()->can("del_all_roles")) btn dtbtn btn-sm btn-danger delBtn multi_delete @else btn dtbtn btn-sm btn-danger delBtn disabled @endif',
+                  className: '@if (auth()->user()->can("del_all_roles")) btn dtbtn btn-sm btn-danger multi_delete @else btn dtbtn btn-sm btn-danger disabled @endif',
                   attr: { 'title': '{{ trans("admin.trash") }}' }
                 },
                 { extend: 'csvHtml5', charset: "UTF-8", bom: true,
@@ -293,11 +269,12 @@
             var id = $(this).attr('id');
             $('#form_result').html('');
             $.ajax({
-                url:"/admin/roles/"+id+"/edit",
-                dataType:"json",
-                success:function(html){
-                    console.log(html.data);
-                    $('#name').val(html.data.name);
+                url: "/admin/roles/"+ id +"/edit",
+                dataType: "json",
+                success: function(html){
+                    $('#name_ar').val(html.data.name.ar);
+                    $('#name_en').val(html.data.name.en);
+                    $('#price').val(html.data.price);
                     $('#hidden_id').val(html.data.id);
                     $('.modal-title').text("{{ trans('admin.edit_role') }}");
                     $('#action_button').val("Edit");

@@ -3,13 +3,45 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Translatable\HasTranslations;
 
 class Patient extends BaseModel
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
 
     protected $table        = 'patients';
-    protected $fillable     = ['first_name', 'last_name', 'address', 'phone', 'constant_id', 'user_id', 'enabled'];
+    protected $fillable     = [
+        'id_number', 'first_name', 'last_name', 'address',
+        'phone', 'dob', 'notes', 'user', 'constant_id', 'user_id', 'enabled'
+    ];
+    protected $appends      = ['first_name_trans', 'last_name_trans', 'full_name'];
+    public $translatable    = ['first_name', 'last_name'];
+
+    // get First Name Translatable
+    public function getFirstNameTransAttribute()
+    {
+        if (app()->getLocale() == 'ar') {
+            return $this->getTranslation('first_name', 'ar');
+        } else {
+            return $this->getTranslation('first_name', 'en');
+        }
+    }
+
+    // get Last Name Translatable
+    public function getLastNameTransAttribute()
+    {
+        if (app()->getLocale() == 'ar') {
+            return $this->getTranslation('last_name', 'ar');
+        } else {
+            return $this->getTranslation('last_name', 'en');
+        }
+    }
+
+    // get Full Name
+    public function getFullNameAttribute()
+    {
+        return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
+    }
 
     // Full Name
     // Address

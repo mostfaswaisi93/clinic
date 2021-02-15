@@ -15,7 +15,6 @@ class PatientsTableSeeder extends Seeder
                 'en' => 'First Session'
             ], 'price' => '15.00'
         ]);
-
-        factory(Patient::class, 20)->create();
+        Patient::factory()->count(3)->create();
     }
 }
