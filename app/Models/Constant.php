@@ -19,4 +19,6 @@ class Constant extends BaseModel
         $word = str_replace('_', ' ', $value);
         return ucwords($word);
     }
+
+    // Constant::where('type', 'gender')->get();
 }

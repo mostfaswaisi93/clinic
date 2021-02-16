@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\DB;
+use Validator;
 
 class UsersController extends Controller
 {
@@ -114,42 +116,19 @@ class UsersController extends Controller
         $user->delete();
     }
 
-    public function multi_delete()
-    {
-        if (is_array(request('item'))) {
-            User::destroy(request('item'));
-        } else {
-            $user = User::find(request('item'));
-            if ($user->image != 'default.png') {
-                Storage::disk('public_uploads')->delete('/users/' . $user->image);
-            }
-            $user->delete();
-        }
-        session()->flash('success', trans('admin.deleted_record'));
-        return redirect(aurl('users'));
-    }
-
-    function multi(Request $request)
-    {
-        $users = $request->input('id');
-        $user = User::whereIn('id', $users);
-        if ($user->delete()) {
-            echo 'Data Deleted';
-        }
-    }
-
-    public function deleteChecked(Request $request)
+    public function multi_delete(Request $request)
     {
         $ids = $request->ids;
-        User::whereIn('id', $ids)->delete();
+        DB::table("users")->whereIn('id', explode(",", $ids))->delete();
+        return response()->json(['success' => 'The data has been deleted successfully']);
     }
 
     public function updateStatus(Request $request, $id)
     {
-        $user = User::find($id);
-        $enabled = $request->get('enabled');
-        $user->enabled = $enabled;
-        $user = $user->save();
+        $user           = User::find($id);
+        $enabled        = $request->get('enabled');
+        $user->enabled  = $enabled;
+        $user           = $user->save();
 
         if ($user) {
             return response(['success' => true, "message" => 'Status has been Successfully Updated']);

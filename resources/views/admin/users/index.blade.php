@@ -19,9 +19,12 @@
                                 <tr>
                                     <th></th>
                                     <th>#</th>
-                                    <th>{{ trans('admin.name') }}</th>
-                                    <th>{{ trans('admin.price') }}</th>
+                                    <th>{{ trans('admin.image') }}</th>
+                                    <th>{{ trans('admin.full_name') }}</th>
+                                    {{-- <th>{{ trans('admin.username') }}</th> --}}
+                                    {{-- <th>{{ trans('admin.email') }}</th> --}}
                                     <th class="status">{{ trans('admin.status') }}</th>
+                                    <th>{{ trans('admin.last_login') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.actions') }}</th>
                                 </tr>
@@ -53,7 +56,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
-            order: [[ 2, "desc" ]],
+            order: [[ 3, "desc" ]],
             ajax: {
                 url: "{{ route('admin.users.index') }}",
             },
@@ -64,9 +67,22 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }, searchable: false, orderable: false
                 },
-                { data: 'name_trans' },
-                { data: 'price' },
+                { data: 'image_path',
+                    render: function(data, type, row, meta) {
+                        return "<img src=" + data + " width='60px' class='img-thumbnail' />";
+                    }, searchable: false, orderable: false
+                },
+                { data: 'full_name' },
+                // { data: 'username' },
+                // { data: 'email' },
                 { data: 'enabled' },
+                { data: 'last_login_at',
+                    render: function(data, type, row, meta){
+                        var text1 = "<div>"+row.last_login+"</div>";
+                        var text2 = "<div>"+data+"</div>";
+                        return text1 + text2;
+                    }
+                },
                 { data: 'created_at' },
                 { data: 'action', orderable: false,
                     render: function(data, type, row, meta) {
@@ -274,7 +290,7 @@
                 success: function(html){
                     $('#name_ar').val(html.data.name.ar);
                     $('#name_en').val(html.data.name.en);
-                    $('#price').val(html.data.price);
+                    $('#username').val(html.data.username);
                     $('#hidden_id').val(html.data.id);
                     $('.modal-title').text("{{ trans('admin.edit_user') }}");
                     $('#action_button').val("Edit");

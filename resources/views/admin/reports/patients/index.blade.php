@@ -19,8 +19,10 @@
                                 <tr>
                                     <th></th>
                                     <th>#</th>
-                                    <th>{{ trans('admin.name') }}</th>
-                                    <th>{{ trans('admin.price') }}</th>
+                                    <th>{{ trans('admin.id_number') }}</th>
+                                    <th>{{ trans('admin.full_name') }}</th>
+                                    <th>{{ trans('admin.phone') }}</th>
+                                    <th>{{ trans('admin.doctor_id') }}</th>
                                     <th class="status">{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.actions') }}</th>
@@ -64,8 +66,10 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }, searchable: false, orderable: false
                 },
-                { data: 'name_trans' },
-                { data: 'price' },
+                { data: 'id_number' },
+                { data: 'first_name_trans' },
+                { data: 'phone' },
+                { data: 'user_id' },
                 { data: 'enabled' },
                 { data: 'created_at' },
                 { data: 'action', orderable: false,
@@ -94,17 +98,17 @@
                 responsivePriority: 3,
                 render: function(data, type, row, meta) {
                     return (
-                        '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes item_checkbox" name="item[]" type="checkbox" value="'+ row.id +'" id="'+ row.id +'" />' +
+                        '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes item_checkbox" data-id="'+ row.id +'" type="checkbox" id="'+ row.id +'" />' +
                         '<label class="custom-control-label" for="'+ row.id +'">' +
                         '</label></div>'
                     );
                 },
                 checkboxes: {
-                    selectAllRender: '<div class="custom-control custom-checkbox"> <input class="custom-control-input check_all" type="checkbox" value="" id="checkboxSelectAll" /><label class="custom-control-label" for="checkboxSelectAll"></label></div>'
+                    selectAllRender: '<div class="custom-control custom-checkbox"> <input class="custom-control-input" type="checkbox" id="checkboxSelectAll" /><label class="custom-control-label" for="checkboxSelectAll"></label></div>'
                 }
             },
             {
-                "targets": 4,
+                "targets": 6,
                 render: function (data, type, row, meta){
                     var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
                     var color = data ? "success" : "danger"; 
@@ -133,7 +137,7 @@
                     }
                 },
                 { text: '<i data-feather="trash-2"></i> {{ trans("admin.trash") }}',
-                  className: '@if (auth()->user()->can("del_all_patients")) btn dtbtn btn-sm btn-danger delBtn multi_delete @else btn dtbtn btn-sm btn-danger delBtn disabled @endif',
+                  className: '@if (auth()->user()->can("del_all_patients")) btn dtbtn btn-sm btn-danger multi_delete @else btn dtbtn btn-sm btn-danger disabled @endif',
                   attr: { 'title': '{{ trans("admin.trash") }}' }
                 },
                 { extend: 'csvHtml5', charset: "UTF-8", bom: true,
@@ -269,9 +273,9 @@
             var id = $(this).attr('id');
             $('#form_result').html('');
             $.ajax({
-                url:"/admin/patients/"+id+"/edit",
-                dataType:"json",
-                success:function(html){
+                url: "/admin/patients/"+ id +"/edit",
+                dataType: "json",
+                success: function(html){
                     $('#name_ar').val(html.data.name.ar);
                     $('#name_en').val(html.data.name.en);
                     $('#price').val(html.data.price);

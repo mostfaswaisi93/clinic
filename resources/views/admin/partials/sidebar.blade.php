@@ -80,7 +80,7 @@
             @if (auth()->user()->can('read_services'))
             <li {{ request()->route()->getName() === 'admin.services.index' ? 'class=active' : '' }}>
                 <a href="{{ route('admin.services.index') }}" class="d-flex align-items-center">
-                    <i data-feather='droplet'></i>
+                    <i data-feather='check-circle'></i>
                     <span class="menu-title text-truncate">{{ trans('admin.services') }}</span>
                 </a>
             </li>
