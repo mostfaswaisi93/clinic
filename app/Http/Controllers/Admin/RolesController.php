@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RolesRequest;
 use App\Models\Role as AppRole;
-use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class RolesController extends Controller
@@ -29,7 +28,7 @@ class RolesController extends Controller
         return view('admin.roles.index');
     }
 
-    public function store(RolesRequest $request)
+    public function store(Request $request)
     {
         $rules = array(
             'name'    =>  'required'
@@ -54,19 +53,25 @@ class RolesController extends Controller
         }
     }
 
-    public function update(RolesRequest $request, Role $role)
+    public function update(Request $request, Role $role)
     {
-        $role->update([
-            'name' => $request->name
-        ]);
+        $rules = array(
+            'name'    =>  'required'
+        );
 
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.updated_successfully'));
-        } else {
-            Toastr::success(__('admin.updated_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        $error = Validator::make($request->all(), $rules);
+
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        return redirect()->route('admin.roles.index');
+        $request_data = array(
+            'name'       =>   $request->name
+        );
+
+        $role::whereId($request->hidden_id)->update($request_data);
+
+        return response()->json(['success' => 'Data is Successfully Updated']);
     }
 
     public function destroy($id)
@@ -75,15 +80,10 @@ class RolesController extends Controller
         $role->delete();
     }
 
-    public function updateStatus(Request $request, $id)
+    public function multi_delete(Request $request)
     {
-        $role           = Role::find($id);
-        $enabled        = $request->get('enabled');
-        $role->enabled  = $enabled;
-        $role           = $role->save();
-
-        if ($role) {
-            return response(['success' => true, "message" => 'Status has been Successfully Updated']);
-        }
+        $ids = $request->ids;
+        DB::table("roles")->whereIn('id', explode(",", $ids))->delete();
+        return response()->json(['success' => 'The data has been deleted successfully']);
     }
 }

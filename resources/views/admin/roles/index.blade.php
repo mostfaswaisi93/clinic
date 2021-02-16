@@ -20,8 +20,7 @@
                                     <th></th>
                                     <th>#</th>
                                     <th>{{ trans('admin.name') }}</th>
-                                    <th>{{ trans('admin.price') }}</th>
-                                    <th class="status">{{ trans('admin.status') }}</th>
+                                    <th>{{ trans('admin.users_count') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.actions') }}</th>
                                 </tr>
@@ -41,11 +40,9 @@
 @push('scripts')
 
 @include('partials.delete')
-@include('partials.status')
 @include('partials.multi_delete')
 
 <script type="text/javascript">
-    var status = '';
     var getLocation = "roles";
     $(document).ready(function(){
         // DataTable
@@ -64,9 +61,12 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }, searchable: false, orderable: false
                 },
-                { data: 'name_trans' },
-                { data: 'price' },
-                { data: 'enabled' },
+                { data: 'name' },
+                { data: 'users_count', 
+                    render: function(data, type, row, meta) {
+                        return "<div class='badge badge-success'>"+ data +"</div>";
+                    }
+                },
                 { data: 'created_at' },
                 { data: 'action', orderable: false,
                     render: function(data, type, row, meta) {
@@ -101,24 +101,6 @@
                 },
                 checkboxes: {
                     selectAllRender: '<div class="custom-control custom-checkbox"> <input class="custom-control-input" type="checkbox" id="checkboxSelectAll" /><label class="custom-control-label" for="checkboxSelectAll"></label></div>'
-                }
-            },
-            {
-                "targets": 4,
-                render: function (data, type, row, meta){
-                    var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
-                    var color = data ? "success" : "danger"; 
-                    var $checked = $(`
-                        <div class="custom-control custom-control-success custom-switch">
-                            <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
-                            class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
-                            onchange=selectStatus(${row.id}) >
-                            <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}"></label>
-                            <div class='badge badge-light-${color}'>${text}</div>
-                        </div>
-                    `);
-                    $checked.prop('checked', true).attr('checked', 'checked');
-                    return $checked[0].outerHTML
                 }
             } ],
             dom:  "<'row'<''l><'col-sm-8 text-center'B><''f>>" +
@@ -272,9 +254,7 @@
                 url: "/admin/roles/"+ id +"/edit",
                 dataType: "json",
                 success: function(html){
-                    $('#name_ar').val(html.data.name.ar);
-                    $('#name_en').val(html.data.name.en);
-                    $('#price').val(html.data.price);
+                    $('#name').val(html.data.name);
                     $('#hidden_id').val(html.data.id);
                     $('.modal-title').text("{{ trans('admin.edit_role') }}");
                     $('#action_button').val("Edit");

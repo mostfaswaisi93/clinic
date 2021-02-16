@@ -76,7 +76,6 @@ Route::group(
             Route::post('roles/update', 'RolesController@update')->name('roles.update');
             Route::get('roles/destroy/{id}', 'RolesController@destroy');
             Route::delete('roles/destroy/all', 'RolesController@multi_delete');
-            Route::post('roles/updateStatus/{id}', 'RolesController@updateStatus');
 
             Route::post('users/update', 'UsersController@update')->name('users.update');
             Route::get('users/destroy/{id}', 'UsersController@destroy');
