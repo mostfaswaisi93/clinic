@@ -63,6 +63,7 @@ return [
     'create_country'            => 'إضافة دولة جديدة',
     'create_city'               => 'إضافة مدينة جديدة',
     'create_state'              => 'إضافة منطقة جديدة',
+    'create_constant'           => 'إضافة ثابت جديد',
     'create_role'               => 'إضافة دور جديد',
     'create_user'               => 'إضافة مستخدم جديد',
 
@@ -72,6 +73,7 @@ return [
     'edit_country'              => 'تعديل بيانات الدولة',
     'edit_city'                 => 'تعديل بيانات المدينة',
     'edit_state'                => 'تعديل بيانات المنطقة',
+    'edit_constant'             => 'تعديل بيانات الثابت',
     'edit_role'                 => 'تعديل بيانات الدور',
     'edit_user'                 => 'تعديل بيانات المستخدم',
 
@@ -90,6 +92,7 @@ return [
     'email'                     => 'البريد الإلكتروني',
     'image'                     => 'صورة',
     'status'                    => 'الحالة',
+    'type'                      => 'النوع',
     'language'                  => 'اللغة',
     'user_image'                => 'صورة مستخدم',
     'icon'                      => 'الأيقونة',
@@ -114,6 +117,7 @@ return [
     'countries'                 => 'الدول',
     'cities'                    => 'المدن',
     'states'                    => 'المناطق',
+    'constants'                 => 'الثوابت',
     'payment_methods'           => 'طرق الدفع',
     'rates'                     => 'التقييم',
     'users'                     => 'المستخدمين',
@@ -130,6 +134,7 @@ return [
     'country'                   => 'الدولة',
     'city'                      => 'المدينة',
     'state'                     => 'المنطقة',
+    'constant'                  => 'الثابت',
     'role'                      => 'دور',
     'user'                      => 'مستخدم',
 

@@ -20,6 +20,7 @@
                                     <th></th>
                                     <th>#</th>
                                     <th>{{ trans('admin.name') }}</th>
+                                    <th>{{ trans('admin.type') }}</th>
                                     <th class="status">{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.actions') }}</th>
@@ -64,6 +65,11 @@
                     }, searchable: false, orderable: false
                 },
                 { data: 'name_trans' },
+                { data: 'type',
+                    render: function(data, type, row, meta) {
+                        return "<div class='badge badge-light-primary'>"+ row.type +"</div>";
+                    }
+                },
                 { data: 'enabled' },
                 { data: 'created_at' },
                 { data: 'action', orderable: false,
@@ -102,7 +108,7 @@
                 }
             },
             {
-                "targets": 3,
+                "targets": 4,
                 render: function (data, type, row, meta){
                     var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
                     var color = data ? "success" : "danger"; 
@@ -272,6 +278,7 @@
                 success: function(html){
                     $('#name_ar').val(html.data.name.ar);
                     $('#name_en').val(html.data.name.en);
+                    $('#type').val(html.data.type);
                     $('#hidden_id').val(html.data.id);
                     $('.modal-title').text("{{ trans('admin.edit_constant') }}");
                     $('#action_button').val("Edit");

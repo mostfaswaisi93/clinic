@@ -29,7 +29,9 @@ class ConstantsController extends Controller
 
     public function store(Request $request)
     {
-        $rules = array();
+        $rules = array(
+            'type'    =>  'required'
+        );
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];
@@ -56,7 +58,9 @@ class ConstantsController extends Controller
 
     public function update(Request $request, Constant $constant)
     {
-        $rules = array();
+        $rules = array(
+            'type'    =>  'required'
+        );
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];

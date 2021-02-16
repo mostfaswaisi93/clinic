@@ -9,18 +9,17 @@ class ConstantsTableSeeder extends Seeder
 {
     public function run()
     {
-        $ref1['name'] = [
-            'ar' => 'ذكر',
-            'en' => 'Male'
-        ];
-
-        Constant::create($ref1);
-
-        $ref2['name'] = [
-            'ar' => 'أنثى',
-            'en' => 'Female'
-        ];
-
-        Constant::create($ref2);
+        Constant::create([
+            'name' => [
+                'ar' => 'ذكر',
+                'en' => 'Male'
+            ], 'type' => 'gender'
+        ]);
+        Constant::create([
+            'name' => [
+                'ar' => 'أنثى',
+                'en' => 'Female'
+            ], 'type' => 'gender'
+        ]);
     }
 }

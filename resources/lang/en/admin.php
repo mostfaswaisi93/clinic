@@ -63,6 +63,7 @@ return [
     'create_country'            => 'Add New Country',
     'create_city'               => 'Add New City',
     'create_state'              => 'Add New State',
+    'create_constant'           => 'Add New Constant',
     'create_role'               => 'Add New Role',
     'create_user'               => 'Add New User',
 
@@ -72,6 +73,7 @@ return [
     'edit_country'              => 'Edit Country Data',
     'edit_city'                 => 'Edit City Data',
     'edit_state'                => 'Edit State Data',
+    'edit_constant'             => 'Edit Constant Data',
     'edit_role'                 => 'Edit Role Data',
     'edit_user'                 => 'Edit User Data',
 
@@ -90,6 +92,7 @@ return [
     'email'                     => 'Email',
     'image'                     => 'Image',
     'status'                    => 'Status',
+    'type'                      => 'Type',
     'language'                  => 'Language',
     'user_image'                => 'User Image',
     'icon'                      => 'Icon',
@@ -114,6 +117,7 @@ return [
     'countries'                 => 'Countries',
     'cities'                    => 'Cities',
     'states'                    => 'States',
+    'constants'                 => 'Constants',
     'payment_methods'           => 'Payment Methods',
     'rates'                     => 'Rates',
     'users'                     => 'Users',
@@ -130,6 +134,7 @@ return [
     'country'                   => 'Country',
     'city'                      => 'City',
     'state'                     => 'State',
+    'constant'                  => 'Constant',
     'role'                      => 'Role',
     'user'                      => 'User',
 

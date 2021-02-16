@@ -67,6 +67,11 @@ label {
     background-color: #ea5455;
 }
 
+.table thead th,
+.table tfoot th {
+    text-transform: unset;
+}
+
 @media (min-width: 576px) {
     .modal-slide-in .modal-dialog.sidebar-lg {
         width: 60rem;
