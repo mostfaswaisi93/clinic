@@ -22,6 +22,7 @@ Route::group(
                 'countries'         => CountriesController::class,
                 'cities'            => CitiesController::class,
                 'states'            => StatesController::class,
+                'constants'         => ConstantsController::class,
                 'payments'          => PaymentsController::class,
                 'receipts'          => ReceiptsController::class,
                 'transactions'      => TransactionsController::class,
@@ -66,6 +67,11 @@ Route::group(
             Route::get('states/destroy/{id}', 'StatesController@destroy');
             Route::delete('states/destroy/all', 'StatesController@multi_delete');
             Route::post('states/updateStatus/{id}', 'StatesController@updateStatus');
+
+            Route::post('constants/update', 'ConstantsController@update')->name('constants.update');
+            Route::get('constants/destroy/{id}', 'ConstantsController@destroy');
+            Route::delete('constants/destroy/all', 'ConstantsController@multi_delete');
+            Route::post('constants/updateStatus/{id}', 'ConstantsController@updateStatus');
 
             Route::get('payments/destroy/{id}', 'PaymentsController@destroy');
 

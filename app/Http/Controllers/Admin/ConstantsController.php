@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Constant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Validator;
 
 class ConstantsController extends Controller
 {
@@ -27,9 +29,7 @@ class ConstantsController extends Controller
 
     public function store(Request $request)
     {
-        $rules = array(
-            'price'    =>  'required'
-        );
+        $rules = array();
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];
@@ -56,9 +56,7 @@ class ConstantsController extends Controller
 
     public function update(Request $request, Constant $constant)
     {
-        $rules = array(
-            'price'    =>  'required'
-        );
+        $rules = array();
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];
@@ -71,8 +69,7 @@ class ConstantsController extends Controller
         }
 
         $request_data = array(
-            'name'       =>   $request->name,
-            'price'      =>   $request->price,
+            'name'       =>   $request->name
         );
 
         $constant::whereId($request->hidden_id)->update($request_data);
@@ -84,6 +81,13 @@ class ConstantsController extends Controller
     {
         $constant = Constant::findOrFail($id);
         $constant->delete();
+    }
+
+    public function multi_delete(Request $request)
+    {
+        $ids = $request->ids;
+        DB::table("constants")->whereIn('id', explode(",", $ids))->delete();
+        return response()->json(['success' => 'The data has been deleted successfully']);
     }
 
     public function updateStatus(Request $request, $id)

@@ -133,6 +133,14 @@
                         </a>
                     </li>
                     @endif
+                    @if (auth()->user()->can('read_constants'))
+                    <li {{ request()->route()->getName() === 'admin.constants.index' ? 'class=active' : '' }}>
+                        <a href="{{ route('admin.constants.index') }}" class="d-flex align-items-center">
+                            <i data-feather="circle"></i>
+                            <span class="menu-title text-truncate">{{ trans('admin.constants') }}</span>
+                        </a>
+                    </li>
+                    @endif
                 </ul>
             </li>
             <li class="nav-item">
