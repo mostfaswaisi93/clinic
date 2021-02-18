@@ -12,6 +12,7 @@ return [
             'countries'         => 'c,r,u,d,p,da',
             'cities'            => 'c,r,u,d,p,da',
             'states'            => 'c,r,u,d,p,da',
+            'locations'         => 'c,r,u,d,p,da',
             'constants'         => 'c,r,u,d,p,da',
             // 'payments'          => 'c,r,u,d,p,da',
             'receipts'          => 'c,r,u,d,p,da',

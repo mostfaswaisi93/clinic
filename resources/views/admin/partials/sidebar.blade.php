@@ -133,6 +133,14 @@
                         </a>
                     </li>
                     @endif
+                    @if (auth()->user()->can('read_locations'))
+                    <li {{ request()->route()->getName() === 'admin.locations.index' ? 'class=active' : '' }}>
+                        <a href="{{ route('admin.locations.index') }}" class="d-flex align-items-center">
+                            <i data-feather="flag"></i>
+                            <span class="menu-title text-truncate">{{ trans('admin.locations') }}</span>
+                        </a>
+                    </li>
+                    @endif
                     @if (auth()->user()->can('read_constants'))
                     <li {{ request()->route()->getName() === 'admin.constants.index' ? 'class=active' : '' }}>
                         <a href="{{ route('admin.constants.index') }}" class="d-flex align-items-center">

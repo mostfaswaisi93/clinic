@@ -28,4 +28,14 @@ class Country extends BaseModel
     {
         return asset('images/countries/' . $this->logo);
     }
+
+    public function cities()
+    {
+        return $this->hasMany(City::class);
+    }
+
+    public function states()
+    {
+        return $this->hasMany(State::class);
+    }
 }
