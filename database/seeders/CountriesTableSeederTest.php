@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Country;
 use Illuminate\Database\Seeder;
 
-class CountriesTableSeeder extends Seeder
+class CountriesTableSeederTest extends Seeder
 {
     public function run()
     {

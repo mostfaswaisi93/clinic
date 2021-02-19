@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title') {{ trans('admin.locations') }} @endsection
+@section('title') {{ trans('admin.districts') }} @endsection
 
 @section('content')
 
@@ -9,7 +9,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header border-bottom">
-                        <h4 class="card-title"><b>{{ trans('admin.locations') }}</b></h4>
+                        <h4 class="card-title"><b>{{ trans('admin.districts') }}</b></h4>
                     </div>
                     <div class="table-responsive" style="padding: 10px">
                         <table id="data-table"
@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-        @include('admin.locations.modal')
+        @include('admin.districts.modal')
     </section>
 </div>
 
@@ -46,7 +46,7 @@
 
 <script type="text/javascript">
     var status = '';
-    var getLocation = "locations";
+    var getdistrict = "districts";
     $(document).ready(function(){
         // DataTable
         $('#data-table').DataTable({
@@ -55,7 +55,7 @@
             responsive: true,
             order: [[ 2, "desc" ]],
             ajax: {
-                url: "{{ route('admin.locations.index') }}",
+                url: "{{ route('admin.districts.index') }}",
             },
             columns: [
                 { data: 'id' },
@@ -72,12 +72,12 @@
                     render: function(data, type, row, meta) {
                         // Action Buttons
                         return (
-                            '<span>@if(auth()->user()->can('update_locations'))' +
-                            '<a id="'+ row.id +'" name="edit" class="item-edit edit mr-1" data-toggle="modal" data-target="#locationModal" title="{{ trans("admin.edit") }}">' +
+                            '<span>@if(auth()->user()->can('update_districts'))' +
+                            '<a id="'+ row.id +'" name="edit" class="item-edit edit mr-1" data-toggle="modal" data-target="#districtModal" title="{{ trans("admin.edit") }}">' +
                             feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
                             '</a>' +
                             '@endif </span>' +
-                            '<span>@if(auth()->user()->can('delete_locations'))' +
+                            '<span>@if(auth()->user()->can('delete_districts'))' +
                             '<a id="'+ row.id +'" class="item-edit delete" title="{{ trans("admin.delete") }}">' +
                             feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
                             '</a>' +
@@ -133,7 +133,7 @@
                     }
                 },
                 { text: '<i data-feather="trash-2"></i> {{ trans("admin.trash") }}',
-                  className: '@if (auth()->user()->can("del_all_locations")) btn dtbtn btn-sm btn-danger multi_delete @else btn dtbtn btn-sm btn-danger disabled @endif',
+                  className: '@if (auth()->user()->can("del_all_districts")) btn dtbtn btn-sm btn-danger multi_delete @else btn dtbtn btn-sm btn-danger disabled @endif',
                   attr: { 'title': '{{ trans("admin.trash") }}' }
                 },
                 { extend: 'csvHtml5', charset: "UTF-8", bom: true,
@@ -147,7 +147,7 @@
                   attr: { 'title': 'Excel' }
                 },
                 { text: '<i data-feather="printer"></i> {{ trans("admin.print") }}',
-                  className: '@if (auth()->user()->can("print_locations")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
+                  className: '@if (auth()->user()->can("print_districts")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
                   extend: 'print', attr: { 'title': '{{ trans("admin.print") }}' }
                 },
                 { extend: 'pdfHtml5', charset: "UTF-8", bom: true, 
@@ -155,14 +155,14 @@
                   text: '<i data-feather="file"></i> PDF',
                   pageSize: 'A4', attr: { 'title': 'PDF' }
                 },
-                { text: '<i data-feather="plus"></i> {{ trans("admin.create_location") }}',
-                  className: '@if (auth()->user()->can("create_locations")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
+                { text: '<i data-feather="plus"></i> {{ trans("admin.create_district") }}',
+                  className: '@if (auth()->user()->can("create_districts")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
                   attr: {
-                    'title': '{{ trans("admin.create_location") }}',
+                    'title': '{{ trans("admin.create_district") }}',
                     'data-toggle': 'modal',
-                    'data-target': '#locationModal',
-                    'name': 'create_location',
-                    'id': 'create_location' }
+                    'data-target': '#districtModal',
+                    'name': 'create_district',
+                    'id': 'create_district' }
                 },
             ],
             language: {
@@ -173,22 +173,22 @@
         });
 
         // Open Modal
-        $(document).on('click', '#create_location', function(){
-            $('.modal-title').text("{{ trans('admin.create_location') }}");
+        $(document).on('click', '#create_district', function(){
+            $('.modal-title').text("{{ trans('admin.create_district') }}");
             $('#action_button').val("Add");
-            $('#locationForm').trigger("reset");
+            $('#districtForm').trigger("reset");
             $('#form_result').html('');
             $('#action').val("Add");
         });
 
         // Add Data
-        $('#locationForm').on('submit', function(event){
+        $('#districtForm').on('submit', function(event){
             event.preventDefault();
             if($('#action').val() == 'Add')
             {
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "{{ route('admin.locations.store') }}",
+                    url: "{{ route('admin.districts.store') }}",
                     method: "POST",
                     data: formData,
                     contentType: false,
@@ -209,7 +209,7 @@
                     }
                     if(data.success)
                     {
-                        $('#locationForm')[0].reset();
+                        $('#districtForm')[0].reset();
                         $('#data-table').DataTable().ajax.reload();
                         $("[data-dismiss=modal]").trigger({ type: "click" });
                         var lang = "{{ app()->getLocale() }}";
@@ -227,7 +227,7 @@
             {
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "{{ route('admin.locations.update') }}",
+                    url: "{{ route('admin.districts.update') }}",
                     method: "POST",
                     data: formData,
                     contentType: false,
@@ -248,7 +248,7 @@
                     }
                     if(data.success)
                     {
-                        $('#locationForm')[0].reset();
+                        $('#districtForm')[0].reset();
                         $('#data-table').DataTable().ajax.reload();
                         $("[data-dismiss=modal]").trigger({ type: "click" });
                         var lang = "{{ app()->getLocale() }}";
@@ -269,14 +269,14 @@
             var id = $(this).attr('id');
             $('#form_result').html('');
             $.ajax({
-                url: "/admin/locations/"+ id +"/edit",
+                url: "/admin/districts/"+ id +"/edit",
                 dataType: "json",
                 success: function(html){
                     $('#name_ar').val(html.data.name.ar);
                     $('#name_en').val(html.data.name.en);
                     $('#price').val(html.data.price);
                     $('#hidden_id').val(html.data.id);
-                    $('.modal-title').text("{{ trans('admin.edit_location') }}");
+                    $('.modal-title').text("{{ trans('admin.edit_district') }}");
                     $('#action_button').val("Edit");
                     $('#action').val("Edit");
                 }

@@ -11,7 +11,7 @@ return [
             'contacts'          => 'c,r,u,d,p,da',
             'countries'         => 'c,r,u,d,p,da',
             'cities'            => 'c,r,u,d,p,da',
-            'states'            => 'c,r,u,d,p,da',
+            'districts'         => 'c,r,u,d,p,da',
             'locations'         => 'c,r,u,d,p,da',
             'constants'         => 'c,r,u,d,p,da',
             // 'payments'          => 'c,r,u,d,p,da',

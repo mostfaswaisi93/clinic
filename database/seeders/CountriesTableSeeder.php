@@ -10,10 +10,15 @@ class CountriesTableSeeder extends Seeder
     public function run()
     {
         Country::create([
-            'ar' => ['name' => 'أفغانستان', 'currency' => 'أفغاني'],
-            'en' => ['name' => 'Afghanistan', 'currency' => 'AFN'],
-            'iso_code'      => 'AFG',
-            'phone_code'    => '93',
+            'name' => [
+                'ar' => 'أفغانستان',
+                'en' => 'Afghanistan'
+            ],
+            'currency' => [
+                'ar' => 'أفغاني',
+                'en' => 'AFN'
+            ],
+            'iso_code' => '15.00', 'phone_code' => '93'
         ]);
     }
 }

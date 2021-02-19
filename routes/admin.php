@@ -21,7 +21,7 @@ Route::group(
                 'contacts'          => ContactsController::class,
                 'countries'         => CountriesController::class,
                 'cities'            => CitiesController::class,
-                'states'            => StatesController::class,
+                'districts'         => DistrictsController::class,
                 'locations'         => LocationsController::class,
                 'constants'         => ConstantsController::class,
                 'payments'          => PaymentsController::class,
@@ -64,10 +64,10 @@ Route::group(
             Route::delete('cities/destroy/all', 'CitiesController@multi_delete');
             Route::post('cities/updateStatus/{id}', 'CitiesController@updateStatus');
 
-            Route::post('states/update', 'StatesController@update')->name('states.update');
-            Route::get('states/destroy/{id}', 'StatesController@destroy');
-            Route::delete('states/destroy/all', 'StatesController@multi_delete');
-            Route::post('states/updateStatus/{id}', 'StatesController@updateStatus');
+            Route::post('districts/update', 'DistrictsController@update')->name('districts.update');
+            Route::get('districts/destroy/{id}', 'DistrictsController@destroy');
+            Route::delete('districts/destroy/all', 'DistrictsController@multi_delete');
+            Route::post('districts/updateStatus/{id}', 'DistrictsController@updateStatus');
 
             Route::post('locations/update', 'LocationsController@update')->name('locations.update');
             Route::get('locations/destroy/{id}', 'LocationsController@destroy');

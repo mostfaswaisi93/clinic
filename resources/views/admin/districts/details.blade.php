@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title') {{ trans('admin.create_patient') }} @endsection
+@section('title') {{ trans('admin.create_district') }} @endsection
 
 @section('content')
 
@@ -7,16 +7,16 @@
     <div class="content-header-left col-md-9 col-12 mb-2">
         <div class="row breadcrumbs-top">
             <div class="col-12">
-                <h2 class="content-header-title float-left mb-0">{{ trans('admin.create_patient') }}</h2>
+                <h2 class="content-header-title float-left mb-0">{{ trans('admin.create_district') }}</h2>
                 <div class="breadcrumb-wrapper">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.index') }}">{{ trans('admin.home') }}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.patients.index') }}">{{ trans('admin.patients') }}</a>
+                            <a href="{{ route('admin.districts.index') }}">{{ trans('admin.districts') }}</a>
                         </li>
-                        <li class="breadcrumb-item active">{{ trans('admin.create_patient') }}</li>
+                        <li class="breadcrumb-item active">{{ trans('admin.create_district') }}</li>
                     </ol>
                 </div>
             </div>
@@ -32,13 +32,13 @@
                     <div class="card-header">
                         <h4 class="card-title">
                             <i class="mr-25" data-feather='plus-circle'></i>
-                            {{ trans('admin.create_patient') }}
+                            {{ trans('admin.create_district') }}
                         </h4>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
                             @include('partials.errors')
-                            <form action="{{ route('admin.patients.store') }}" method="post">
+                            <form action="{{ route('admin.districts.store') }}" method="post">
                                 @csrf
                                 @method('POST')
                                 <div class="row">

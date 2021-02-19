@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Translatable\HasTranslations;
 
-class State extends BaseModel
+class District extends BaseModel
 {
     use HasFactory, HasTranslations;
 
-    protected $table        = 'states';
+    protected $table        = 'districts';
     protected $fillable     = ['name', 'city_id', 'country_id', 'enabled'];
     protected $appends      = ['name_trans'];
     public $translatable    = ['name'];

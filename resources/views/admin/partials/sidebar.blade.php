@@ -125,11 +125,11 @@
                         </a>
                     </li>
                     @endif
-                    @if (auth()->user()->can('read_states'))
-                    <li {{ request()->route()->getName() === 'admin.states.index' ? 'class=active' : '' }}>
-                        <a href="{{ route('admin.states.index') }}" class="d-flex align-items-center">
+                    @if (auth()->user()->can('read_districts'))
+                    <li {{ request()->route()->getName() === 'admin.districts.index' ? 'class=active' : '' }}>
+                        <a href="{{ route('admin.districts.index') }}" class="d-flex align-items-center">
                             <i data-feather="flag"></i>
-                            <span class="menu-title text-truncate">{{ trans('admin.states') }}</span>
+                            <span class="menu-title text-truncate">{{ trans('admin.districts') }}</span>
                         </a>
                     </li>
                     @endif

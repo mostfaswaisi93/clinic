@@ -3,28 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StatesRequest;
-use App\Models\City;
-use App\Models\Country;
-use App\Models\State;
-use Brian2694\Toastr\Facades\Toastr;
+use App\Models\District;
 use Illuminate\Http\Request;
+use Brian2694\Toastr\Facades\Toastr;
 
-class StatesController extends Controller
+class DistrictsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['permission:read_states'])->only('index');
-        $this->middleware(['permission:create_states'])->only('create');
-        $this->middleware(['permission:update_states'])->only('edit');
-        $this->middleware(['permission:delete_states'])->only('destroy');
+        $this->middleware(['permission:read_districts'])->only('index');
+        $this->middleware(['permission:create_districts'])->only('create');
+        $this->middleware(['permission:update_districts'])->only('edit');
+        $this->middleware(['permission:delete_districts'])->only('destroy');
     }
 
     public function index()
     {
-        $states = State::OrderBy('created_at', 'desc')->with(['city', 'country'])->get();
+        $districts = District::OrderBy('created_at', 'desc')->with(['city', 'country'])->get();
         if (request()->ajax()) {
-            return datatables()->of($states)
+            return datatables()->of($districts)
                 ->addColumn('city', function ($data) {
                     return $data->city->name_trans;
                 })
@@ -32,8 +29,8 @@ class StatesController extends Controller
                     return $data->country->name_trans;
                 })
                 ->addColumn('action', function ($data) {
-                    if (auth()->user()->can(['update_states', 'delete_states'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="states/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="feather icon-edit"></i></a>';
+                    if (auth()->user()->can(['update_districts', 'delete_districts'])) {
+                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="districts/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="feather icon-edit"></i></a>';
                         $button .= '&nbsp;';
                         $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
                         return $button;
@@ -42,17 +39,17 @@ class StatesController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('admin.states.index');
+        return view('admin.districts.index');
     }
 
     public function create()
     {
         $cities = City::active()->get();
         $countries = Country::active()->get();
-        return view('admin.states.create', compact('cities', 'countries'));
+        return view('admin.districts.create', compact('cities', 'countries'));
     }
 
-    public function store(StatesRequest $request)
+    public function store(districtsRequest $request)
     {
         $rules = [
             'city_id'       => 'required',
@@ -65,7 +62,7 @@ class StatesController extends Controller
 
         $request->validate($rules);
 
-        State::create($request->all());
+        District::create($request->all());
 
         if (app()->getLocale() == 'ar') {
             Toastr::success(__('admin.added_successfully'));
@@ -73,17 +70,17 @@ class StatesController extends Controller
             Toastr::success(__('admin.added_successfully'), '', ["positionClass" => "toast-bottom-left"]);
         }
 
-        return redirect()->route('admin.states.index');
+        return redirect()->route('admin.districts.index');
     }
 
-    public function edit(State $state)
+    public function edit(district $district)
     {
         $cities = City::active()->get();
         $countries = Country::active()->get();
-        return view('admin.states.edit', compact('cities', 'countries', 'state'));
+        return view('admin.districts.edit', compact('cities', 'countries', 'district'));
     }
 
-    public function update(StatesRequest $request, State $state)
+    public function update(districtsRequest $request, district $district)
     {
         $rules = [
             'city_id'       => 'required',
@@ -96,7 +93,7 @@ class StatesController extends Controller
 
         $request->validate($rules);
 
-        $state->update($request->all());
+        $district->update($request->all());
 
         if (app()->getLocale() == 'ar') {
             Toastr::success(__('admin.updated_successfully'));
@@ -104,23 +101,23 @@ class StatesController extends Controller
             Toastr::success(__('admin.updated_successfully'), '', ["positionClass" => "toast-bottom-left"]);
         }
 
-        return redirect()->route('admin.states.index');
+        return redirect()->route('admin.districts.index');
     }
 
     public function destroy($id)
     {
-        $state = State::findOrFail($id);
-        $state->delete();
+        $district = District::findOrFail($id);
+        $district->delete();
     }
 
     public function updateStatus(Request $request, $id)
     {
-        $state           = State::find($id);
+        $district           = District::find($id);
         $enabled         = $request->get('enabled');
-        $state->enabled  = $enabled;
-        $state           = $state->save();
+        $district->enabled  = $enabled;
+        $district           = $district->save();
 
-        if ($state) {
+        if ($district) {
             return response(['success' => true, "message" => 'Status has been Successfully Updated']);
         }
     }
