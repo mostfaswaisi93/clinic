@@ -18,7 +18,7 @@ class CreateLocationsTable extends Migration
             $table->string('title');
             $table->integer('country_id')->unsigned()->onDelete('cascade');
             $table->integer('city_id')->unsigned()->onDelete('cascade');
-            $table->integer('state_id')->unsigned()->onDelete('cascade');
+            $table->integer('district_id')->unsigned()->onDelete('cascade');
             $table->integer('enabled')->default(1);
             $table->timestamps();
             $table->softDeletes();

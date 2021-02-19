@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Country;
-use App\Models\State;
+use App\Models\District;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
@@ -21,7 +21,7 @@ class LocationsController extends Controller
 
     public function index()
     {
-        $locations = State::OrderBy('created_at', 'desc')->with(['city', 'country'])->get();
+        $locations = District::OrderBy('created_at', 'desc')->with(['city', 'country'])->get();
         if (request()->ajax()) {
             return datatables()->of($locations)
                 ->addColumn('city', function ($data) {
@@ -64,7 +64,7 @@ class LocationsController extends Controller
 
         $request->validate($rules);
 
-        State::create($request->all());
+        District::create($request->all());
 
         if (app()->getLocale() == 'ar') {
             Toastr::success(__('admin.added_successfully'));
@@ -75,14 +75,14 @@ class LocationsController extends Controller
         return redirect()->route('admin.locations.index');
     }
 
-    public function edit(State $state)
+    public function edit(District $district)
     {
         $cities = City::active()->get();
         $countries = Country::active()->get();
-        return view('admin.locations.edit', compact('cities', 'countries', 'state'));
+        return view('admin.locations.edit', compact('cities', 'countries', 'district'));
     }
 
-    public function update(locationsRequest $request, State $state)
+    public function update(locationsRequest $request, District $district)
     {
         $rules = [
             'city_id'       => 'required',
@@ -95,7 +95,7 @@ class LocationsController extends Controller
 
         $request->validate($rules);
 
-        $state->update($request->all());
+        $district->update($request->all());
 
         if (app()->getLocale() == 'ar') {
             Toastr::success(__('admin.updated_successfully'));
@@ -108,18 +108,18 @@ class LocationsController extends Controller
 
     public function destroy($id)
     {
-        $state = State::findOrFail($id);
-        $state->delete();
+        $district = District::findOrFail($id);
+        $district->delete();
     }
 
     public function updateStatus(Request $request, $id)
     {
-        $state           = State::find($id);
+        $district           = District::find($id);
         $enabled         = $request->get('enabled');
-        $state->enabled  = $enabled;
-        $state           = $state->save();
+        $district->enabled  = $enabled;
+        $district           = $district->save();
 
-        if ($state) {
+        if ($district) {
             return response(['success' => true, "message" => 'Status has been Successfully Updated']);
         }
     }

@@ -34,8 +34,8 @@ class Country extends BaseModel
         return $this->hasMany(City::class);
     }
 
-    public function states()
+    public function districts()
     {
-        return $this->hasMany(State::class);
+        return $this->hasMany(District::class);
     }
 }

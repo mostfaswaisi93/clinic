@@ -133,7 +133,7 @@
                     }
                 },
                 { text: '<i data-feather="trash-2"></i> {{ trans("admin.trash") }}',
-                  className: '@if (auth()->user()->can("del_all_services")) btn dtbtn btn-sm btn-danger multi_delete @else btn dtbtn btn-sm btn-danger disabled @endif',
+                  className: '@if (auth()->user()->can("multi_delete_services")) btn dtbtn btn-sm btn-danger multi_delete @else btn dtbtn btn-sm btn-danger disabled @endif',
                   attr: { 'title': '{{ trans("admin.trash") }}' }
                 },
                 { extend: 'csvHtml5', charset: "UTF-8", bom: true,

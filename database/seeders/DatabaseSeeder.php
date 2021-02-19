@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             // ContactsTableSeeder::class,
             // CountriesTableSeeder::class,
             // CitiesTableSeeder::class,
-            // StatesTableSeeder::class,
+            // DistrictsTableSeeder::class,
         ]);
     }
 }

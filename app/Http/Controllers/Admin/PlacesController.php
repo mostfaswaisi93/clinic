@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\City;
 use App\Models\Country;
-use App\Models\State;
+use App\Models\District;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -15,7 +15,7 @@ class PlacesController extends Controller
     public function index()
     {
         $countries = Country::all();
-        $locations = Location::with(['country', 'city', 'state'])->paginate(5);
+        $locations = Location::with(['country', 'city', 'district'])->paginate(5);
         return view('frontend.index', compact('countries', 'locations'));
     }
 
@@ -24,7 +24,7 @@ class PlacesController extends Controller
         $validator = Validator::make($request->all(), [
             'country_id' => 'required',
             'city_id' => 'required',
-            'state_id' => 'required',
+            'district_id' => 'required',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -34,7 +34,7 @@ class PlacesController extends Controller
             'title'         => Str::random(10),
             'country_id'    => $request->country_id,
             'city_id'       => $request->city_id,
-            'state_id'      => $request->state_id,
+            'district_id'      => $request->district_id,
         ]);
 
         if ($location) {
@@ -56,9 +56,9 @@ class PlacesController extends Controller
         return response()->json($cities);
     }
 
-    public function get_states(Request $request)
+    public function get_districts(Request $request)
     {
-        $states = State::whereCityId($request->city_id)->pluck('name', 'id');
-        return response()->json($states);
+        $districts = District::whereCityId($request->city_id)->pluck('name', 'id');
+        return response()->json($districts);
     }
 }

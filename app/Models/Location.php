@@ -25,8 +25,8 @@ class Location extends BaseModel
         return $this->belongsTo(City::class);
     }
 
-    public function state()
+    public function district()
     {
-        return $this->belongsTo(State::class);
+        return $this->belongsTo(District::class);
     }
 }
