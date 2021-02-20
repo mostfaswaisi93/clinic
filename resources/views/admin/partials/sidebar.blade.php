@@ -120,7 +120,7 @@
                     @if (auth()->user()->can('read_cities'))
                     <li {{ request()->route()->getName() === 'admin.cities.index' ? 'class=active' : '' }}>
                         <a href="{{ route('admin.cities.index') }}" class="d-flex align-items-center">
-                            <i data-feather="flag"></i>
+                            <i data-feather="bookmark"></i>
                             <span class="menu-title text-truncate">{{ trans('admin.cities') }}</span>
                         </a>
                     </li>
@@ -128,7 +128,7 @@
                     @if (auth()->user()->can('read_districts'))
                     <li {{ request()->route()->getName() === 'admin.districts.index' ? 'class=active' : '' }}>
                         <a href="{{ route('admin.districts.index') }}" class="d-flex align-items-center">
-                            <i data-feather="flag"></i>
+                            <i data-feather="droplet"></i>
                             <span class="menu-title text-truncate">{{ trans('admin.districts') }}</span>
                         </a>
                     </li>
@@ -136,7 +136,7 @@
                     @if (auth()->user()->can('read_locations'))
                     <li {{ request()->route()->getName() === 'admin.locations.index' ? 'class=active' : '' }}>
                         <a href="{{ route('admin.locations.index') }}" class="d-flex align-items-center">
-                            <i data-feather="flag"></i>
+                            <i data-feather="map-pin"></i>
                             <span class="menu-title text-truncate">{{ trans('admin.locations') }}</span>
                         </a>
                     </li>

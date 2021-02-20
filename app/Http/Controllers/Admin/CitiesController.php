@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CitiesRequest;
 use App\Models\City;
 use App\Models\Country;
-use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Validator;
 
 class CitiesController extends Controller
 {
@@ -21,88 +21,78 @@ class CitiesController extends Controller
 
     public function index()
     {
-        $cities = City::OrderBy('created_at', 'desc')->with(['country'])->get();
+        $cities = City::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
-            return datatables()->of($cities)
-                ->addColumn('country', function ($data) {
-                    return $data->country->name_trans;
-                })
-                ->addColumn('action', function ($data) {
-                    if (auth()->user()->can(['update_cities', 'delete_cities'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="cities/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="feather icon-edit"></i></a>';
-                        $button .= '&nbsp;';
-                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
-                        return $button;
-                    }
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+            return datatables()->of($cities)->make(true);
         }
         return view('admin.cities.index');
     }
 
-    public function create()
+    public function store(Request $request)
     {
-        $countries = Country::active()->get();
-        return view('admin.cities.create')->with('countries', $countries);
-    }
-
-    public function store(CitiesRequest $request)
-    {
-        $rules = [
-            'country_id'   => 'required',
-        ];
+        $rules = array(
+            'country_id'    =>  'required'
+        );
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];
         }
 
-        $request->validate($rules);
+        $error = Validator::make($request->all(), $rules);
+
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
+        }
 
         City::create($request->all());
 
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.added_successfully'));
-        } else {
-            Toastr::success(__('admin.added_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        return response()->json(['success' => 'Data Added Successfully.']);
+    }
+
+    public function edit($id)
+    {
+        if (request()->ajax()) {
+            $data = City::findOrFail($id);
+            return response()->json(['data' => $data]);
         }
-
-        return redirect()->route('admin.cities.index');
     }
 
-    public function edit(City $city)
+    public function update(Request $request, City $city)
     {
-        $countries = Country::active()->get();
-        return view('admin.cities.edit', compact('countries', 'city'));
-    }
-
-    public function update(CitiesRequest $request, City $city)
-    {
-        $rules = [
-            'country_id'   => 'required'
-        ];
+        $rules = array(
+            'country_id'    =>  'required'
+        );
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];
         }
 
-        $request->validate($rules);
+        $error = Validator::make($request->all(), $rules);
 
-        $city->update($request->all());
-
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.updated_successfully'));
-        } else {
-            Toastr::success(__('admin.updated_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        return redirect()->route('admin.cities.index');
+        $request_data = array(
+            'name'       =>   $request->name
+        );
+
+        $city::whereId($request->hidden_id)->update($request_data);
+
+        return response()->json(['success' => 'Data is Successfully Updated']);
     }
 
     public function destroy($id)
     {
         $city = City::findOrFail($id);
         $city->delete();
+    }
+
+    public function multi_delete(Request $request)
+    {
+        $ids = $request->ids;
+        DB::table("cities")->whereIn('id', explode(",", $ids))->delete();
+        return response()->json(['success' => 'The data has been deleted successfully']);
     }
 
     public function updateStatus(Request $request, $id)

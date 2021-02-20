@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 19, 2021 at 04:25 PM
+-- Generation Time: Feb 20, 2021 at 10:59 AM
 -- Server version: 10.5.4-MariaDB-log
 -- PHP Version: 7.4.10
 
@@ -57,6 +57,15 @@ CREATE TABLE `cities` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `cities`
+--
+
+INSERT INTO `cities` (`id`, `name`, `country_id`, `enabled`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, '{\"ar\":\"الرياض\",\"en\":\"Riyadh\"}', 1, 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL),
+(2, '{\"ar\":\"جدة\",\"en\":\"Jeddah\"}', 1, 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL),
+(3, '{\"ar\":\"الدمام\",\"en\":\"Dammam\"}', 1, 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -78,8 +87,8 @@ CREATE TABLE `constants` (
 --
 
 INSERT INTO `constants` (`id`, `name`, `type`, `enabled`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '{\"ar\":\"ذكر\",\"en\":\"Male\"}', 'gender', 1, '2021-02-19 16:24:21', '2021-02-19 16:24:21', NULL),
-(2, '{\"ar\":\"أنثى\",\"en\":\"Female\"}', 'gender', 1, '2021-02-19 16:24:21', '2021-02-19 16:24:21', NULL);
+(1, '{\"ar\":\"ذكر\",\"en\":\"Male\"}', 'gender', 1, '2021-02-20 10:21:41', '2021-02-20 10:21:41', NULL),
+(2, '{\"ar\":\"أنثى\",\"en\":\"Female\"}', 'gender', 1, '2021-02-20 10:21:41', '2021-02-20 10:21:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -113,6 +122,46 @@ CREATE TABLE `countries` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `countries`
+--
+
+INSERT INTO `countries` (`id`, `name`, `enabled`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, '{\"ar\":\"السعودية\",\"en\":\"Saudi Arabia\"}', 1, '2021-02-20 10:21:42', '2021-02-20 10:23:32', NULL),
+(2, '{\"ar\":\"مصر\",\"en\":\"Egypt\"}', 1, '2021-02-20 10:34:17', '2021-02-20 10:34:17', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `districts`
+--
+
+CREATE TABLE `districts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `country_id` int(10) UNSIGNED NOT NULL,
+  `city_id` int(10) UNSIGNED NOT NULL,
+  `enabled` int(11) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `districts`
+--
+
+INSERT INTO `districts` (`id`, `name`, `country_id`, `city_id`, `enabled`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, '{\"ar\":\"الملاذ\",\"en\":\"Al Malaz\"}', 1, 1, 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL),
+(2, '{\"ar\":\"الشميسي\",\"en\":\"Al Shemaysi\"}', 1, 1, 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL),
+(3, '{\"ar\":\"العليا\",\"en\":\"Al Olyya\"}', 1, 1, 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL),
+(4, '{\"ar\":\"المرجان\",\"en\":\"Al Morjan\"}', 1, 2, 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL),
+(5, '{\"ar\":\"الخالدية\",\"en\":\"Al Khaldeyyah\"}', 1, 2, 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL),
+(6, '{\"ar\":\"السلامة\",\"en\":\"Al Salamah\"}', 1, 2, 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL),
+(7, '{\"ar\":\"الفيصلية\",\"en\":\"Al Fesaleyyah\"}', 1, 3, 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL),
+(8, '{\"ar\":\"الفاخرية\",\"en\":\"Al Fakhreyyah\"}', 1, 3, 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL),
+(9, '{\"ar\":\"الشاطئ\",\"en\":\"Al Shatea\"}', 1, 3, 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -155,7 +204,7 @@ CREATE TABLE `locations` (
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `country_id` int(10) UNSIGNED NOT NULL,
   `city_id` int(10) UNSIGNED NOT NULL,
-  `state_id` int(10) UNSIGNED NOT NULL,
+  `district_id` int(10) UNSIGNED NOT NULL,
   `enabled` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -194,9 +243,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (13, '2021_01_25_144815_create_services_table', 1),
 (14, '2021_01_27_164724_create_countries_table', 1),
 (15, '2021_01_27_164757_create_cities_table', 1),
-(16, '2021_01_27_164809_create_states_table', 1),
-(17, '2021_02_13_204113_create_invoices_table', 1),
-(18, '2021_02_18_140840_create_locations_table', 1);
+(16, '2021_02_13_204113_create_invoices_table', 1),
+(17, '2021_02_18_140840_create_locations_table', 1),
+(18, '2021_02_19_183121_create_districts_table', 1);
 
 -- --------------------------------------------------------
 
@@ -300,96 +349,96 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'create_appointments', 'web', '2021-02-19 16:24:14', '2021-02-19 16:24:14'),
-(2, 'read_appointments', 'web', '2021-02-19 16:24:14', '2021-02-19 16:24:14'),
-(3, 'update_appointments', 'web', '2021-02-19 16:24:14', '2021-02-19 16:24:14'),
-(4, 'delete_appointments', 'web', '2021-02-19 16:24:14', '2021-02-19 16:24:14'),
-(5, 'print_appointments', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(6, 'multi_delete_appointments', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(7, 'create_patients', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(8, 'read_patients', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(9, 'update_patients', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(10, 'delete_patients', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(11, 'print_patients', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(12, 'multi_delete_patients', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(13, 'create_services', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(14, 'read_services', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(15, 'update_services', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(16, 'delete_services', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(17, 'print_services', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(18, 'multi_delete_services', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(19, 'create_invoices', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(20, 'read_invoices', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(21, 'update_invoices', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(22, 'delete_invoices', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(23, 'print_invoices', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(24, 'multi_delete_invoices', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(25, 'create_contacts', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(26, 'read_contacts', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(27, 'update_contacts', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(28, 'delete_contacts', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(29, 'print_contacts', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(30, 'multi_delete_contacts', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(31, 'create_countries', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(32, 'read_countries', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(33, 'update_countries', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(34, 'delete_countries', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(35, 'print_countries', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(36, 'multi_delete_countries', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(37, 'create_cities', 'web', '2021-02-19 16:24:15', '2021-02-19 16:24:15'),
-(38, 'read_cities', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(39, 'update_cities', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(40, 'delete_cities', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(41, 'print_cities', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(42, 'multi_delete_cities', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(43, 'create_states', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(44, 'read_states', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(45, 'update_states', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(46, 'delete_states', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(47, 'print_states', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(48, 'multi_delete_states', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(49, 'create_locations', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(50, 'read_locations', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(51, 'update_locations', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(52, 'delete_locations', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(53, 'print_locations', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(54, 'multi_delete_locations', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(55, 'create_constants', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(56, 'read_constants', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(57, 'update_constants', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(58, 'delete_constants', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(59, 'print_constants', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(60, 'multi_delete_constants', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(61, 'create_receipts', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(62, 'read_receipts', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(63, 'update_receipts', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(64, 'delete_receipts', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(65, 'print_receipts', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(66, 'multi_delete_receipts', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(67, 'create_transactions', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(68, 'read_transactions', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(69, 'update_transactions', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(70, 'delete_transactions', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(71, 'print_transactions', 'web', '2021-02-19 16:24:16', '2021-02-19 16:24:16'),
-(72, 'multi_delete_transactions', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(73, 'create_users', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(74, 'read_users', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(75, 'update_users', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(76, 'delete_users', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(77, 'print_users', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(78, 'multi_delete_users', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(79, 'create_roles', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(80, 'read_roles', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(81, 'update_roles', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(82, 'delete_roles', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(83, 'print_roles', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(84, 'multi_delete_roles', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(85, 'create_settings', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(86, 'read_settings', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(87, 'update_settings', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(88, 'delete_settings', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(89, 'print_settings', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17'),
-(90, 'multi_delete_settings', 'web', '2021-02-19 16:24:17', '2021-02-19 16:24:17');
+(1, 'create_appointments', 'web', '2021-02-20 10:21:33', '2021-02-20 10:21:33'),
+(2, 'read_appointments', 'web', '2021-02-20 10:21:33', '2021-02-20 10:21:33'),
+(3, 'update_appointments', 'web', '2021-02-20 10:21:33', '2021-02-20 10:21:33'),
+(4, 'delete_appointments', 'web', '2021-02-20 10:21:33', '2021-02-20 10:21:33'),
+(5, 'print_appointments', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(6, 'multi_delete_appointments', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(7, 'create_patients', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(8, 'read_patients', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(9, 'update_patients', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(10, 'delete_patients', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(11, 'print_patients', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(12, 'multi_delete_patients', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(13, 'create_services', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(14, 'read_services', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(15, 'update_services', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(16, 'delete_services', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(17, 'print_services', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(18, 'multi_delete_services', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(19, 'create_invoices', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(20, 'read_invoices', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(21, 'update_invoices', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(22, 'delete_invoices', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(23, 'print_invoices', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(24, 'multi_delete_invoices', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(25, 'create_contacts', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(26, 'read_contacts', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(27, 'update_contacts', 'web', '2021-02-20 10:21:34', '2021-02-20 10:21:34'),
+(28, 'delete_contacts', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(29, 'print_contacts', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(30, 'multi_delete_contacts', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(31, 'create_countries', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(32, 'read_countries', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(33, 'update_countries', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(34, 'delete_countries', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(35, 'print_countries', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(36, 'multi_delete_countries', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(37, 'create_cities', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(38, 'read_cities', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(39, 'update_cities', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(40, 'delete_cities', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(41, 'print_cities', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(42, 'multi_delete_cities', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(43, 'create_districts', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(44, 'read_districts', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(45, 'update_districts', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(46, 'delete_districts', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(47, 'print_districts', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(48, 'multi_delete_districts', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(49, 'create_locations', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(50, 'read_locations', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(51, 'update_locations', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(52, 'delete_locations', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(53, 'print_locations', 'web', '2021-02-20 10:21:35', '2021-02-20 10:21:35'),
+(54, 'multi_delete_locations', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(55, 'create_constants', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(56, 'read_constants', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(57, 'update_constants', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(58, 'delete_constants', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(59, 'print_constants', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(60, 'multi_delete_constants', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(61, 'create_receipts', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(62, 'read_receipts', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(63, 'update_receipts', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(64, 'delete_receipts', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(65, 'print_receipts', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(66, 'multi_delete_receipts', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(67, 'create_transactions', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(68, 'read_transactions', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(69, 'update_transactions', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(70, 'delete_transactions', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(71, 'print_transactions', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(72, 'multi_delete_transactions', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(73, 'create_users', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(74, 'read_users', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(75, 'update_users', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(76, 'delete_users', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(77, 'print_users', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(78, 'multi_delete_users', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(79, 'create_roles', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(80, 'read_roles', 'web', '2021-02-20 10:21:36', '2021-02-20 10:21:36'),
+(81, 'update_roles', 'web', '2021-02-20 10:21:37', '2021-02-20 10:21:37'),
+(82, 'delete_roles', 'web', '2021-02-20 10:21:37', '2021-02-20 10:21:37'),
+(83, 'print_roles', 'web', '2021-02-20 10:21:37', '2021-02-20 10:21:37'),
+(84, 'multi_delete_roles', 'web', '2021-02-20 10:21:37', '2021-02-20 10:21:37'),
+(85, 'create_settings', 'web', '2021-02-20 10:21:37', '2021-02-20 10:21:37'),
+(86, 'read_settings', 'web', '2021-02-20 10:21:37', '2021-02-20 10:21:37'),
+(87, 'update_settings', 'web', '2021-02-20 10:21:37', '2021-02-20 10:21:37'),
+(88, 'delete_settings', 'web', '2021-02-20 10:21:37', '2021-02-20 10:21:37'),
+(89, 'print_settings', 'web', '2021-02-20 10:21:37', '2021-02-20 10:21:37'),
+(90, 'multi_delete_settings', 'web', '2021-02-20 10:21:37', '2021-02-20 10:21:37');
 
 -- --------------------------------------------------------
 
@@ -428,9 +477,9 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'super_admin', 'web', '2021-02-19 16:24:14', '2021-02-19 16:24:14'),
-(2, 'doctor', 'web', '2021-02-19 16:24:20', '2021-02-19 16:24:20'),
-(3, 'secretary', 'web', '2021-02-19 16:24:20', '2021-02-19 16:24:20');
+(1, 'super_admin', 'web', '2021-02-20 10:21:33', '2021-02-20 10:21:33'),
+(2, 'doctor', 'web', '2021-02-20 10:21:40', '2021-02-20 10:21:40'),
+(3, 'secretary', 'web', '2021-02-20 10:21:41', '2021-02-20 10:21:41');
 
 -- --------------------------------------------------------
 
@@ -575,10 +624,10 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `name`, `price`, `enabled`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '{\"ar\":\"جلسة أولى\",\"en\":\"First Session\"}', '15.00', 1, '2021-02-19 16:24:21', '2021-02-19 16:24:21', NULL),
-(2, '{\"ar\":\"جلسة ثانية\",\"en\":\"Second Session\"}', '20.00', 1, '2021-02-19 16:24:21', '2021-02-19 16:24:21', NULL),
-(3, '{\"ar\":\"جلسة ثالثة\",\"en\":\"Third Session\"}', '25.00', 1, '2021-02-19 16:24:21', '2021-02-19 16:24:21', NULL),
-(4, '{\"ar\":\"فحص عام\",\"en\":\"General Examination\"}', '30.00', 1, '2021-02-19 16:24:21', '2021-02-19 16:24:21', NULL);
+(1, '{\"ar\":\"جلسة أولى\",\"en\":\"First Session\"}', '15.00', 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL),
+(2, '{\"ar\":\"جلسة ثانية\",\"en\":\"Second Session\"}', '20.00', 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL),
+(3, '{\"ar\":\"جلسة ثالثة\",\"en\":\"Third Session\"}', '25.00', 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL),
+(4, '{\"ar\":\"فحص عام\",\"en\":\"General Examination\"}', '30.00', 1, '2021-02-20 10:21:42', '2021-02-20 10:21:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -589,23 +638,6 @@ INSERT INTO `services` (`id`, `name`, `price`, `enabled`, `created_at`, `updated
 CREATE TABLE `settings` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `currency` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `enabled` int(11) NOT NULL DEFAULT 1,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `states`
---
-
-CREATE TABLE `states` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `country_id` int(10) UNSIGNED NOT NULL,
-  `city_id` int(10) UNSIGNED NOT NULL,
   `enabled` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -659,9 +691,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `image`, `enabled`, `email_verified_at`, `password`, `remember_token`, `last_login_at`, `last_login_ip`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'super', 'admin', 'super_admin', 'super@admin.com', 'default.png', 1, NULL, '$2y$10$RUTkaJRUamZWpQVXs5BOyee.7FFIbV/5YnC0BGLiLshjWVzLFknGi', NULL, '2021-02-19 16:24:21', NULL, '2021-02-18 22:00:00', '2021-02-18 22:00:00', NULL),
-(2, 'Mustafa', 'Al-Swaisi', 'mostfaswaisi93', 'mostfaswaisi93@doctor.com', 'default.png', 1, NULL, '$2y$10$MZJTMPVpskiH8VJZqiUyrunvSGbuOXmemiWY1vvMbYXKSf.gJBlTC', NULL, '2021-02-19 16:24:21', NULL, '2021-02-18 22:00:00', '2021-02-18 22:00:00', NULL),
-(3, 'Ahmad', 'Ali', 'ahmadali', 'ahmadali@secretary.com', 'default.png', 1, NULL, '$2y$10$KoAuSBKZ4h8cA05pKbDkw.QM9g9DReiRHwsINwtQZzizdF/Yb2orG', NULL, '2021-02-19 16:24:21', NULL, '2021-02-18 22:00:00', '2021-02-18 22:00:00', NULL);
+(1, 'super', 'admin', 'super_admin', 'super@admin.com', 'default.png', 1, NULL, '$2y$10$QNU3BGh0lKXUzBtHqWWVYenDmNDFuXeITDpX4/PnkqrK05Xt/c8Ce', NULL, '2021-02-20 10:21:41', NULL, '2021-02-19 22:00:00', '2021-02-19 22:00:00', NULL),
+(2, 'Mustafa', 'Al-Swaisi', 'mostfaswaisi93', 'mostfaswaisi93@doctor.com', 'default.png', 1, NULL, '$2y$10$/HEDvEK1vRML6p/VVgq2oeThfsi/3aGeZhkUVIGG8prTyBCWkNqaS', NULL, '2021-02-20 10:21:42', NULL, '2021-02-19 22:00:00', '2021-02-19 22:00:00', NULL),
+(3, 'Ahmad', 'Ali', 'ahmadali', 'ahmadali@secretary.com', 'default.png', 1, NULL, '$2y$10$wtObf/lx61BMcQOdb6awhuXrUPFrgviXc4ldsd54n3snQtffS4HXm', NULL, '2021-02-20 10:21:42', NULL, '2021-02-19 22:00:00', '2021-02-19 22:00:00', NULL);
 
 --
 -- Indexes for dumped tables
@@ -695,6 +727,12 @@ ALTER TABLE `contacts`
 -- Indexes for table `countries`
 --
 ALTER TABLE `countries`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `districts`
+--
+ALTER TABLE `districts`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -794,12 +832,6 @@ ALTER TABLE `settings`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `states`
---
-ALTER TABLE `states`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `transactions`
 --
 ALTER TABLE `transactions`
@@ -827,7 +859,7 @@ ALTER TABLE `appointments`
 -- AUTO_INCREMENT for table `cities`
 --
 ALTER TABLE `cities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `constants`
@@ -845,7 +877,13 @@ ALTER TABLE `contacts`
 -- AUTO_INCREMENT for table `countries`
 --
 ALTER TABLE `countries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `districts`
+--
+ALTER TABLE `districts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -911,12 +949,6 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `states`
---
-ALTER TABLE `states`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --

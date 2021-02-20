@@ -20,8 +20,7 @@
                                     <th></th>
                                     <th>#</th>
                                     <th>{{ trans('admin.name') }}</th>
-                                    <th>{{ trans('admin.price') }}</th>
-                                    <th class="status">{{ trans('admin.status') }}</th>
+                                    <th>{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.actions') }}</th>
                                 </tr>
@@ -46,7 +45,7 @@
 
 <script type="text/javascript">
     var status = '';
-    var getdistrict = "districts";
+    var getLocation = "districts";
     $(document).ready(function(){
         // DataTable
         $('#data-table').DataTable({
@@ -65,7 +64,6 @@
                     }, searchable: false, orderable: false
                 },
                 { data: 'name_trans' },
-                { data: 'price' },
                 { data: 'enabled' },
                 { data: 'created_at' },
                 { data: 'action', orderable: false,
@@ -104,7 +102,7 @@
                 }
             },
             {
-                "targets": 4,
+                "targets": 3,
                 render: function (data, type, row, meta){
                     var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
                     var color = data ? "success" : "danger"; 
@@ -274,7 +272,6 @@
                 success: function(html){
                     $('#name_ar').val(html.data.name.ar);
                     $('#name_en').val(html.data.name.en);
-                    $('#price').val(html.data.price);
                     $('#hidden_id').val(html.data.id);
                     $('.modal-title').text("{{ trans('admin.edit_district') }}");
                     $('#action_button').val("Edit");

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CountriesRequest;
 use App\Models\Country;
 use Illuminate\Http\Request;
-use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\DB;
+use Validator;
 
 class CountriesController extends Controller
 {
@@ -22,85 +22,72 @@ class CountriesController extends Controller
     {
         $countries = Country::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
-            return datatables()->of($countries)
-                ->addColumn('action', function ($data) {
-                    if (auth()->user()->can(['update_countries', 'delete_countries'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="countries/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="feather icon-edit"></i></a>';
-                        $button .= '&nbsp;';
-                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
-                        return $button;
-                    }
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+            return datatables()->of($countries)->make(true);
         }
         return view('admin.countries.index');
     }
 
-    public function create()
+    public function store(Request $request)
     {
-        return view('admin.countries.create');
-    }
-
-    public function store(CountriesRequest $request)
-    {
-        $rules = [
-            'mob'       => 'required',
-            'code'      => 'required',
-        ];
+        $rules = array();
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];
-            $rules += ['currency.' . $locale => 'required'];
         }
 
-        $request->validate($rules);
+        $error = Validator::make($request->all(), $rules);
+
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
+        }
 
         Country::create($request->all());
 
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.added_successfully'));
-        } else {
-            Toastr::success(__('admin.added_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        return response()->json(['success' => 'Data Added Successfully.']);
+    }
+
+    public function edit($id)
+    {
+        if (request()->ajax()) {
+            $data = Country::findOrFail($id);
+            return response()->json(['data' => $data]);
         }
-
-        return redirect()->route('admin.countries.index');
     }
 
-    public function edit(Country $country)
+    public function update(Request $request, Country $country)
     {
-        return view('admin.countries.edit', compact('country'));
-    }
-
-    public function update(CountriesRequest $request, Country $country)
-    {
-        $rules = [
-            'mob'       => 'required',
-            'code'      => 'required',
-        ];
+        $rules = array();
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];
-            $rules += ['currency.' . $locale => 'required'];
         }
 
-        $request->validate($rules);
+        $error = Validator::make($request->all(), $rules);
 
-        $country->update($request->all());
-
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.updated_successfully'));
-        } else {
-            Toastr::success(__('admin.updated_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        return redirect()->route('admin.countries.index');
+        $request_data = array(
+            'name'       =>   $request->name
+        );
+
+        $country::whereId($request->hidden_id)->update($request_data);
+
+        return response()->json(['success' => 'Data is Successfully Updated']);
     }
 
     public function destroy($id)
     {
         $country = Country::findOrFail($id);
         $country->delete();
+    }
+
+    public function multi_delete(Request $request)
+    {
+        $ids = $request->ids;
+        DB::table("countries")->whereIn('id', explode(",", $ids))->delete();
+        return response()->json(['success' => 'The data has been deleted successfully']);
     }
 
     public function updateStatus(Request $request, $id)

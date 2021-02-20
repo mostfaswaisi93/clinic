@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\District;
-use Brian2694\Toastr\Facades\Toastr;
+use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Validator;
 
 class LocationsController extends Controller
 {
@@ -44,13 +46,6 @@ class LocationsController extends Controller
         return view('admin.locations.index');
     }
 
-    public function create()
-    {
-        $cities = City::active()->get();
-        $countries = Country::active()->get();
-        return view('admin.locations.create', compact('cities', 'countries'));
-    }
-
     public function store(locationsRequest $request)
     {
         $rules = [
@@ -75,11 +70,12 @@ class LocationsController extends Controller
         return redirect()->route('admin.locations.index');
     }
 
-    public function edit(District $district)
+    public function edit($id)
     {
-        $cities = City::active()->get();
-        $countries = Country::active()->get();
-        return view('admin.locations.edit', compact('cities', 'countries', 'district'));
+        if (request()->ajax()) {
+            $data = Location::findOrFail($id);
+            return response()->json(['data' => $data]);
+        }
     }
 
     public function update(locationsRequest $request, District $district)
@@ -108,8 +104,15 @@ class LocationsController extends Controller
 
     public function destroy($id)
     {
-        $district = District::findOrFail($id);
-        $district->delete();
+        $location = Location::findOrFail($id);
+        $location->delete();
+    }
+
+    public function multi_delete(Request $request)
+    {
+        $ids = $request->ids;
+        DB::table("locations")->whereIn('id', explode(",", $ids))->delete();
+        return response()->json(['success' => 'The data has been deleted successfully']);
     }
 
     public function updateStatus(Request $request, $id)

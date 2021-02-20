@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
+use App\Models\Country;
 use App\Models\District;
 use Illuminate\Http\Request;
-use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\DB;
+use Validator;
 
 class DistrictsController extends Controller
 {
@@ -42,13 +45,6 @@ class DistrictsController extends Controller
         return view('admin.districts.index');
     }
 
-    public function create()
-    {
-        $cities = City::active()->get();
-        $countries = Country::active()->get();
-        return view('admin.districts.create', compact('cities', 'countries'));
-    }
-
     public function store(districtsRequest $request)
     {
         $rules = [
@@ -73,11 +69,12 @@ class DistrictsController extends Controller
         return redirect()->route('admin.districts.index');
     }
 
-    public function edit(district $district)
+    public function edit($id)
     {
-        $cities = City::active()->get();
-        $countries = Country::active()->get();
-        return view('admin.districts.edit', compact('cities', 'countries', 'district'));
+        if (request()->ajax()) {
+            $data = District::findOrFail($id);
+            return response()->json(['data' => $data]);
+        }
     }
 
     public function update(districtsRequest $request, district $district)
@@ -110,10 +107,17 @@ class DistrictsController extends Controller
         $district->delete();
     }
 
+    public function multi_delete(Request $request)
+    {
+        $ids = $request->ids;
+        DB::table("districts")->whereIn('id', explode(",", $ids))->delete();
+        return response()->json(['success' => 'The data has been deleted successfully']);
+    }
+
     public function updateStatus(Request $request, $id)
     {
         $district           = District::find($id);
-        $enabled         = $request->get('enabled');
+        $enabled            = $request->get('enabled');
         $district->enabled  = $enabled;
         $district           = $district->save();
 
