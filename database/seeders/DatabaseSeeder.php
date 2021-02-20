@@ -16,9 +16,6 @@ class DatabaseSeeder extends Seeder
             PlacesTableSeeder::class,
             // PatientsTableSeeder::class,
             // ContactsTableSeeder::class,
-            // CountriesTableSeeder::class,
-            // CitiesTableSeeder::class,
-            // DistrictsTableSeeder::class,
         ]);
     }
 }

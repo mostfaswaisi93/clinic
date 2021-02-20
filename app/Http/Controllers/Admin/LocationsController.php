@@ -23,51 +23,41 @@ class LocationsController extends Controller
 
     public function index()
     {
-        $locations = District::OrderBy('created_at', 'desc')->with(['city', 'country'])->get();
+        $locations = Location::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
             return datatables()->of($locations)
-                ->addColumn('city', function ($data) {
-                    return $data->city->name_trans;
-                })
                 ->addColumn('country', function ($data) {
                     return $data->country->name_trans;
                 })
-                ->addColumn('action', function ($data) {
-                    if (auth()->user()->can(['update_locations', 'delete_locations'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="locations/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="feather icon-edit"></i></a>';
-                        $button .= '&nbsp;';
-                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
-                        return $button;
-                    }
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+                ->addColumn('city', function ($data) {
+                    return $data->city->name_trans;
+                })->make(true);
         }
-        return view('admin.locations.index');
+        return view('admin.locations.index')
+            ->with('countries', Country::get(['id', 'name']))
+            ->with('cities', City::get(['id', 'name']));
     }
 
-    public function store(locationsRequest $request)
+    public function store(Request $request)
     {
-        $rules = [
-            'city_id'       => 'required',
-            'country_id'    => 'required'
-        ];
+        $rules = array(
+            'country_id'    =>  'required',
+            'city_id'       =>  'required'
+        );
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];
         }
 
-        $request->validate($rules);
+        $error = Validator::make($request->all(), $rules);
 
-        District::create($request->all());
-
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.added_successfully'));
-        } else {
-            Toastr::success(__('admin.added_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        return redirect()->route('admin.locations.index');
+        Location::create($request->all());
+
+        return response()->json(['success' => 'Data Added Successfully.']);
     }
 
     public function edit($id)
@@ -78,28 +68,32 @@ class LocationsController extends Controller
         }
     }
 
-    public function update(locationsRequest $request, District $district)
+    public function update(Request $request, Location $location)
     {
-        $rules = [
-            'city_id'       => 'required',
-            'country_id'    => 'required'
-        ];
+        $rules = array(
+            'country_id'    =>  'required',
+            'city_id'       =>  'required'
+        );
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];
         }
 
-        $request->validate($rules);
+        $error = Validator::make($request->all(), $rules);
 
-        $district->update($request->all());
-
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.updated_successfully'));
-        } else {
-            Toastr::success(__('admin.updated_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        return redirect()->route('admin.locations.index');
+        $request_data = array(
+            'name'          =>   $request->name,
+            'country_id'    =>   $request->country_id,
+            'city_id'       =>   $request->city_id
+        );
+
+        $location::whereId($request->hidden_id)->update($request_data);
+
+        return response()->json(['success' => 'Data is Successfully Updated']);
     }
 
     public function destroy($id)
@@ -117,12 +111,12 @@ class LocationsController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-        $district           = District::find($id);
-        $enabled         = $request->get('enabled');
-        $district->enabled  = $enabled;
-        $district           = $district->save();
+        $location           = Location::find($id);
+        $enabled            = $request->get('enabled');
+        $location->enabled  = $enabled;
+        $location           = $location->save();
 
-        if ($district) {
+        if ($location) {
             return response(['success' => true, "message" => 'Status has been Successfully Updated']);
         }
     }

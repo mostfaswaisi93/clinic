@@ -19,6 +19,28 @@
                     <input id="name_en" type="text" name="name[en]" class="form-control" value="{{ old('name.en') }}"
                         placeholder="{{ trans('admin.en.name') }}">
                 </div>
+                <div class="form-group">
+                    <label class="form-label" for="city_id">{{ trans('admin.city') }}</label>
+                    <select class="form-control" name="city_id" id="city_id">
+                        <option value="">{{ trans('admin.all_cities') }}</option>
+                        @foreach ($cities as $city)
+                        <option value="{{ $city->id }}" {{ old('city_id') == $city->id ? 'selected' : '' }}>
+                            {{ $city->name_trans }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="country_id">{{ trans('admin.country') }}</label>
+                    <select class="form-control" name="country_id" id="country_id">
+                        <option value="">{{ trans('admin.all_countries') }}</option>
+                        @foreach ($countries as $country)
+                        <option value="{{ $country->id }}" {{ old('country_id') == $country->id ? 'selected' : '' }}>
+                            {{ $country->name_trans }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
                 <input type="hidden" name="action" id="action" />
                 <input type="hidden" name="hidden_id" id="hidden_id" />
                 <button type="submit" class="btn btn-primary data-submit mr-1" id="action_button" name="action_button"

@@ -22,51 +22,41 @@ class DistrictsController extends Controller
 
     public function index()
     {
-        $districts = District::OrderBy('created_at', 'desc')->with(['city', 'country'])->get();
+        $districts = District::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
             return datatables()->of($districts)
-                ->addColumn('city', function ($data) {
-                    return $data->city->name_trans;
-                })
                 ->addColumn('country', function ($data) {
                     return $data->country->name_trans;
                 })
-                ->addColumn('action', function ($data) {
-                    if (auth()->user()->can(['update_districts', 'delete_districts'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="districts/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="feather icon-edit"></i></a>';
-                        $button .= '&nbsp;';
-                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
-                        return $button;
-                    }
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+                ->addColumn('city', function ($data) {
+                    return $data->city->name_trans;
+                })->make(true);
         }
-        return view('admin.districts.index');
+        return view('admin.districts.index')
+            ->with('countries', Country::get(['id', 'name']))
+            ->with('cities', City::get(['id', 'name']));
     }
 
-    public function store(districtsRequest $request)
+    public function store(Request $request)
     {
-        $rules = [
-            'city_id'       => 'required',
-            'country_id'    => 'required'
-        ];
+        $rules = array(
+            'country_id'    =>  'required',
+            'city_id'       =>  'required'
+        );
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];
         }
 
-        $request->validate($rules);
+        $error = Validator::make($request->all(), $rules);
+
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
+        }
 
         District::create($request->all());
 
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.added_successfully'));
-        } else {
-            Toastr::success(__('admin.added_successfully'), '', ["positionClass" => "toast-bottom-left"]);
-        }
-
-        return redirect()->route('admin.districts.index');
+        return response()->json(['success' => 'Data Added Successfully.']);
     }
 
     public function edit($id)
@@ -77,28 +67,32 @@ class DistrictsController extends Controller
         }
     }
 
-    public function update(districtsRequest $request, district $district)
+    public function update(Request $request, District $district)
     {
-        $rules = [
-            'city_id'       => 'required',
-            'country_id'    => 'required'
-        ];
+        $rules = array(
+            'country_id'    =>  'required',
+            'city_id'       =>  'required'
+        );
 
         foreach (config('translatable.locales') as $locale) {
             $rules += ['name.' . $locale => 'required'];
         }
 
-        $request->validate($rules);
+        $error = Validator::make($request->all(), $rules);
 
-        $district->update($request->all());
-
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.updated_successfully'));
-        } else {
-            Toastr::success(__('admin.updated_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        return redirect()->route('admin.districts.index');
+        $request_data = array(
+            'name'          =>   $request->name,
+            'country_id'    =>   $request->country_id,
+            'city_id'       =>   $request->city_id
+        );
+
+        $district::whereId($request->hidden_id)->update($request_data);
+
+        return response()->json(['success' => 'Data is Successfully Updated']);
     }
 
     public function destroy($id)

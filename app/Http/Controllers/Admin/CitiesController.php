@@ -23,9 +23,13 @@ class CitiesController extends Controller
     {
         $cities = City::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
-            return datatables()->of($cities)->make(true);
+            return datatables()->of($cities)
+                ->addColumn('country', function ($data) {
+                    return $data->country->name_trans;
+                })->make(true);
         }
-        return view('admin.cities.index');
+        return view('admin.cities.index')
+            ->with('countries', Country::get(['id', 'name']));
     }
 
     public function store(Request $request)
@@ -74,7 +78,8 @@ class CitiesController extends Controller
         }
 
         $request_data = array(
-            'name'       =>   $request->name
+            'name'          =>   $request->name,
+            'country_id'    =>   $request->country_id,
         );
 
         $city::whereId($request->hidden_id)->update($request_data);

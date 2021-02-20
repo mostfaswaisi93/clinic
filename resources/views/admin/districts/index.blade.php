@@ -20,6 +20,8 @@
                                     <th></th>
                                     <th>#</th>
                                     <th>{{ trans('admin.name') }}</th>
+                                    <th>{{ trans('admin.city') }}</th>
+                                    <th>{{ trans('admin.country') }}</th>
                                     <th>{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.actions') }}</th>
@@ -64,6 +66,16 @@
                     }, searchable: false, orderable: false
                 },
                 { data: 'name_trans' },
+                { data: 'city',
+                    render: function(data, type, row, meta) {
+                        return "<div class='badge badge-light-secondary'>"+ data +"</div>";
+                    }
+                },
+                { data: 'country',
+                    render: function(data, type, row, meta) {
+                        return "<div class='badge badge-light-primary'>"+ data +"</div>";
+                    }
+                },
                 { data: 'enabled' },
                 { data: 'created_at' },
                 { data: 'action', orderable: false,
@@ -102,7 +114,7 @@
                 }
             },
             {
-                "targets": 3,
+                "targets": 5,
                 render: function (data, type, row, meta){
                     var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
                     var color = data ? "success" : "danger"; 
@@ -272,6 +284,8 @@
                 success: function(html){
                     $('#name_ar').val(html.data.name.ar);
                     $('#name_en').val(html.data.name.en);
+                    $('#country_id').val(html.data.country_id).trigger('change');
+                    $('#city_id').val(html.data.city_id).trigger('change');
                     $('#hidden_id').val(html.data.id);
                     $('.modal-title').text("{{ trans('admin.edit_district') }}");
                     $('#action_button').val("Edit");
