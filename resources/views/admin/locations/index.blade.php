@@ -19,8 +19,9 @@
                                 <tr>
                                     <th></th>
                                     <th>#</th>
-                                    <th>{{ trans('admin.name') }}</th>
+                                    <th>{{ trans('admin.title') }}</th>
                                     <th>{{ trans('admin.city') }}</th>
+                                    <th>{{ trans('admin.district') }}</th>
                                     <th>{{ trans('admin.country') }}</th>
                                     <th>{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
@@ -65,7 +66,12 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }, searchable: false, orderable: false
                 },
-                { data: 'name_trans' },
+                { data: 'title_trans' },
+                { data: 'district',
+                    render: function(data, type, row, meta) {
+                        return "<div class='badge badge-light-secondary'>"+ data +"</div>";
+                    }
+                },
                 { data: 'city',
                     render: function(data, type, row, meta) {
                         return "<div class='badge badge-light-secondary'>"+ data +"</div>";
@@ -114,7 +120,7 @@
                 }
             },
             {
-                "targets": 5,
+                "targets": 6,
                 render: function (data, type, row, meta){
                     var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
                     var color = data ? "success" : "danger"; 
@@ -282,10 +288,11 @@
                 url: "/admin/locations/"+ id +"/edit",
                 dataType: "json",
                 success: function(html){
-                    $('#name_ar').val(html.data.name.ar);
-                    $('#name_en').val(html.data.name.en);
+                    $('#title_ar').val(html.data.title.ar);
+                    $('#title_en').val(html.data.title.en);
                     $('#country_id').val(html.data.country_id).trigger('change');
                     $('#city_id').val(html.data.city_id).trigger('change');
+                    $('#district_id').val(html.data.district_id).trigger('change');
                     $('#hidden_id').val(html.data.id);
                     $('.modal-title').text("{{ trans('admin.edit_location') }}");
                     $('#action_button').val("Edit");
@@ -293,6 +300,43 @@
                 }
             });
         });
+    });
+
+    // Select Location
+    $(function () {
+        populateCities();
+        populateDistricts();
+        $(document).on('change', '#country_id', function() {
+            populateCities();
+            populateDistricts();
+            return false;
+        });
+        $(document).on('change', '#city_id', function() {
+            populateDistricts();
+            return false;
+        });
+        function populateCities() {
+            $('option', $('#city_id')).remove();
+            $('#city_id').append($('<option></option>').val('').html(' --- '));
+            var countryIdVal = $('#country_id').val() != null ? $('#country_id').val() : '{{ old('country_id') }}';
+            $.get("{{ route('admin.locations.get_cities') }}", { country_id: countryIdVal }, function (data) {
+                $.each(data, function(val, text) {
+                    var selectedVal = val == '{{ old('city_id') }}' ? "selected" : "";
+                    $('#city_id').append($('<option ' + selectedVal + '></option>').val(val).html(text));
+                })
+            }, "json");
+        }
+        function populateDistricts() {
+            $('option', $('#district_id')).remove();
+            $('#district_id').append($('<option></option>').val('').html(' --- '));
+            var cityIdVal = $('#city_id').val() != null ? $('#city_id').val() : '{{ old('city_id') }}';
+            $.get("{{ route('admin.locations.get_districts') }}", { city_id: cityIdVal }, function (data) {
+                $.each(data, function(val, text) {
+                    var selectedVal = val == '{{ old('district_id') }}' ? "selected" : "";
+                    $('#district_id').append($('<option ' + selectedVal + '></option>').val(val).html(text));
+                })
+            }, "json");
+        }
     });
 </script>
 

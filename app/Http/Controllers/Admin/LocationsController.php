@@ -31,22 +31,27 @@ class LocationsController extends Controller
                 })
                 ->addColumn('city', function ($data) {
                     return $data->city->name_trans;
+                })
+                ->addColumn('district', function ($data) {
+                    return $data->city->name_trans;
                 })->make(true);
         }
         return view('admin.locations.index')
             ->with('countries', Country::get(['id', 'name']))
-            ->with('cities', City::get(['id', 'name']));
+            ->with('cities', City::get(['id', 'name']))
+            ->with('districts', City::get(['id', 'name']));
     }
 
     public function store(Request $request)
     {
         $rules = array(
             'country_id'    =>  'required',
-            'city_id'       =>  'required'
+            'city_id'       =>  'required',
+            'district_id'   =>  'required'
         );
 
         foreach (config('translatable.locales') as $locale) {
-            $rules += ['name.' . $locale => 'required'];
+            $rules += ['title.' . $locale => 'required'];
         }
 
         $error = Validator::make($request->all(), $rules);
@@ -72,11 +77,12 @@ class LocationsController extends Controller
     {
         $rules = array(
             'country_id'    =>  'required',
-            'city_id'       =>  'required'
+            'city_id'       =>  'required',
+            'district_id'   =>  'required'
         );
 
         foreach (config('translatable.locales') as $locale) {
-            $rules += ['name.' . $locale => 'required'];
+            $rules += ['title.' . $locale => 'required'];
         }
 
         $error = Validator::make($request->all(), $rules);
@@ -86,14 +92,27 @@ class LocationsController extends Controller
         }
 
         $request_data = array(
-            'name'          =>   $request->name,
+            'title'         =>   $request->title,
             'country_id'    =>   $request->country_id,
-            'city_id'       =>   $request->city_id
+            'city_id'       =>   $request->city_id,
+            'district_id'   =>   $request->district_id
         );
 
         $location::whereId($request->hidden_id)->update($request_data);
 
         return response()->json(['success' => 'Data is Successfully Updated']);
+    }
+
+    public function get_cities(Request $request)
+    {
+        $cities = City::whereCountryId($request->country_id)->pluck('name', 'id');
+        return response()->json($cities);
+    }
+
+    public function get_districts(Request $request)
+    {
+        $districts = District::whereCityId($request->city_id)->pluck('name', 'id');
+        return response()->json($districts);
     }
 
     public function destroy($id)

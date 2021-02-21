@@ -11,9 +11,19 @@ class Location extends BaseModel
     use HasFactory, HasTranslations;
 
     protected $table        = 'locations';
-    protected $fillable     = ['name', 'city_id', 'country_id', 'enabled'];
-    protected $appends      = ['name_trans'];
-    public $translatable    = ['name'];
+    protected $fillable     = ['title', 'country_id', 'city_id', 'district_id', 'enabled'];
+    protected $appends      = ['title_trans'];
+    public $translatable    = ['title'];
+
+    // get Title Translatable
+    public function getTitleTransAttribute()
+    {
+        if (app()->getLocale() == 'ar') {
+            return $this->getTranslation('title', 'ar');
+        } else {
+            return $this->getTranslation('title', 'en');
+        }
+    }
 
     public function country()
     {
