@@ -16,9 +16,9 @@ class CreateLocationsTable extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->integer('country_id')->unsigned()->onDelete('cascade');
-            $table->integer('city_id')->unsigned()->onDelete('cascade');
-            $table->integer('district_id')->unsigned()->onDelete('cascade');
+            $table->foreignId('country_id')->constrained()->onDelete('cascade');
+            $table->foreignId('city_id')->constrained()->onDelete('cascade');
+            $table->foreignId('district_id')->constrained()->onDelete('cascade');
             $table->integer('enabled')->default(1);
             $table->timestamps();
             $table->softDeletes();

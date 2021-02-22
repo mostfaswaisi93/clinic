@@ -23,8 +23,8 @@ class CreatePatientsTable extends Migration
             $table->date('dob'); // Date of Birth
             $table->longText('notes');
             $table->integer('user'); // Added By
-            $table->integer('constant_id')->unsigned()->onDelete('cascade')->nullable(); // Gender
-            $table->integer('user_id')->unsigned()->onDelete('cascade'); // Doctor
+            $table->foreignId('constant_id')->constrained()->onDelete('cascade'); // Gender
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Doctor
             $table->integer('enabled')->default(1);
             $table->timestamps();
             $table->softDeletes();

@@ -16,7 +16,7 @@ class CreateReceiptsTable extends Migration
         Schema::create('receipts', function (Blueprint $table) {
             $table->id();
             $table->string('rec_serial')->unique();
-            $table->integer('patient_id')->unsigned()->onDelete('cascade');
+            $table->foreignId('patient_id')->constrained()->onDelete('cascade');
             $table->string('amount');
             $table->longText('notes');
             $table->integer('enabled')->default(1);

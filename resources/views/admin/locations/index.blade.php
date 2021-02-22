@@ -319,9 +319,16 @@
             $('option', $('#city_id')).remove();
             $('#city_id').append($('<option></option>').val('').html(' --- '));
             var countryIdVal = $('#country_id').val() != null ? $('#country_id').val() : '{{ old('country_id') }}';
-            $.get("{{ route('admin.locations.get_cities') }}", { country_id: countryIdVal }, function (data) {
+            // url: "/admin/locations/"+ id +"/edit",
+
+            $.get("/admin/locations/get_cities", { country_id: countryIdVal }, function (data) {
+            // $.get("{{ route('admin.locations.get_cities') }}", { country_id: countryIdVal }, function (data) {
+                console.log('data', data);
                 $.each(data, function(val, text) {
+                    console.log('val', val);
+                    console.log('text', text);
                     var selectedVal = val == '{{ old('city_id') }}' ? "selected" : "";
+                    console.log('selectedVal', selectedVal);
                     $('#city_id').append($('<option ' + selectedVal + '></option>').val(val).html(text));
                 })
             }, "json");

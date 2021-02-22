@@ -17,9 +17,9 @@ class CreateAppointmentsTable extends Migration
             $table->id();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->integer('patient_id')->unsigned()->onDelete('cascade');
-            $table->integer('service_id')->unsigned()->onDelete('cascade');
-            $table->integer('user_id')->unsigned()->onDelete('cascade'); // Doctor
+            $table->foreignId('patient_id')->constrained()->onDelete('cascade');
+            $table->foreignId('service_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Doctor
             $table->string('details'); // Notes or Description
             $table->integer('enabled')->default(1);
             $table->timestamps();

@@ -105,13 +105,13 @@ class LocationsController extends Controller
 
     public function get_cities(Request $request)
     {
-        $cities = City::whereCountryId($request->country_id)->pluck('name', 'id');
+        $cities = City::whereCountryId($request->country_id)->pluck('name_trans', 'id');
         return response()->json($cities);
     }
 
     public function get_districts(Request $request)
     {
-        $districts = District::whereCityId($request->city_id)->pluck('name', 'id');
+        $districts = District::whereCityId($request->city_id)->pluck('name_trans', 'id');
         return response()->json($districts);
     }
 
