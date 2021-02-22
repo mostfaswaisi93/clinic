@@ -8,7 +8,6 @@ use App\Models\Country;
 use App\Models\District;
 use App\Models\Location;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Validator;
 
 class LocationsController extends Controller
@@ -33,13 +32,13 @@ class LocationsController extends Controller
                     return $data->city->name_trans;
                 })
                 ->addColumn('district', function ($data) {
-                    return $data->city->name_trans;
+                    return $data->district->name_trans;
                 })->make(true);
         }
         return view('admin.locations.index')
             ->with('countries', Country::get(['id', 'name']))
             ->with('cities', City::get(['id', 'name']))
-            ->with('districts', City::get(['id', 'name']));
+            ->with('districts', District::get(['id', 'name']));
     }
 
     public function store(Request $request)
@@ -105,13 +104,13 @@ class LocationsController extends Controller
 
     public function get_cities(Request $request)
     {
-        $cities = City::whereCountryId($request->country_id)->pluck('name_trans', 'id');
+        $cities = City::where('country_id', $request->country_id)->get()->pluck('name', 'id');
         return response()->json($cities);
     }
 
     public function get_districts(Request $request)
     {
-        $districts = District::whereCityId($request->city_id)->pluck('name_trans', 'id');
+        $districts = District::where('city_id', $request->city_id)->get()->pluck('name', 'id');
         return response()->json($districts);
     }
 
@@ -124,7 +123,7 @@ class LocationsController extends Controller
     public function multi_delete(Request $request)
     {
         $ids = $request->ids;
-        DB::table("locations")->whereIn('id', explode(",", $ids))->delete();
+        Location::whereIn('id', explode(",", $ids))->delete();
         return response()->json(['success' => 'The data has been deleted successfully']);
     }
 

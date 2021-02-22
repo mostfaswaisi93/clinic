@@ -7,7 +7,6 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\District;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Validator;
 
 class DistrictsController extends Controller
@@ -104,7 +103,7 @@ class DistrictsController extends Controller
     public function multi_delete(Request $request)
     {
         $ids = $request->ids;
-        DB::table("districts")->whereIn('id', explode(",", $ids))->delete();
+        District::whereIn('id', explode(",", $ids))->delete();
         return response()->json(['success' => 'The data has been deleted successfully']);
     }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 22, 2021 at 11:07 AM
+-- Generation Time: Feb 22, 2021 at 02:33 PM
 -- Server version: 10.5.4-MariaDB-log
 -- PHP Version: 7.4.10
 
@@ -235,6 +235,14 @@ CREATE TABLE `locations` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `locations`
+--
+
+INSERT INTO `locations` (`id`, `title`, `country_id`, `city_id`, `district_id`, `enabled`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(2, '{\"ar\":\"تيست\",\"en\":\"test\"}', 2, 4, 10, 1, '2021-02-22 14:24:14', '2021-02-22 14:24:18', '2021-02-22 14:24:18'),
+(4, '{\"ar\":\"تيست\",\"en\":\"test\"}', 1, 1, 1, 1, '2021-02-22 14:27:39', '2021-02-22 14:27:43', '2021-02-22 14:27:43');
 
 -- --------------------------------------------------------
 
@@ -939,7 +947,7 @@ ALTER TABLE `invoices`
 -- AUTO_INCREMENT for table `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `migrations`

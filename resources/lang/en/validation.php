@@ -152,27 +152,18 @@ return [
             'ar'        => 'Name in Arabic',
             'en'        => 'Name in English',
         ],
+        'title' => [
+            'ar' => 'Title in Arabic',
+            'en' => 'Title in English',
+        ],
         'currency' => [
             'ar'        => 'Currency in Arabic',
             'en'        => 'Currency in English',
         ],
 
-        'ar' => [
-            'name'          => 'Name in Arabic',
-            'currency'      => 'Currency in Arabic',
-            'title'         => 'Title in Arabic',
-            'description'   => 'Description in Arabic',
-            'image'         => 'Image in Arabic',
-        ],
-        'en' => [
-            'name'          => 'Name in English',
-            'currency'      => 'Currency in English',
-            'title'         => 'Title in English',
-            'description'   => 'Description in English',
-            'image'         => 'Image in English',
-        ],
-
         'country_id'            => 'Country',
+        'city_id'               => 'City',
+        'district_id'           => 'District',
         'user_id'               => 'Username',
         'phone.0'               => 'Phone',
     ],

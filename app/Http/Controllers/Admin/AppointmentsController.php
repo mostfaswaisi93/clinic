@@ -90,7 +90,7 @@ class AppointmentsController extends Controller
     public function multi_delete(Request $request)
     {
         $ids = $request->ids;
-        DB::table("appointments")->whereIn('id', explode(",", $ids))->delete();
+        Appointment::whereIn('id', explode(",", $ids))->delete();
         return response()->json(['success' => 'The data has been deleted successfully']);
     }
 

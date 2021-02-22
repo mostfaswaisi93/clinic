@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Constant;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Validator;
 
 class ConstantsController extends Controller
@@ -90,7 +89,7 @@ class ConstantsController extends Controller
     public function multi_delete(Request $request)
     {
         $ids = $request->ids;
-        DB::table("constants")->whereIn('id', explode(",", $ids))->delete();
+        Constant::whereIn('id', explode(",", $ids))->delete();
         return response()->json(['success' => 'The data has been deleted successfully']);
     }
 

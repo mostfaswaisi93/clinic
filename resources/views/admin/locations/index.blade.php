@@ -20,8 +20,8 @@
                                     <th></th>
                                     <th>#</th>
                                     <th>{{ trans('admin.title') }}</th>
-                                    <th>{{ trans('admin.city') }}</th>
                                     <th>{{ trans('admin.district') }}</th>
+                                    <th>{{ trans('admin.city') }}</th>
                                     <th>{{ trans('admin.country') }}</th>
                                     <th>{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
@@ -45,6 +45,7 @@
 @include('partials.delete')
 @include('partials.status')
 @include('partials.multi_delete')
+@include('partials.locations')
 
 <script type="text/javascript">
     var status = '';
@@ -300,50 +301,6 @@
                 }
             });
         });
-    });
-
-    // Select Location
-    $(function () {
-        populateCities();
-        populateDistricts();
-        $(document).on('change', '#country_id', function() {
-            populateCities();
-            populateDistricts();
-            return false;
-        });
-        $(document).on('change', '#city_id', function() {
-            populateDistricts();
-            return false;
-        });
-        function populateCities() {
-            $('option', $('#city_id')).remove();
-            $('#city_id').append($('<option></option>').val('').html(' --- '));
-            var countryIdVal = $('#country_id').val() != null ? $('#country_id').val() : '{{ old('country_id') }}';
-            // url: "/admin/locations/"+ id +"/edit",
-
-            $.get("/admin/locations/get_cities", { country_id: countryIdVal }, function (data) {
-            // $.get("{{ route('admin.locations.get_cities') }}", { country_id: countryIdVal }, function (data) {
-                console.log('data', data);
-                $.each(data, function(val, text) {
-                    console.log('val', val);
-                    console.log('text', text);
-                    var selectedVal = val == '{{ old('city_id') }}' ? "selected" : "";
-                    console.log('selectedVal', selectedVal);
-                    $('#city_id').append($('<option ' + selectedVal + '></option>').val(val).html(text));
-                })
-            }, "json");
-        }
-        function populateDistricts() {
-            $('option', $('#district_id')).remove();
-            $('#district_id').append($('<option></option>').val('').html(' --- '));
-            var cityIdVal = $('#city_id').val() != null ? $('#city_id').val() : '{{ old('city_id') }}';
-            $.get("{{ route('admin.locations.get_districts') }}", { city_id: cityIdVal }, function (data) {
-                $.each(data, function(val, text) {
-                    var selectedVal = val == '{{ old('district_id') }}' ? "selected" : "";
-                    $('#district_id').append($('<option ' + selectedVal + '></option>').val(val).html(text));
-                })
-            }, "json");
-        }
     });
 </script>
 

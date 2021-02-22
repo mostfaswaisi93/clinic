@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Validator;
 
 class CountriesController extends Controller
@@ -86,7 +85,7 @@ class CountriesController extends Controller
     public function multi_delete(Request $request)
     {
         $ids = $request->ids;
-        DB::table("countries")->whereIn('id', explode(",", $ids))->delete();
+        Country::whereIn('id', explode(",", $ids))->delete();
         return response()->json(['success' => 'The data has been deleted successfully']);
     }
 

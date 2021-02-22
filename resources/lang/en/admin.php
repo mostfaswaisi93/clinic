@@ -144,6 +144,7 @@ return [
 
     'all_countries'             => 'All Countries',
     'all_cities'                => 'All Cities',
+    'all_districts'             => 'All Districts',
 
     'select_all'                => 'Select All',
     'select_all_permissions'    => 'Select All Permissions',
@@ -172,11 +173,13 @@ return [
 
     'ar'                        => [
         'name'          => 'Name in Arabic',
+        'title'         => 'Title in Arabic',
         'currency'      => 'Currency in Arabic',
         'description'   => 'Description in Arabic',
     ],
     'en'                        => [
         'name'          => 'Name in English',
+        'title'         => 'Title in English',
         'currency'      => 'Currency in English',
         'description'   => 'Description in English',
     ],

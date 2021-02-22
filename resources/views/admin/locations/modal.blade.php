@@ -10,20 +10,20 @@
             <div class="modal-body flex-grow-1">
                 <span id="form_result"></span>
                 <div class="form-group">
-                    <label class="form-label" for="name_ar">{{ trans('admin.ar.name') }}</label>
-                    <input id="name_ar" type="text" name="name[ar]" class="form-control" value="{{ old('name.ar') }}"
-                        placeholder="{{ trans('admin.ar.name') }}">
+                    <label class="form-label" for="title_ar">{{ trans('admin.ar.title') }}</label>
+                    <input id="title_ar" type="text" name="title[ar]" class="form-control" value="{{ old('title.ar') }}"
+                        placeholder="{{ trans('admin.ar.title') }}">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="name_en">{{ trans('admin.en.name') }}</label>
-                    <input id="name_en" type="text" name="name[en]" class="form-control" value="{{ old('name.en') }}"
-                        placeholder="{{ trans('admin.en.name') }}">
+                    <label class="form-label" for="title_en">{{ trans('admin.en.title') }}</label>
+                    <input id="title_en" type="text" name="title[en]" class="form-control" value="{{ old('title.en') }}"
+                        placeholder="{{ trans('admin.en.title') }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="country_id">{{ trans('admin.country') }}</label>
                     <select name="country_id" id="country_id" class="form-control">
-                        <option value=""> --- </option>
-                        @foreach ($countries as $country)
+                        <option value="" selected disabled> {{ trans('admin.all_countries') }} </option>
+                        @foreach($countries as $key => $country)
                         <option value="{{ $country->id }}" {{ old('country_id') == $country->id ? 'selected' : '' }}>
                             {{ $country->name_trans }}
                         </option>
@@ -33,23 +33,13 @@
                 <div class="form-group">
                     <label class="form-label" for="city_id">{{ trans('admin.city') }}</label>
                     <select class="form-control" name="city_id" id="city_id">
-                        <option value=""> --- </option>
-                        @foreach ($cities as $city)
-                        <option value="{{ $city->id }}" {{ old('city_id') == $city->id ? 'selected' : '' }}>
-                            {{ $city->name_trans }}
-                        </option>
-                        @endforeach
+                        <option value="" selected disabled> {{ trans('admin.all_cities') }} </option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="district_id">{{ trans('admin.district') }}</label>
                     <select class="form-control" name="district_id" id="district_id">
-                        <option value=""> --- </option>
-                        @foreach ($districts as $district)
-                        <option value="{{ $district->id }}" {{ old('district_id') == $district->id ? 'selected' : '' }}>
-                            {{ $district->name_trans }}
-                        </option>
-                        @endforeach
+                        <option value="" selected disabled> {{ trans('admin.all_districts') }} </option>
                     </select>
                 </div>
                 <input type="hidden" name="action" id="action" />
