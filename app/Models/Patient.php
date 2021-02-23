@@ -20,21 +20,13 @@ class Patient extends BaseModel
     // get First Name Translatable
     public function getFirstNameTransAttribute()
     {
-        if (app()->getLocale() == 'ar') {
-            return $this->getTranslation('first_name', 'ar');
-        } else {
-            return $this->getTranslation('first_name', 'en');
-        }
+        return $this->getTranslation('first_name', app()->getLocale());
     }
 
     // get Last Name Translatable
     public function getLastNameTransAttribute()
     {
-        if (app()->getLocale() == 'ar') {
-            return $this->getTranslation('last_name', 'ar');
-        } else {
-            return $this->getTranslation('last_name', 'en');
-        }
+        return $this->getTranslation('last_name', app()->getLocale());
     }
 
     // get Full Name

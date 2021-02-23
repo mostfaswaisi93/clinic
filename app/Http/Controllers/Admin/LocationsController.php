@@ -8,6 +8,7 @@ use App\Models\Country;
 use App\Models\District;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class LocationsController extends Controller
@@ -36,9 +37,7 @@ class LocationsController extends Controller
                 })->make(true);
         }
         return view('admin.locations.index')
-            ->with('countries', Country::get(['id', 'name']))
-            ->with('cities', City::get(['id', 'name']))
-            ->with('districts', District::get(['id', 'name']));
+            ->with('countries', Country::get(['id', 'name']));
     }
 
     public function store(Request $request)
@@ -104,7 +103,10 @@ class LocationsController extends Controller
 
     public function get_cities(Request $request)
     {
-        $cities = City::where('country_id', $request->country_id)->get()->pluck('name', 'id');
+        $cities = DB::table("cities")
+            ->where("country_id", $request->country_id)
+            ->pluck("name", "id");
+
         return response()->json($cities);
     }
 

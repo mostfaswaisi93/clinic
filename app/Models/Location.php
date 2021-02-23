@@ -17,11 +17,7 @@ class Location extends BaseModel
     // get Title Translatable
     public function getTitleTransAttribute()
     {
-        if (app()->getLocale() == 'ar') {
-            return $this->getTranslation('title', 'ar');
-        } else {
-            return $this->getTranslation('title', 'en');
-        }
+        return $this->getTranslation('title', app()->getLocale());
     }
 
     public function country()

@@ -70,8 +70,6 @@ Route::group(
             Route::post('districts/updateStatus/{id}', 'DistrictsController@updateStatus');
 
             Route::post('locations/update', 'LocationsController@update')->name('locations.update');
-            // Route::get('locations/get_cities', 'LocationsController@get_cities')->name('locations.get_cities');
-            // Route::get('locations/get_districts', 'LocationsController@get_districts')->name('locations.get_districts');
             Route::get('locations/destroy/{id}', 'LocationsController@destroy');
             Route::delete('locations/destroy/all', 'LocationsController@multi_delete');
             Route::post('locations/updateStatus/{id}', 'LocationsController@updateStatus');
@@ -104,6 +102,6 @@ Route::group(
     }
 );
 
-
+// Select Location
 Route::get('get_cities', [App\Http\Controllers\Admin\LocationsController::class, 'get_cities']);
 Route::get('get_districts', [App\Http\Controllers\Admin\LocationsController::class, 'get_districts']);

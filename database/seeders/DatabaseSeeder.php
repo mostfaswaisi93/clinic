@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
             ConstantsTableSeeder::class,
             UsersTableSeeder::class,
             ServicesTableSeeder::class,
-            PlacesTableSeeder::class,
+            LocationssTableSeeder::class,
             // PatientsTableSeeder::class,
             // ContactsTableSeeder::class,
         ]);

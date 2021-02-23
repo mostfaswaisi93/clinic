@@ -22,11 +22,7 @@ class BaseModel extends Model
     // get Name Translatable
     public function getNameTransAttribute()
     {
-        if (app()->getLocale() == 'ar') {
-            return $this->getTranslation('name', 'ar');
-        } else {
-            return $this->getTranslation('name', 'en');
-        }
+        return $this->getTranslation('name', app()->getLocale());
     }
 
     public function scopeActive($query)

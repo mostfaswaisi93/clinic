@@ -4,8 +4,7 @@
         var country_id = $(this).val();
         if(country_id){
         $.ajax({
-            url:"{{url('get_cities')}}?country_id=" + country_id,
-            // url: getLocation + "/get_cities?country_id=" + country_id,
+            url:"{{ url('get_cities') }}?country_id=" + country_id,
             type: "GET",
             success: function(res){        
                 if(res){

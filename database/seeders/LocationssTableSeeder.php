@@ -7,7 +7,7 @@ use App\Models\Country;
 use App\Models\District;
 use Illuminate\Database\Seeder;
 
-class PlacesTableSeeder extends Seeder
+class LocationssTableSeeder extends Seeder
 {
     public function run()
     {

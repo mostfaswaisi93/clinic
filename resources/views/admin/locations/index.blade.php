@@ -70,7 +70,7 @@
                 { data: 'title_trans' },
                 { data: 'district',
                     render: function(data, type, row, meta) {
-                        return "<div class='badge badge-light-secondary'>"+ data +"</div>";
+                        return "<div class='badge badge-light-info'>"+ data +"</div>";
                     }
                 },
                 { data: 'city',
@@ -289,6 +289,7 @@
                 url: "/admin/locations/"+ id +"/edit",
                 dataType: "json",
                 success: function(html){
+                    console.log(html.data);
                     $('#title_ar').val(html.data.title.ar);
                     $('#title_en').val(html.data.title.en);
                     $('#country_id').val(html.data.country_id).trigger('change');

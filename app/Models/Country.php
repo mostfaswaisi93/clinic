@@ -17,11 +17,7 @@ class Country extends BaseModel
     // get Currency Translatable
     public function getCurrencyTransAttribute()
     {
-        if (app()->getLocale() == 'ar') {
-            return $this->getTranslation('currency', 'ar');
-        } else {
-            return $this->getTranslation('currency', 'en');
-        }
+        return $this->getTranslation('currency', app()->getLocale());
     }
 
     public function getLogoPathAttribute()
