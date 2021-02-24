@@ -48,4 +48,9 @@ class Patient extends BaseModel
     {
         $this->belongsTo(User::class);
     }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }

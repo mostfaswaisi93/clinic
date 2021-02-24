@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
             ServicesTableSeeder::class,
             LocationssTableSeeder::class,
             // PatientsTableSeeder::class,
-            // ContactsTableSeeder::class,
+            // AppointmentsTableSeeder::class,
+            // ContactsTableSeeder::class
         ]);
     }
 }
