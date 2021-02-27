@@ -11,6 +11,34 @@
                     <div class="card-header border-bottom">
                         <h4 class="card-title"><b>{{ trans('admin.services') }}</b></h4>
                     </div>
+                    <!--Search Form -->
+                    <div class="card-body mt-2">
+                        <form class="dt_adv_search" method="POST">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-row mb-1">
+                                        <div class="col-lg-4">
+                                            <label>{{ trans('admin.status') }}:</label>
+                                            <select class="form-control" name="filterStatus" id="filterStatus"
+                                                onchange="filtetrStatus(this);">
+                                                <option value=''>Select Status </option>
+                                                <option value='0'>Active</option>
+                                                <option value='1'>In Active</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-1">
+                                        <div class="col-lg-4">
+                                            <label>Name:</label>
+                                            <input type="text" class="form-control dt-input dt-full-name"
+                                                data-column="1" placeholder="Alaric Beslier" data-column-index="0" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <hr class="my-0" />
                     <div class="table-responsive" style="padding: 10px">
                         <table id="data-table"
                             class="table table-striped table-bordered table-hover table-sm dt-responsive nowrap"
@@ -43,6 +71,7 @@
 @include('partials.delete')
 @include('partials.status')
 @include('partials.multi_delete')
+@include('partials.filter')
 
 <script type="text/javascript">
     var status = '';
@@ -53,6 +82,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
+            drawCallback: function(settings){ feather.replace(); },
             order: [[ 2, "desc" ]],
             ajax: {
                 url: "{{ route('admin.services.index') }}",
@@ -66,8 +96,8 @@
                 },
                 { data: 'name_trans' },
                 { data: 'price' },
-                { data: 'enabled' },
-                { data: 'created_at' },
+                { data: 'enabled', class: 'status' },
+                { data: 'created_at', class: 'created_at' },
                 { data: 'action', orderable: false,
                     render: function(data, type, row, meta) {
                         // Action Buttons
@@ -106,15 +136,15 @@
             {
                 "targets": 4,
                 render: function (data, type, row, meta){
-                    var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
-                    var color = data ? "success" : "danger"; 
                     var $checked = $(`
-                        <div class="custom-control custom-control-success custom-switch">
+                        <div class="custom-control custom-switch custom-switch-success">
                             <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
                             class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
                             onchange=selectStatus(${row.id}) >
-                            <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}"></label>
-                            <div class='badge badge-light-${color}'>${text}</div>
+                            <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}">
+                                <span class="switch-icon-left"><i data-feather="check"></i></span>
+                                <span class="switch-icon-right"><i data-feather="x"></i></span>
+                            </label>
                         </div>
                     `);
                     $checked.prop('checked', true).attr('checked', 'checked');

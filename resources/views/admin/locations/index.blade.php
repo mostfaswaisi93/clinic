@@ -83,8 +83,8 @@
                         return "<div class='badge badge-light-primary'>"+ data +"</div>";
                     }
                 },
-                { data: 'enabled' },
-                { data: 'created_at' },
+                { data: 'enabled', class: 'status' },
+                { data: 'created_at', class: 'created_at' },
                 { data: 'action', orderable: false,
                     render: function(data, type, row, meta) {
                         // Action Buttons
@@ -123,15 +123,15 @@
             {
                 "targets": 6,
                 render: function (data, type, row, meta){
-                    var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
-                    var color = data ? "success" : "danger"; 
                     var $checked = $(`
-                        <div class="custom-control custom-control-success custom-switch">
+                        <div class="custom-control custom-switch custom-switch-success">
                             <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
                             class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
                             onchange=selectStatus(${row.id}) >
-                            <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}"></label>
-                            <div class='badge badge-light-${color}'>${text}</div>
+                            <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}">
+                                <span class="switch-icon-left"><i data-feather="check"></i></span>
+                                <span class="switch-icon-right"><i data-feather="x"></i></span>
+                            </label>
                         </div>
                     `);
                     $checked.prop('checked', true).attr('checked', 'checked');
