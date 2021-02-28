@@ -17,21 +17,16 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-row mb-1">
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-3">
                                             <label>{{ trans('admin.status') }}:</label>
                                             <select class="form-control" name="filterStatus" id="filterStatus"
-                                                onchange="filtetrStatus(this);">
-                                                <option value=''>Select Status </option>
-                                                <option value='0'>Active</option>
-                                                <option value='1'>In Active</option>
+                                                onchange="filtetrStatus(this);"
+                                                data-column="0" data-column-index="0">
+                                                <option value=''>--Select Status--</option>
+                                                {{-- <option value=''>{{ trans('admin.status') }}</option> --}}
+                                                <option value='0'>{{ trans('admin.active') }}</option>
+                                                <option value='1'>{{ trans('admin.inactive') }}</option>
                                             </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-row mb-1">
-                                        <div class="col-lg-4">
-                                            <label>Name:</label>
-                                            <input type="text" class="form-control dt-input dt-full-name"
-                                                data-column="1" placeholder="Alaric Beslier" data-column-index="0" />
                                         </div>
                                     </div>
                                 </div>
@@ -96,8 +91,8 @@
                 },
                 { data: 'name_trans' },
                 { data: 'price' },
-                { data: 'enabled', class: 'status' },
-                { data: 'created_at', class: 'created_at' },
+                { data: 'enabled' },
+                { data: 'created_at', className: 'created_at' },
                 { data: 'action', orderable: false,
                     render: function(data, type, row, meta) {
                         // Action Buttons

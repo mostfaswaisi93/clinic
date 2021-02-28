@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Validator;
 
 class ServicesController extends Controller
@@ -18,20 +17,13 @@ class ServicesController extends Controller
         $this->middleware(['permission:delete_services'])->only('destroy');
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        $enabled = request()->get('enabled');
-
-        $services = Service::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
-            // if (isset($enabled))
-            //     $services->where('enabled', $enabled);
-            // $services = $services->get();
-            if (!empty($request->filter_enabled)) {
-                $services = DB::table('services')
-                    ->where('Gender', $request->filter_enabled)
-                    ->get();
-            }
+            $services = Service::OrderBy('created_at', 'desc')->get();
+            $enabled = request()->get('enabled');
+            if (isset($enabled))
+                $services->where('enabled', $enabled);
             return datatables()->of($services)->make(true);
         }
         return view('admin.services.index');

@@ -103,6 +103,7 @@ return [
     'icon_upload'               => 'إضافة أيقونة',
     'actions'                   => 'خيارات',
 
+    'choose_all'                => 'اختر الكل',
     'enabled'                   => 'مفعل',
     'active'                    => 'مفعل',
     'inactive'                  => 'غير مفعل',

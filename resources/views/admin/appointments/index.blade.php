@@ -53,6 +53,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
+            drawCallback: function(settings){ feather.replace(); },
             order: [[ 2, "desc" ]],
             ajax: {
                 url: "{{ route('admin.appointments.index') }}",
@@ -66,8 +67,8 @@
                 },
                 { data: 'name_trans' },
                 { data: 'price' },
-                { data: 'enabled', class: 'status' },
-                { data: 'created_at', class: 'created_at' },
+                { data: 'enabled' },
+                { data: 'created_at', className: 'created_at' },
                 { data: 'action', orderable: false,
                     render: function(data, type, row, meta) {
                         // Action Buttons

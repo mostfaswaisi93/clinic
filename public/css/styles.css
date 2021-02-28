@@ -55,10 +55,6 @@ label {
     width: 8%;
 }
 
-.table-striped tbody>tr>td.status {
-    text-align: center;
-}
-
 .table-striped tbody>tr>td.created_at {
     width: 15%;
 }
@@ -69,6 +65,10 @@ label {
 
 #form_result .alert .alert-body {
     padding: 0.4rem 1rem;
+}
+
+.custom-switch {
+    text-align: center;
 }
 
 .custom-switch .custom-control-label::before {

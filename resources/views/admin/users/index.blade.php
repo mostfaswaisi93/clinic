@@ -56,6 +56,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
+            drawCallback: function(settings){ feather.replace(); },
             order: [[ 3, "desc" ]],
             ajax: {
                 url: "{{ route('admin.users.index') }}",
@@ -75,7 +76,7 @@
                 { data: 'full_name' },
                 // { data: 'username' },
                 // { data: 'email' },
-                { data: 'enabled', class: 'status' },
+                { data: 'enabled' },
                 { data: 'last_login_at',
                     render: function(data, type, row, meta){
                         var text1 = "<div>"+row.last_login+"</div>";
@@ -83,7 +84,7 @@
                         return text1 + text2;
                     }
                 },
-                { data: 'created_at', class: 'created_at' },
+                { data: 'created_at', className: 'created_at' },
                 { data: 'action', orderable: false,
                     render: function(data, type, row, meta) {
                         // Action Buttons
