@@ -40,7 +40,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    data: 'ids='+string_ids,
+                    data: 'ids=' + string_ids,
                     success: function(data){
                         $('#data-table').DataTable().ajax.reload();
                         var lang = "{{ app()->getLocale() }}";

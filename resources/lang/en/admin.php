@@ -44,6 +44,10 @@ return [
     'change_password'           => 'Change Password',
     'too_many_requests'         => 'Too Many Requests, Wait 60 Seconds and Try Again',
     'users_permissions'         => 'User Does Not Have The Right Permissions.',
+    'page_expired'              => 'Page Expired.',
+    'bad_request'               => 'Bad Request.',
+    'unauthorized'              => 'Unauthorized.',
+    'service_unavailable'       => 'Service Unavailable.',
 
     'delete_msg'                => 'Are you Sure?',
     'multi_delete'              => 'Do you agree to delete the following records and their number ',

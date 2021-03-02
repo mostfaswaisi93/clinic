@@ -3,37 +3,33 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Service;
+use App\Models\Test;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Validator;
 
-class ServicesController extends Controller
+class TestsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['permission:read_services'])->only('index');
-        $this->middleware(['permission:create_services'])->only('create');
-        $this->middleware(['permission:update_services'])->only('edit');
-        $this->middleware(['permission:delete_services'])->only('destroy');
+        $this->middleware(['permission:read_tests'])->only('index');
+        $this->middleware(['permission:create_tests'])->only('create');
+        $this->middleware(['permission:update_tests'])->only('edit');
+        $this->middleware(['permission:delete_tests'])->only('destroy');
     }
 
     public function index()
     {
-        $services = Service::OrderBy('created_at', 'desc')->get();
-        $enabled = request()->get('enabled');
+        $tests = Test::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
-            if (isset($enabled))
-                $services->where('enabled', $enabled);
-            return datatables()->of($services)->make(true);
+            return datatables()->of($tests)->make(true);
         }
-        return view('admin.services.index');
+        return view('admin.tests.index');
     }
 
     public function store(Request $request)
     {
         $rules = array(
-            'price'    =>  'required'
+            'description'    =>  'required'
         );
 
         foreach (config('translatable.locales') as $locale) {
@@ -46,7 +42,7 @@ class ServicesController extends Controller
             return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        Service::create($request->all());
+        Test::create($request->all());
 
         return response()->json(['success' => 'Data Added Successfully.']);
     }
@@ -54,15 +50,15 @@ class ServicesController extends Controller
     public function edit($id)
     {
         if (request()->ajax()) {
-            $data = Service::findOrFail($id);
+            $data = Test::findOrFail($id);
             return response()->json(['data' => $data]);
         }
     }
 
-    public function update(Request $request, Service $service)
+    public function update(Request $request, Test $test)
     {
         $rules = array(
-            'price'    =>  'required'
+            'description'    =>  'required'
         );
 
         foreach (config('translatable.locales') as $locale) {
@@ -76,36 +72,36 @@ class ServicesController extends Controller
         }
 
         $request_data = array(
-            'name'       =>   $request->name,
-            'price'      =>   $request->price,
+            'name'          =>   $request->name,
+            'description'   =>   $request->description,
         );
 
-        $service::whereId($request->hidden_id)->update($request_data);
+        $test::whereId($request->hidden_id)->update($request_data);
 
         return response()->json(['success' => 'Data is Successfully Updated']);
     }
 
     public function destroy($id)
     {
-        $service = Service::findOrFail($id);
-        $service->delete();
+        $test = Test::findOrFail($id);
+        $test->delete();
     }
 
     public function multi_delete(Request $request)
     {
         $ids = $request->ids;
-        Service::whereIn('id', explode(",", $ids))->delete();
+        Test::whereIn('id', explode(",", $ids))->delete();
         return response()->json(['success' => 'The data has been deleted successfully']);
     }
 
     public function updateStatus(Request $request, $id)
     {
-        $service           = Service::find($id);
+        $test           = Test::find($id);
         $enabled           = $request->get('enabled');
-        $service->enabled  = $enabled;
-        $service           = $service->save();
+        $test->enabled  = $enabled;
+        $test           = $test->save();
 
-        if ($service) {
+        if ($test) {
             return response(['success' => true, "message" => 'Status has been Successfully Updated']);
         }
     }

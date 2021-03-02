@@ -6,6 +6,7 @@ return [
             'appointments'      => 'c,r,u,d,p,ma',
             'patients'          => 'c,r,u,d,p,ma',
             'services'          => 'c,r,u,d,p,ma',
+            'tests'             => 'c,r,u,d,p,ma',
             'invoices'          => 'c,r,u,d,p,ma',
             // 'notifications'     => 'c,r,u,d,p,ma',
             'contacts'          => 'c,r,u,d,p,ma',
