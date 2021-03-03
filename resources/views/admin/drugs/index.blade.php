@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title') {{ trans('admin.tests') }} @endsection
+@section('title') {{ trans('admin.drugs') }} @endsection
 
 @section('content')
 
@@ -9,7 +9,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header border-bottom">
-                        <h4 class="card-title"><b>{{ trans('admin.tests') }}</b></h4>
+                        <h4 class="card-title"><b>{{ trans('admin.drugs') }}</b></h4>
                     </div>
                     <div class="table-responsive" style="padding: 10px">
                         <table id="data-table"
@@ -19,8 +19,8 @@
                                 <tr>
                                     <th></th>
                                     <th>#</th>
-                                    <th>{{ trans('admin.name') }}</th>
-                                    <th>{{ trans('admin.description') }}</th>
+                                    <th>{{ trans('admin.trade_name') }}</th>
+                                    <th>{{ trans('admin.generic_name') }}</th>
                                     <th class="status">{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.actions') }}</th>
@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-        @include('admin.tests.modal')
+        @include('admin.drugs.modal')
     </section>
 </div>
 
@@ -46,7 +46,7 @@
 
 <script type="text/javascript">
     var status = '';
-    var getLocation = "tests";
+    var getLocation = "drugs";
     $(document).ready(function(){
         // DataTable
         $('#data-table').DataTable({
@@ -56,7 +56,7 @@
             drawCallback: function(settings){ feather.replace(); },
             order: [[ 2, "desc" ]],
             ajax: {
-                url: "{{ route('admin.tests.index') }}",
+                url: "{{ route('admin.drugs.index') }}",
             },
             columns: [
                 { data: 'id' },
@@ -65,20 +65,20 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }, searchable: false, orderable: false
                 },
-                { data: 'name_trans' },
-                { data: 'description' },
+                { data: 'trade_name' },
+                { data: 'generic_name' },
                 { data: 'enabled' },
                 { data: 'created_at', className: 'created_at' },
                 { data: 'action', orderable: false,
                     render: function(data, type, row, meta) {
                         // Action Buttons
                         return (
-                            '<span>@if(auth()->user()->can('update_tests'))' +
-                            '<a id="'+ row.id +'" name="edit" class="item-edit edit mr-1" data-toggle="modal" data-target="#testModal" title="{{ trans("admin.edit") }}">' +
+                            '<span>@if(auth()->user()->can('update_drugs'))' +
+                            '<a id="'+ row.id +'" name="edit" class="item-edit edit mr-1" data-toggle="modal" data-target="#drugModal" title="{{ trans("admin.edit") }}">' +
                             feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
                             '</a>' +
                             '@endif </span>' +
-                            '<span>@if(auth()->user()->can('delete_tests'))' +
+                            '<span>@if(auth()->user()->can('delete_drugs'))' +
                             '<a id="'+ row.id +'" class="item-edit delete" title="{{ trans("admin.delete") }}">' +
                             feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
                             '</a>' +
@@ -134,7 +134,7 @@
                     }
                 },
                 { text: '<i data-feather="trash-2"></i> {{ trans("admin.trash") }}',
-                  className: '@if (auth()->user()->can("multi_delete_tests")) btn dtbtn btn-sm btn-danger multi_delete @else btn dtbtn btn-sm btn-danger disabled @endif',
+                  className: '@if (auth()->user()->can("multi_delete_drugs")) btn dtbtn btn-sm btn-danger multi_delete @else btn dtbtn btn-sm btn-danger disabled @endif',
                   attr: { 'title': '{{ trans("admin.trash") }}' }
                 },
                 { extend: 'csvHtml5', charset: "UTF-8", bom: true,
@@ -148,7 +148,7 @@
                   attr: { 'title': 'Excel' }
                 },
                 { text: '<i data-feather="printer"></i> {{ trans("admin.print") }}',
-                  className: '@if (auth()->user()->can("print_tests")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
+                  className: '@if (auth()->user()->can("print_drugs")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
                   extend: 'print', attr: { 'title': '{{ trans("admin.print") }}' }
                 },
                 { extend: 'pdfHtml5', charset: "UTF-8", bom: true, 
@@ -156,14 +156,14 @@
                   text: '<i data-feather="file"></i> PDF',
                   pageSize: 'A4', attr: { 'title': 'PDF' }
                 },
-                { text: '<i data-feather="plus"></i> {{ trans("admin.create_test") }}',
-                  className: '@if (auth()->user()->can("create_tests")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
+                { text: '<i data-feather="plus"></i> {{ trans("admin.create_drug") }}',
+                  className: '@if (auth()->user()->can("create_drugs")) btn dtbtn btn-sm btn-primary @else btn dtbtn btn-sm btn-primary disabled @endif',
                   attr: {
-                    'title': '{{ trans("admin.create_test") }}',
+                    'title': '{{ trans("admin.create_drug") }}',
                     'data-toggle': 'modal',
-                    'data-target': '#testModal',
-                    'name': 'create_test',
-                    'id': 'create_test' }
+                    'data-target': '#drugModal',
+                    'name': 'create_drug',
+                    'id': 'create_drug' }
                 },
             ],
             language: {
@@ -174,22 +174,22 @@
         });
 
         // Open Modal
-        $(document).on('click', '#create_test', function(){
-            $('.modal-title').text("{{ trans('admin.create_test') }}");
+        $(document).on('click', '#create_drug', function(){
+            $('.modal-title').text("{{ trans('admin.create_drug') }}");
             $('#action_button').val("Add");
-            $('#testForm').trigger("reset");
+            $('#drugForm').trigger("reset");
             $('#form_result').html('');
             $('#action').val("Add");
         });
 
         // Add Data
-        $('#testForm').on('submit', function(event){
+        $('#drugForm').on('submit', function(event){
             event.preventDefault();
             if($('#action').val() == 'Add')
             {
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "{{ route('admin.tests.store') }}",
+                    url: "{{ route('admin.drugs.store') }}",
                     method: "POST",
                     data: formData,
                     contentType: false,
@@ -210,7 +210,7 @@
                     }
                     if(data.success)
                     {
-                        $('#testForm')[0].reset();
+                        $('#drugForm')[0].reset();
                         $('#data-table').DataTable().ajax.reload();
                         $("[data-dismiss=modal]").trigger({ type: "click" });
                         var lang = "{{ app()->getLocale() }}";
@@ -228,7 +228,7 @@
             {
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "{{ route('admin.tests.update') }}",
+                    url: "{{ route('admin.drugs.update') }}",
                     method: "POST",
                     data: formData,
                     contentType: false,
@@ -249,7 +249,7 @@
                     }
                     if(data.success)
                     {
-                        $('#testForm')[0].reset();
+                        $('#drugForm')[0].reset();
                         $('#data-table').DataTable().ajax.reload();
                         $("[data-dismiss=modal]").trigger({ type: "click" });
                         var lang = "{{ app()->getLocale() }}";
@@ -270,14 +270,14 @@
             var id = $(this).attr('id');
             $('#form_result').html('');
             $.ajax({
-                url: "/admin/tests/"+ id +"/edit",
+                url: "/admin/drugs/"+ id +"/edit",
                 dataType: "json",
                 success: function(html){
                     $('#name_ar').val(html.data.name.ar);
                     $('#name_en').val(html.data.name.en);
                     $('#description').val(html.data.description);
                     $('#hidden_id').val(html.data.id);
-                    $('.modal-title').text("{{ trans('admin.edit_test') }}");
+                    $('.modal-title').text("{{ trans('admin.edit_drug') }}");
                     $('#action_button').val("Edit");
                     $('#action').val("Edit");
                 }

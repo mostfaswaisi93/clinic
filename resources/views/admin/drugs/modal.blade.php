@@ -1,7 +1,7 @@
-<!-- Test Modal -->
-<div class="modal modal-slide-in fade" id="testModal" role="dialog" aria-hidden="true">
+<!-- Drug Modal -->
+<div class="modal modal-slide-in fade" id="drugModal" role="dialog" aria-hidden="true">
     <div class="modal-dialog sidebar-sm">
-        <form method="POST" class="add-new-record modal-content pt-0" id="testForm" enctype="multipart/form-data">
+        <form method="POST" class="add-new-record modal-content pt-0" id="drugForm" enctype="multipart/form-data">
             @csrf
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
             <div class="modal-header mb-1">

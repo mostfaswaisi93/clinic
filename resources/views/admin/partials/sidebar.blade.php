@@ -85,6 +85,22 @@
                 </a>
             </li>
             @endif
+            @if (auth()->user()->can('read_drugs'))
+            <li {{ request()->route()->getName() === 'admin.drugs.index' ? 'class=active' : '' }}>
+                <a href="{{ route('admin.drugs.index') }}" class="d-flex align-items-center">
+                    <i data-feather='octagon'></i>
+                    <span class="menu-title text-truncate">{{ trans('admin.drugs') }}</span>
+                </a>
+            </li>
+            @endif
+            @if (auth()->user()->can('read_tests'))
+            <li {{ request()->route()->getName() === 'admin.tests.index' ? 'class=active' : '' }}>
+                <a href="{{ route('admin.tests.index') }}" class="d-flex align-items-center">
+                    <i data-feather='file-text'></i>
+                    <span class="menu-title text-truncate">{{ trans('admin.tests') }}</span>
+                </a>
+            </li>
+            @endif
             @if (auth()->user()->can('read_notifications'))
             <li {{ request()->route()->getName() === 'admin.notifications.index' ? 'class=active' : '' }}>
                 <a href="{{ route('admin.notifications.index') }}" class="d-flex align-items-center">

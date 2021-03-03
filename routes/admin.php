@@ -16,6 +16,7 @@ Route::group(
                 'appointments'      => AppointmentsController::class,
                 'patients'          => PatientsController::class,
                 'services'          => ServicesController::class,
+                'drugs'             => DrugsController::class,
                 'tests'             => TestsController::class,
                 'invoices'          => InvoicesController::class,
                 'notifications'     => NotificationsController::class,
@@ -48,6 +49,11 @@ Route::group(
             Route::get('services/destroy/{id}', 'ServicesController@destroy');
             Route::delete('services/destroy/all', 'ServicesController@multi_delete');
             Route::post('services/updateStatus/{id}', 'ServicesController@updateStatus');
+
+            Route::post('drugs/update', 'DrugsController@update')->name('drugs.update');
+            Route::get('drugs/destroy/{id}', 'DrugsController@destroy');
+            Route::delete('drugs/destroy/all', 'DrugsController@multi_delete');
+            Route::post('drugs/updateStatus/{id}', 'DrugsController@updateStatus');
 
             Route::post('tests/update', 'TestsController@update')->name('tests.update');
             Route::get('tests/destroy/{id}', 'TestsController@destroy');

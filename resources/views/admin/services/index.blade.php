@@ -20,7 +20,7 @@
                                         <div class="col-lg-3">
                                             <label for="filter_status">{{ trans('admin.status') }}:</label>
                                             <select id="filter_status" class="form-control" name="enabled">
-                                                <option value="" selected="selected">{{ trans('admin.all') }}</option>
+                                                <option value="" selected="selected">{{ trans('admin.choose_all') }}</option>
                                                 <option value='1'>{{ trans('admin.active') }}</option>
                                                 <option value='0'>{{ trans('admin.inactive') }}</option>
                                             </select>

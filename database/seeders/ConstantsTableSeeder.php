@@ -21,5 +21,53 @@ class ConstantsTableSeeder extends Seeder
                 'en' => 'Female'
             ], 'type' => 'gender'
         ]);
+        Constant::create([
+            'name' => [
+                'ar' => 'A+',
+                'en' => 'A+'
+            ], 'type' => 'blood_group'
+        ]);
+        Constant::create([
+            'name' => [
+                'ar' => 'A-',
+                'en' => 'A-'
+            ], 'type' => 'blood_group'
+        ]);
+        Constant::create([
+            'name' => [
+                'ar' => 'B+',
+                'en' => 'B+'
+            ], 'type' => 'blood_group'
+        ]);
+        Constant::create([
+            'name' => [
+                'ar' => 'B-',
+                'en' => 'B-'
+            ], 'type' => 'blood_group'
+        ]);
+        Constant::create([
+            'name' => [
+                'ar' => 'O+',
+                'en' => 'O+'
+            ], 'type' => 'blood_group'
+        ]);
+        Constant::create([
+            'name' => [
+                'ar' => 'O-',
+                'en' => 'O-'
+            ], 'type' => 'blood_group'
+        ]);
+        Constant::create([
+            'name' => [
+                'ar' => 'AB+',
+                'en' => 'AB+'
+            ], 'type' => 'blood_group'
+        ]);
+        Constant::create([
+            'name' => [
+                'ar' => 'AB-',
+                'en' => 'AB-'
+            ], 'type' => 'blood_group'
+        ]);
     }
 }
