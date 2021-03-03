@@ -19,8 +19,12 @@ class ConstantsController extends Controller
 
     public function index()
     {
-        $constants = Constant::OrderBy('created_at', 'desc')->get();
+        $constants = Constant::OrderBy('created_at', 'desc');
+        $enabled = request()->get('enabled');
         if (request()->ajax()) {
+            if (isset($enabled))
+                $constants->where('enabled', $enabled)->get();
+            $constants = $constants->get();
             return datatables()->of($constants)->make(true);
         }
         return view('admin.constants.index');

@@ -19,8 +19,12 @@ class CountriesController extends Controller
 
     public function index()
     {
-        $countries = Country::OrderBy('created_at', 'desc')->get();
+        $countries = Country::OrderBy('created_at', 'desc');
+        $enabled = request()->get('enabled');
         if (request()->ajax()) {
+            if (isset($enabled))
+                $countries->where('enabled', $enabled)->get();
+            $countries = $countries->get();
             return datatables()->of($countries)->make(true);
         }
         return view('admin.countries.index');

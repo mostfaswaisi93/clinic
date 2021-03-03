@@ -23,8 +23,12 @@ class LocationsController extends Controller
 
     public function index()
     {
-        $locations = Location::OrderBy('created_at', 'desc')->get();
+        $locations = Location::OrderBy('created_at', 'desc');
+        $enabled = request()->get('enabled');
         if (request()->ajax()) {
+            if (isset($enabled))
+                $locations->where('enabled', $enabled)->get();
+            $locations = $locations->get();
             return datatables()->of($locations)
                 ->addColumn('country', function ($data) {
                     return $data->country->name_trans;

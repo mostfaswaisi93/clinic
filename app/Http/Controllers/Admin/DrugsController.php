@@ -19,8 +19,12 @@ class DrugsController extends Controller
 
     public function index()
     {
-        $drugs = Drug::OrderBy('created_at', 'desc')->get();
+        $drugs = Drug::OrderBy('created_at', 'desc');
+        $enabled = request()->get('enabled');
         if (request()->ajax()) {
+            if (isset($enabled))
+                $drugs->where('enabled', $enabled)->get();
+            $drugs = $drugs->get();
             return datatables()->of($drugs)->make(true);
         }
         return view('admin.drugs.index');

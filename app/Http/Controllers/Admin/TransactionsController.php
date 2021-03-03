@@ -20,19 +20,13 @@ class TransactionsController extends Controller
 
     public function index()
     {
-        $transactions = Transaction::OrderBy('created_at', 'desc')->get();
+        $transactions = Transaction::OrderBy('created_at', 'desc');
+        $enabled = request()->get('enabled');
         if (request()->ajax()) {
-            return datatables()->of($transactions)
-                ->addColumn('action', function ($data) {
-                    if (auth()->user()->can(['update_transactions', 'delete_transactions'])) {
-                        $button = '<a type="button" title="' . trans("admin.edit") . '" name="edit" href="transactions/' . $data->id . '/edit" class="edit btn btn-sm btn-icon"><i class="feather icon-edit"></i></a>';
-                        $button .= '&nbsp;';
-                        $button .= '<a type="button" title="' . trans("admin.delete") . '" name="delete" id="' . $data->id . '"  class="delete btn btn-sm btn-icon"><i data-feather="trash-2"></i></a>';
-                        return $button;
-                    }
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+            if (isset($enabled))
+                $transactions->where('enabled', $enabled)->get();
+            $transactions = $transactions->get();
+            return datatables()->of($transactions)->make(true);
         }
         return view('admin.transactions.index');
     }

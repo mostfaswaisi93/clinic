@@ -13,22 +13,19 @@
                     </div>
                     <!--Search Form -->
                     <div class="card-body mt-2">
-                        <form class="dt_adv_search" method="POST">
+                        <form>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-row mb-1">
-                                        <div class="col-lg-3">
-                                            <label for="filter_status">{{ trans('admin.status') }}:</label>
-                                            <select id="filter_status" class="form-control" name="enabled">
-                                                <option value="" selected="selected">{{ trans('admin.choose_all') }}</option>
+                                        <div class="col-lg-2">
+                                            <label for="filterStatus">{{ trans('admin.status') }}:</label>
+                                            <select id="filterStatus" class="form-control" name="filterStatus"
+                                                onchange="filtetrStatus(this);">
+                                                <option value="" selected="selected">{{ trans('admin.all') }}
+                                                </option>
                                                 <option value='1'>{{ trans('admin.active') }}</option>
                                                 <option value='0'>{{ trans('admin.inactive') }}</option>
                                             </select>
-                                            {{-- <select class="form-control" name="filterStatus" id="filter_status"
-                                                onchange="filtetrStatus(this);"
-                                                data-column="0" data-column-index="0">
-                                                <option value=''>--Select Status--</option>
-                                            </select> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -137,14 +134,16 @@
                 "targets": 4,
                 render: function (data, type, row, meta){
                     var $checked = $(`
-                        <div class="custom-control custom-switch custom-switch-success">
-                            <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
-                            class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
-                            onchange=selectStatus(${row.id}) >
-                            <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}">
-                                <span class="switch-icon-left"><i data-feather="check"></i></span>
-                                <span class="switch-icon-right"><i data-feather="x"></i></span>
-                            </label>
+                        <div class="custom-switch-status">
+                            <div class="custom-control custom-switch custom-switch-success">
+                                <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
+                                class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
+                                onchange=selectStatus(${row.id}) >
+                                <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}">
+                                    <span class="switch-icon-left"><i data-feather="check"></i></span>
+                                    <span class="switch-icon-right"><i data-feather="x"></i></span>
+                                </label>
+                            </div>
                         </div>
                     `);
                     $checked.prop('checked', true).attr('checked', 'checked');

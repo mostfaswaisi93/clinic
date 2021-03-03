@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Validator;
 
 class ServicesController extends Controller
@@ -20,11 +19,12 @@ class ServicesController extends Controller
 
     public function index()
     {
-        $services = Service::OrderBy('created_at', 'desc')->get();
+        $services = Service::OrderBy('created_at', 'desc');
         $enabled = request()->get('enabled');
         if (request()->ajax()) {
             if (isset($enabled))
-                $services->where('enabled', $enabled);
+                $services->where('enabled', $enabled)->get();
+            $services = $services->get();
             return datatables()->of($services)->make(true);
         }
         return view('admin.services.index');

@@ -19,8 +19,12 @@ class TestsController extends Controller
 
     public function index()
     {
-        $tests = Test::OrderBy('created_at', 'desc')->get();
+        $tests = Test::OrderBy('created_at', 'desc');
+        $enabled = request()->get('enabled');
         if (request()->ajax()) {
+            if (isset($enabled))
+                $tests->where('enabled', $enabled)->get();
+            $tests = $tests->get();
             return datatables()->of($tests)->make(true);
         }
         return view('admin.tests.index');

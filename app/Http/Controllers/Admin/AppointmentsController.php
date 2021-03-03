@@ -19,8 +19,12 @@ class AppointmentsController extends Controller
 
     public function index()
     {
-        $appointments = Appointment::OrderBy('created_at', 'desc')->get();
+        $appointments = Appointment::OrderBy('created_at', 'desc');
+        $enabled = request()->get('enabled');
         if (request()->ajax()) {
+            if (isset($enabled))
+                $appointments->where('enabled', $enabled)->get();
+            $appointments = $appointments->get();
             return datatables()->of($appointments)->make(true);
         }
         return view('admin.appointments.index');

@@ -19,8 +19,12 @@ class PaymentsController extends Controller
 
     public function index()
     {
-        $payments = Service::OrderBy('created_at', 'desc')->get();
+        $payments = Service::OrderBy('created_at', 'desc');
+        $enabled = request()->get('enabled');
         if (request()->ajax()) {
+            if (isset($enabled))
+                $payments->where('enabled', $enabled)->get();
+            $payments = $payments->get();
             return datatables()->of($payments)->make(true);
         }
         return view('admin.payments.index');

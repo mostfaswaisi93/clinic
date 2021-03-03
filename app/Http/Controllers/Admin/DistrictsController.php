@@ -21,8 +21,12 @@ class DistrictsController extends Controller
 
     public function index()
     {
-        $districts = District::OrderBy('created_at', 'desc')->get();
+        $districts = District::OrderBy('created_at', 'desc');
+        $enabled = request()->get('enabled');
         if (request()->ajax()) {
+            if (isset($enabled))
+                $districts->where('enabled', $enabled)->get();
+            $districts = $districts->get();
             return datatables()->of($districts)
                 ->addColumn('country', function ($data) {
                     return $data->country->name_trans;

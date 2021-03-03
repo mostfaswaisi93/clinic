@@ -19,8 +19,12 @@ class PatientsController extends Controller
 
     public function index()
     {
-        $patients = Patient::OrderBy('created_at', 'desc')->get();
+        $patients = Patient::OrderBy('created_at', 'desc');
+        $enabled = request()->get('enabled');
         if (request()->ajax()) {
+            if (isset($enabled))
+                $patients->where('enabled', $enabled)->get();
+            $patients = $patients->get();
             return datatables()->of($patients)->make(true);
         }
         return view('admin.patients.index');

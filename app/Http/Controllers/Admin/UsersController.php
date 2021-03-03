@@ -26,8 +26,12 @@ class UsersController extends Controller
     public function index()
     {
         // $users = User::OrderBy('created_at', 'desc')->role('admin')->get();
-        $users = User::OrderBy('created_at', 'desc')->get();
+        $users = User::OrderBy('created_at', 'desc');
+        $enabled = request()->get('enabled');
         if (request()->ajax()) {
+            if (isset($enabled))
+                $users->where('enabled', $enabled)->get();
+            $users = $users->get();
             return datatables()->of($users)->make(true);
         }
         return view('admin.users.index');

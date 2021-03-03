@@ -111,6 +111,7 @@ return [
     'icon_upload'               => 'Icon Upload',
     'actions'                   => 'Actions',
 
+    'all'                       => 'All',
     'enabled'                   => 'Enabled',
     'active'                    => 'Active',
     'inactive'                  => 'Inactive',

@@ -20,8 +20,12 @@ class CitiesController extends Controller
 
     public function index()
     {
-        $cities = City::OrderBy('created_at', 'desc')->get();
+        $cities = City::OrderBy('created_at', 'desc');
+        $enabled = request()->get('enabled');
         if (request()->ajax()) {
+            if (isset($enabled))
+                $cities->where('enabled', $enabled)->get();
+            $cities = $cities->get();
             return datatables()->of($cities)
                 ->addColumn('country', function ($data) {
                     return $data->country->name_trans;
