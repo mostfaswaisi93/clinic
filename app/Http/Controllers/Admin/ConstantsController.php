@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Constant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class ConstantsController extends Controller
@@ -19,15 +20,32 @@ class ConstantsController extends Controller
 
     public function index()
     {
+
+        // App\Models\Constant::where('type', 'gender')->get();
+        // App\Models\Constant::groupBy('type')->get();
+        // App\Models\Constant::where('type', 'gender')->pluck('type');
         $constants = Constant::OrderBy('created_at', 'desc');
         $enabled = request()->get('enabled');
+        $type = request()->get('type');
+        $types =  Constant::select(DB::raw('COUNT(id) as count'), 'type')
+        ->groupBy('type')->having('count', '>=', 1)->get();
         if (request()->ajax()) {
             if (isset($enabled))
                 $constants->where('enabled', $enabled)->get();
+            // if (isset($type))
+            //     $constants->whereHas('type', function ($q) use ($types) {
+            //         $q->where('type', $types)>get();
+            //     });
+            if (isset($type))
+                $constants->where('type', $type)->get();
             $constants = $constants->get();
-            return datatables()->of($constants)->make(true);
+            return datatables()->of($constants)
+                ->editColumn('type', function ($constants) {
+                    return ucwords(str_replace('_', ' ', $constants->type));
+                })
+                ->make(true);
         }
-        return view('admin.constants.index');
+        return view('admin.constants.index', compact('types'));
     }
 
     public function store(Request $request)
@@ -46,7 +64,12 @@ class ConstantsController extends Controller
             return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        Constant::create($request->all());
+        $request_data = array(
+            'name'      => $request->name,
+            'type'      =>  strtolower(str_replace(' ', '_', $request->type))
+        );
+
+        Constant::create($request_data);
 
         return response()->json(['success' => 'Data Added Successfully.']);
     }
@@ -76,7 +99,8 @@ class ConstantsController extends Controller
         }
 
         $request_data = array(
-            'name'       =>   $request->name
+            'name'       =>   json_encode($request->name, JSON_UNESCAPED_UNICODE),
+            'type'       =>   strtolower(str_replace(' ', '_', $request->type))
         );
 
         $constant::whereId($request->hidden_id)->update($request_data);

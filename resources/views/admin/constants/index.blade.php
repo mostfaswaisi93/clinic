@@ -11,6 +11,38 @@
                     <div class="card-header border-bottom">
                         <h4 class="card-title"><b>{{ trans('admin.constants') }}</b></h4>
                     </div>
+                    <div class="card-body mt-2">
+                        <form>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-row mb-1">
+                                        <div class="col-lg-2">
+                                            <label for="filterStatus">{{ trans('admin.status') }}:</label>
+                                            <select id="filterStatus" class="form-control" name="filterStatus"
+                                                onchange="filter_status(this);">
+                                                <option value="" selected="selected">{{ trans('admin.all') }}</option>
+                                                <option value='1'>{{ trans('admin.active') }}</option>
+                                                <option value='0'>{{ trans('admin.inactive') }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <label for="filterType">{{ trans('admin.type') }}:</label>
+                                            <select id="filterType" class="form-control" name="filterType"
+                                                onchange="filter_type(this);">
+                                                <option value="" selected="selected">{{ trans('admin.all') }}</option>
+                                                @foreach ($types as $type)
+                                                <option value="{{$type->type}}">
+                                                    {{ucwords(str_replace('_', ' ', $type->type)) }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <hr class="my-0" />
                     <div class="table-responsive" style="padding: 10px">
                         <table id="data-table"
                             class="table table-striped table-bordered table-hover table-sm dt-responsive nowrap"
@@ -68,7 +100,8 @@
                 { data: 'name_trans' },
                 { data: 'type',
                     render: function(data, type, row, meta) {
-                        return "<div class='badge badge-light-primary'>"+ row.type +"</div>";
+                        var type = row.type;
+                        return "<div class='badge badge-light-primary'>"+ type +"</div>";
                     }
                 },
                 { data: 'enabled' },
@@ -290,6 +323,18 @@
             });
         });
     });
+
+    // Filter Status
+    function filter_status(enabled_filter = null){
+        enabled = enabled_filter.value;
+        $('#data-table').DataTable().ajax.url(getLocation +'?enabled='+ enabled +'&type=filter').load();
+    }
+
+    // Filter Type
+    function filter_type(type = null){
+        type = type.value;
+        $('#data-table').DataTable().ajax.url(getLocation +'?type='+ type +'&type=filter').load();
+    }
 </script>
 
 @endpush

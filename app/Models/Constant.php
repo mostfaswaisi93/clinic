@@ -13,12 +13,4 @@ class Constant extends BaseModel
     protected $fillable     = ['name', 'type', 'enabled'];
     protected $appends      = ['name_trans'];
     public $translatable    = ['name'];
-
-    public function getTypeAttribute($value)
-    {
-        $word = str_replace('_', ' ', $value);
-        return ucwords($word);
-    }
-
-    // Constant::where('type', 'gender')->get();
 }

@@ -11,7 +11,6 @@
                     <div class="card-header border-bottom">
                         <h4 class="card-title"><b>{{ trans('admin.services') }}</b></h4>
                     </div>
-                    <!--Search Form -->
                     <div class="card-body mt-2">
                         <form>
                             <div class="row">
@@ -20,9 +19,8 @@
                                         <div class="col-lg-2">
                                             <label for="filterStatus">{{ trans('admin.status') }}:</label>
                                             <select id="filterStatus" class="form-control" name="filterStatus"
-                                                onchange="filtetrStatus(this);">
-                                                <option value="" selected="selected">{{ trans('admin.all') }}
-                                                </option>
+                                                onchange="filter_status(this);">
+                                                <option value="" selected="selected">{{ trans('admin.all') }}</option>
                                                 <option value='1'>{{ trans('admin.active') }}</option>
                                                 <option value='0'>{{ trans('admin.inactive') }}</option>
                                             </select>
@@ -65,7 +63,6 @@
 @include('partials.delete')
 @include('partials.status')
 @include('partials.multi_delete')
-@include('partials.filter')
 
 <script type="text/javascript">
     var status = '';
@@ -80,9 +77,6 @@
             order: [[ 2, "desc" ]],
             ajax: {
                 url: "{{ route('admin.services.index') }}",
-                data: function(e) {
-                    e.enabled = $("#filter_status").find("option:selected").val();
-                },
             },
             columns: [
                 { data: 'id' },
@@ -312,6 +306,12 @@
             });
         });
     });
+
+    // Filter Status
+    function filter_status(enabled_filter = null){
+        enabled = enabled_filter.value;
+        $('#data-table').DataTable().ajax.url(getLocation +'?enabled='+ enabled +'&type=filter').load();
+    }
 </script>
 
 @endpush

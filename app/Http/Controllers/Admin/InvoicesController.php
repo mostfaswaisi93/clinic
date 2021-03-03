@@ -71,7 +71,7 @@ class InvoicesController extends Controller
         }
 
         $request_data = array(
-            'name'       =>   $request->name,
+            'name'       =>   json_encode($request->name, JSON_UNESCAPED_UNICODE),
             'price'      =>   $request->price,
         );
 

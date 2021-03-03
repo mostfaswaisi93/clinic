@@ -12,16 +12,6 @@ if (!function_exists('getSettings')) {
     }
 }
 
-// Show Status
-if (!function_exists('showStatus')) {
-    function showStatus($val)
-    {
-        $text = $val ? trans('admin.active') : trans('admin.inactive');
-        $class = $val ? 'success' : 'danger';
-        return '<span class="chip chip-' . $class . '">' . $text . '</span>';
-    }
-}
-
 // Contact Us
 if (!function_exists('getContact')) {
     function getContact($type = 'data')

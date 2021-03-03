@@ -72,7 +72,7 @@ class CountriesController extends Controller
         }
 
         $request_data = array(
-            'name'       =>   $request->name
+            'name'       =>   json_encode($request->name, JSON_UNESCAPED_UNICODE),
         );
 
         $country::whereId($request->hidden_id)->update($request_data);
