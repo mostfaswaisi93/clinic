@@ -10,7 +10,7 @@
             <div class="modal-body flex-grow-1">
                 <span id="form_result"></span>
                 <div class="form-group">
-                    <label class="form-label" for="name">{{ trans('admin.name') }}</label>
+                    <label class="form-label" for="name">{{ trans('admin.name') }}:</label>
                     <input id="name" type="text" name="name" class="form-control" value="{{ old('name') }}"
                         placeholder="{{ trans('admin.name') }}">
                 </div>

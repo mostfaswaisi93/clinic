@@ -23,7 +23,7 @@ class User extends Authenticatable
     protected $appends  = ['image_path', 'full_name', 'last_login'];
     protected $hidden   = ['password', 'remember_token'];
     protected $casts    = [
-        'email_verified_at' => 'datetime', 'created_at' => 'date:Y-m-d',
+        'email_verified_at' => 'datetime', 'created_at' => 'date:Y-m-d H:i',
         'updated_at' => 'date:Y-m-d H:i', 'last_login_at' => 'date:Y-m-d - H:i A'
     ];
     protected $dates    = ['created_at', 'updated_at', 'deleted_at', 'last_login_at'];

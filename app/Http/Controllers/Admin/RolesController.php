@@ -21,6 +21,10 @@ class RolesController extends Controller
 
     public function index()
     {
+        // App\Models\User::groupBy('role')->get();
+        // App\Models\User::get('role');
+        // App\Models\User::select(\DB::raw('COUNT(id) as count'), 'role')->groupBy('role')->having('count', '>=', 1)->get();
+
         $roles = AppRole::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
             return datatables()->of($roles)->make(true);

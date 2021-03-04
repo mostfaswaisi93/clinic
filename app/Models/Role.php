@@ -14,7 +14,7 @@ class Role extends Model
     protected $table    = 'roles';
     protected $fillable = ['name'];
     protected $appends  = ['users_count'];
-    protected $casts    = ['created_at' => 'date:Y-m-d', 'updated_at' => 'date:Y-m-d H:i'];
+    protected $casts    = ['created_at' => 'date:Y-m-d H:i', 'updated_at' => 'date:Y-m-d H:i'];
     protected $dates    = ['created_at', 'updated_at'];
 
     public function users()
@@ -42,6 +42,9 @@ class Role extends Model
             ->addSelect(DB::raw('COUNT(role_id) as result'))
             ->groupBy('role_id')
             ->count();
+
+        // $users = \DB::table('model_has_roles')->
+        \DB::table('model_has_roles')::addSelect(DB::raw('COUNT(role_id) as count'), 'role_id')->groupBy('model_has_roles.role_id')->having('count', '>=', 1)->get();
 
         $roles = SpatieRole::pluck('name');
         foreach ($roles as $role) {

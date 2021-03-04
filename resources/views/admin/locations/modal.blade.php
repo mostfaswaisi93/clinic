@@ -10,17 +10,17 @@
             <div class="modal-body flex-grow-1">
                 <span id="form_result"></span>
                 <div class="form-group">
-                    <label class="form-label" for="title_ar">{{ trans('admin.ar.title') }}</label>
+                    <label class="form-label" for="title_ar">{{ trans('admin.ar.title') }}:</label>
                     <input id="title_ar" type="text" name="title[ar]" class="form-control" value="{{ old('title.ar') }}"
                         placeholder="{{ trans('admin.ar.title') }}">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="title_en">{{ trans('admin.en.title') }}</label>
+                    <label class="form-label" for="title_en">{{ trans('admin.en.title') }}:</label>
                     <input id="title_en" type="text" name="title[en]" class="form-control" value="{{ old('title.en') }}"
                         placeholder="{{ trans('admin.en.title') }}">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="country_id">{{ trans('admin.country') }}</label>
+                    <label class="form-label" for="country_id">{{ trans('admin.country') }}:</label>
                     <select name="country_id" id="country_id" class="form-control">
                         <option value="" selected disabled> {{ trans('admin.all_countries') }} </option>
                         @foreach($countries as $key => $country)
@@ -31,13 +31,13 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="city_id">{{ trans('admin.city') }}</label>
+                    <label class="form-label" for="city_id">{{ trans('admin.city') }}:</label>
                     <select class="form-control" name="city_id" id="city_id">
                         <option value="" selected disabled> {{ trans('admin.all_cities') }} </option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="district_id">{{ trans('admin.district') }}</label>
+                    <label class="form-label" for="district_id">{{ trans('admin.district') }}:</label>
                     <select class="form-control" name="district_id" id="district_id">
                         <option value="" selected disabled> {{ trans('admin.all_districts') }} </option>
                     </select>

@@ -10,19 +10,19 @@
             <div class="modal-body flex-grow-1">
                 <span id="form_result"></span>
                 <div class="form-group">
-                    <label class="form-label" for="name_ar">{{ trans('admin.ar.name') }}</label>
+                    <label class="form-label" for="name_ar">{{ trans('admin.ar.name') }}:</label>
                     <input id="name_ar" type="text" name="name[ar]" class="form-control" value="{{ old('name.ar') }}"
                         placeholder="{{ trans('admin.ar.name') }}">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="name_en">{{ trans('admin.en.name') }}</label>
+                    <label class="form-label" for="name_en">{{ trans('admin.en.name') }}:</label>
                     <input id="name_en" type="text" name="name[en]" class="form-control" value="{{ old('name.en') }}"
                         placeholder="{{ trans('admin.en.name') }}">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="description">{{ trans('admin.description') }}</label>
-                    <input id="description" type="text" name="description" class="form-control" value="{{ old('description') }}"
-                        placeholder="{{ trans('admin.description') }}">
+                    <label class="form-label" for="description">{{ trans('admin.description') }}:</label>
+                    <input id="description" type="text" name="description" class="form-control"
+                        value="{{ old('description') }}" placeholder="{{ trans('admin.description') }}">
                 </div>
                 <input type="hidden" name="action" id="action" />
                 <input type="hidden" name="hidden_id" id="hidden_id" />

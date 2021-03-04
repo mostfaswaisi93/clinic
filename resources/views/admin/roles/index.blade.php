@@ -50,6 +50,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
+            drawCallback: function(settings){ feather.replace(); },
             order: [[ 2, "desc" ]],
             ajax: {
                 url: "{{ route('admin.roles.index') }}",
@@ -67,7 +68,7 @@
                         return "<div class='badge badge-success'>"+ data +"</div>";
                     }
                 },
-                { data: 'created_at' },
+                { data: 'created_at', className: 'created_at' },
                 { data: 'action', orderable: false,
                     render: function(data, type, row, meta) {
                         // Action Buttons

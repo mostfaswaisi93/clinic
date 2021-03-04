@@ -10,17 +10,17 @@
             <div class="modal-body flex-grow-1">
                 <span id="form_result"></span>
                 <div class="form-group">
-                    <label class="form-label" for="name_ar">{{ trans('admin.ar.name') }}</label>
+                    <label class="form-label" for="name_ar">{{ trans('admin.ar.name') }}:</label>
                     <input id="name_ar" type="text" name="name[ar]" class="form-control" value="{{ old('name.ar') }}"
                         placeholder="{{ trans('admin.ar.name') }}">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="name_en">{{ trans('admin.en.name') }}</label>
+                    <label class="form-label" for="name_en">{{ trans('admin.en.name') }}:</label>
                     <input id="name_en" type="text" name="name[en]" class="form-control" value="{{ old('name.en') }}"
                         placeholder="{{ trans('admin.en.name') }}">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="type">{{ trans('admin.type') }}</label>
+                    <label class="form-label" for="type">{{ trans('admin.type') }}:</label>
                     <input id="type" type="text" name="type" class="form-control" value="{{ old('type') }}"
                         placeholder="{{ trans('admin.type') }}">
                 </div>

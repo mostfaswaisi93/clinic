@@ -11,28 +11,28 @@
                 <span id="form_result"></span>
                 <div class="row">
                     <div class="form-group col-6">
-                        <label class="form-label" for="first_name">{{ trans('admin.ar.first_name') }}</label>
+                        <label class="form-label" for="first_name">{{ trans('admin.ar.first_name') }}:</label>
                         <input id="first_name_ar" type="text" name="first_name[ar]" class="form-control"
                             value="{{ old('first_name.ar') }}" placeholder="{{ trans('admin.ar.first_name') }}">
                     </div>
                     <div class="form-group col-6">
-                        <label class="form-label" for="last_name">{{ trans('admin.ar.last_name') }}</label>
+                        <label class="form-label" for="last_name">{{ trans('admin.ar.last_name') }}:</label>
                         <input id="last_name_ar" type="text" name="last_name[ar]" class="form-control"
                             value="{{ old('last_name.ar') }}" placeholder="{{ trans('admin.ar.last_name') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="first_name">{{ trans('admin.en.first_name') }}</label>
+                    <label class="form-label" for="first_name">{{ trans('admin.en.first_name') }}:</label>
                     <input id="first_name_en" type="text" name="first_name[en]" class="form-control"
                         value="{{ old('first_name.en') }}" placeholder="{{ trans('admin.en.first_name') }}">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="last_name">{{ trans('admin.en.last_name') }}</label>
+                    <label class="form-label" for="last_name">{{ trans('admin.en.last_name') }}:</label>
                     <input id="last_name_en" type="text" name="last_name[en]" class="form-control"
                         value="{{ old('last_name.en') }}" placeholder="{{ trans('admin.en.last_name') }}">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="price">{{ trans('admin.price') }}</label>
+                    <label class="form-label" for="price">{{ trans('admin.price') }}:</label>
                     <input id="price" type="text" name="price" class="form-control" value="{{ old('price') }}"
                         placeholder="{{ trans('admin.price') }}">
                 </div>

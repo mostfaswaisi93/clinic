@@ -39,10 +39,8 @@
                                 <tr>
                                     <th></th>
                                     <th>#</th>
-                                    <th>{{ trans('admin.image') }}</th>
-                                    <th>{{ trans('admin.full_name') }}</th>
-                                    {{-- <th>{{ trans('admin.username') }}</th> --}}
-                                    {{-- <th>{{ trans('admin.email') }}</th> --}}
+                                    <th class="image">{{ trans('admin.image') }}</th>
+                                    <th>{{ trans('admin.data') }}</th>
                                     <th class="status">{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.last_login') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
@@ -69,6 +67,7 @@
 
 <script type="text/javascript">
     var status = '';
+    var enabled = '';
     var getLocation = "users";
     $(document).ready(function(){
         // DataTable
@@ -90,17 +89,21 @@
                 },
                 { data: 'image_path',
                     render: function(data, type, row, meta) {
-                        return "<img src=" + data + " width='60px' class='img-thumbnail' />";
+                        return "<img src=" + data + " width='50px' class='img-thumbnail' />";
                     }, searchable: false, orderable: false
                 },
-                { data: 'full_name' },
-                // { data: 'username' },
-                // { data: 'email' },
-                { data: 'enabled' },
-                { data: 'last_login_at',
+                { data: 'full_name',
                     render: function(data, type, row, meta){
-                        var text1 = "<div>"+row.last_login+"</div>";
-                        var text2 = "<div>"+data+"</div>";
+                        var text1 = "<div><b>{{ trans('admin.full_name') }}: </b>"+ row.full_name +" - <b>{{ trans('admin.username') }}: </b>"+ row.username +"</div>";
+                        var text2 = "<div><b>{{ trans('admin.email') }}: </b>"+ row.email +"</div>";
+                        return text1 + text2;
+                    }
+                },
+                { data: 'enabled' },
+                { data: 'last_login_at', className: 'last_login_at',
+                    render: function(data, type, row, meta){
+                        var text1 = "<div>"+ row.last_login +"</div>";
+                        var text2 = "<div>"+ data +"</div>";
                         return text1 + text2;
                     }
                 },
@@ -144,14 +147,16 @@
                 "targets": 4,
                 render: function (data, type, row, meta){
                     var $checked = $(`
-                        <div class="custom-control custom-switch custom-switch-success">
-                            <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
-                            class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
-                            onchange=selectStatus(${row.id}) >
-                            <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}">
-                                <span class="switch-icon-left"><i data-feather="check"></i></span>
-                                <span class="switch-icon-right"><i data-feather="x"></i></span>
-                            </label>
+                        <div class="custom-switch-status">
+                            <div class="custom-control custom-switch custom-switch-success">
+                                <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
+                                class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
+                                onchange=selectStatus(${row.id}) >
+                                <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}">
+                                    <span class="switch-icon-left"><i data-feather="check"></i></span>
+                                    <span class="switch-icon-right"><i data-feather="x"></i></span>
+                                </label>
+                            </div>
                         </div>
                     `);
                     $checked.prop('checked', true).attr('checked', 'checked');
@@ -320,6 +325,12 @@
             });
         });
     });
+
+    // Filter Status
+    function filter_status(enabled_filter = null){
+        enabled = enabled_filter.value;
+        $('#data-table').DataTable().ajax.url(getLocation +'?enabled='+ enabled +'&type=filter').load();
+    }
 </script>
 
 @endpush
