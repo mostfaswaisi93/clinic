@@ -18,7 +18,7 @@
                                     <div class="form-row mb-1">
                                         <div class="col-lg-2">
                                             <label for="filterStatus">{{ trans('admin.status') }}:</label>
-                                            <select id="filterStatus" class="form-control" name="filterStatus"
+                                            <select id="filterStatus" class="form-control"
                                                 onchange="filter_status(this);">
                                                 <option value="" selected="selected">{{ trans('admin.all') }}</option>
                                                 <option value='1'>{{ trans('admin.active') }}</option>
@@ -66,6 +66,7 @@
 
 <script type="text/javascript">
     var status = '';
+    var enabled = '';
     var getLocation = "services";
     $(document).ready(function(){
         // DataTable

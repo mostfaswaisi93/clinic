@@ -18,7 +18,7 @@
                                     <div class="form-row mb-1">
                                         <div class="col-lg-2">
                                             <label for="filterStatus">{{ trans('admin.status') }}:</label>
-                                            <select id="filterStatus" class="form-control" name="filterStatus"
+                                            <select id="filterStatus" class="form-control"
                                                 onchange="filter_status(this);">
                                                 <option value="" selected="selected">{{ trans('admin.all') }}</option>
                                                 <option value='1'>{{ trans('admin.active') }}</option>
@@ -27,8 +27,7 @@
                                         </div>
                                         <div class="col-lg-2">
                                             <label for="filterType">{{ trans('admin.type') }}:</label>
-                                            <select id="filterType" class="form-control" name="filterType"
-                                                onchange="filter_type(this);">
+                                            <select id="filterType" class="form-control" onchange="filter_type(this);">
                                                 <option value="" selected="selected">{{ trans('admin.all') }}</option>
                                                 @foreach ($types as $type)
                                                 <option value="{{$type->type}}">
@@ -78,6 +77,8 @@
 
 <script type="text/javascript">
     var status = '';
+    var enabled = '';
+    var type = '';
     var getLocation = "constants";
     $(document).ready(function(){
         // DataTable
@@ -327,13 +328,14 @@
     // Filter Status
     function filter_status(enabled_filter = null){
         enabled = enabled_filter.value;
-        $('#data-table').DataTable().ajax.url(getLocation +'?enabled='+ enabled +'&type=filter').load();
+        $('#data-table').DataTable().ajax.url(getLocation +'?enabled='+ enabled +'&type='+ type +'&type=filter').load();
     }
 
     // Filter Type
-    function filter_type(type = null){
-        type = type.value;
-        $('#data-table').DataTable().ajax.url(getLocation +'?type='+ type +'&type=filter').load();
+    function filter_type(type_filter = null){
+        type = type_filter.value;
+        console.log(type);
+        $('#data-table').DataTable().ajax.url(getLocation +'?enabled='+ enabled +'&type='+ type +'&type=filter').load();
     }
 </script>
 

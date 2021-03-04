@@ -94,7 +94,7 @@ class LocationsController extends Controller
         }
 
         $request_data = array(
-            'title'         =>   $request->title,
+            'title'         =>   json_encode($request->title, JSON_UNESCAPED_UNICODE),
             'country_id'    =>   $request->country_id,
             'city_id'       =>   $request->city_id,
             'district_id'   =>   $request->district_id

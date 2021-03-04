@@ -147,6 +147,7 @@ return [
         'phone_code'            => 'Phone Code',
         'iso_code'              => 'Iso Code',
         'price'                 => 'Price',
+        'type'                  => 'Type',
 
         'name' => [
             'ar'        => 'Name in Arabic',
