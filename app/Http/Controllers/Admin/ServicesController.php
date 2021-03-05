@@ -77,7 +77,7 @@ class ServicesController extends Controller
 
         $request_data = array(
             'name'       =>   json_encode($request->name, JSON_UNESCAPED_UNICODE),
-            'price'      =>   $request->price,
+            'price'      =>   $request->price
         );
 
         $service::whereId($request->hidden_id)->update($request_data);

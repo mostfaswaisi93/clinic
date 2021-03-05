@@ -21,8 +21,8 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="description">{{ trans('admin.description') }}:</label>
-                    <input id="description" type="text" name="description" class="form-control"
-                        value="{{ old('description') }}" placeholder="{{ trans('admin.description') }}">
+                    <textarea class="form-control" cols="40" id="description" name="description" rows="5"
+                        value="{{ old('description') }}" placeholder="{{ trans('admin.description') }}"></textarea>
                 </div>
                 <input type="hidden" name="action" id="action" />
                 <input type="hidden" name="hidden_id" id="hidden_id" />

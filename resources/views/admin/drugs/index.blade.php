@@ -66,6 +66,7 @@
 
 <script type="text/javascript">
     var status = '';
+    var enabled = '';
     var getLocation = "drugs";
     $(document).ready(function(){
         // DataTable
@@ -128,14 +129,16 @@
                 "targets": 4,
                 render: function (data, type, row, meta){
                     var $checked = $(`
-                        <div class="custom-control custom-switch custom-switch-success">
-                            <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
-                            class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
-                            onchange=selectStatus(${row.id}) >
-                            <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}">
-                                <span class="switch-icon-left"><i data-feather="check"></i></span>
-                                <span class="switch-icon-right"><i data-feather="x"></i></span>
-                            </label>
+                        <div class="custom-switch-status">
+                            <div class="custom-control custom-switch custom-switch-success">
+                                <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
+                                class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
+                                onchange=selectStatus(${row.id}) >
+                                <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}">
+                                    <span class="switch-icon-left"><i data-feather="check"></i></span>
+                                    <span class="switch-icon-right"><i data-feather="x"></i></span>
+                                </label>
+                            </div>
                         </div>
                     `);
                     $checked.prop('checked', true).attr('checked', 'checked');
@@ -293,9 +296,9 @@
                 url: "/admin/drugs/"+ id +"/edit",
                 dataType: "json",
                 success: function(html){
-                    $('#name_ar').val(html.data.name.ar);
-                    $('#name_en').val(html.data.name.en);
-                    $('#description').val(html.data.description);
+                    $('#trade_name').val(html.data.trade_name);
+                    $('#generic_name').val(html.data.generic_name);
+                    $('#notes').val(html.data.notes);
                     $('#hidden_id').val(html.data.id);
                     $('.modal-title').text("{{ trans('admin.edit_drug') }}");
                     $('#action_button').val("Edit");
@@ -304,6 +307,12 @@
             });
         });
     });
+
+    // Filter Status
+    function filter_status(enabled_filter = null){
+        enabled = enabled_filter.value;
+        $('#data-table').DataTable().ajax.url(getLocation +'?enabled='+ enabled +'&type=filter').load();
+    }
 </script>
 
 @endpush

@@ -88,7 +88,7 @@ class DistrictsController extends Controller
         }
 
         $request_data = array(
-            'name'       =>   json_encode($request->name, JSON_UNESCAPED_UNICODE),
+            'name'          =>   json_encode($request->name, JSON_UNESCAPED_UNICODE),
             'country_id'    =>   $request->country_id,
             'city_id'       =>   $request->city_id
         );

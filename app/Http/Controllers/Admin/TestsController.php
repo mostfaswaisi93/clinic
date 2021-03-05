@@ -76,8 +76,8 @@ class TestsController extends Controller
         }
 
         $request_data = array(
-            'name'       =>   json_encode($request->name, JSON_UNESCAPED_UNICODE),
-            'description'   =>   $request->description,
+            'name'          =>   json_encode($request->name, JSON_UNESCAPED_UNICODE),
+            'description'   =>   $request->description
         );
 
         $test::whereId($request->hidden_id)->update($request_data);
@@ -101,7 +101,7 @@ class TestsController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $test           = Test::find($id);
-        $enabled           = $request->get('enabled');
+        $enabled        = $request->get('enabled');
         $test->enabled  = $enabled;
         $test           = $test->save();
 

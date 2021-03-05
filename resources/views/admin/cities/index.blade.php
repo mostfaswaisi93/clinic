@@ -41,7 +41,7 @@
                                     <th>#</th>
                                     <th>{{ trans('admin.name') }}</th>
                                     <th>{{ trans('admin.country') }}</th>
-                                    <th>{{ trans('admin.status') }}</th>
+                                    <th class="status">{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.actions') }}</th>
                                 </tr>
@@ -66,6 +66,7 @@
 
 <script type="text/javascript">
     var status = '';
+    var enabled = '';
     var getLocation = "cities";
     $(document).ready(function(){
         // DataTable
@@ -132,14 +133,16 @@
                 "targets": 4,
                 render: function (data, type, row, meta){
                     var $checked = $(`
-                        <div class="custom-control custom-switch custom-switch-success">
-                            <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
-                            class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
-                            onchange=selectStatus(${row.id}) >
-                            <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}">
-                                <span class="switch-icon-left"><i data-feather="check"></i></span>
-                                <span class="switch-icon-right"><i data-feather="x"></i></span>
-                            </label>
+                        <div class="custom-switch-status">
+                            <div class="custom-control custom-switch custom-switch-success">
+                                <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
+                                class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
+                                onchange=selectStatus(${row.id}) >
+                                <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}">
+                                    <span class="switch-icon-left"><i data-feather="check"></i></span>
+                                    <span class="switch-icon-right"><i data-feather="x"></i></span>
+                                </label>
+                            </div>
                         </div>
                     `);
                     $checked.prop('checked', true).attr('checked', 'checked');
@@ -308,6 +311,12 @@
             });
         });
     });
+
+    // Filter Status
+    function filter_status(enabled_filter = null){
+        enabled = enabled_filter.value;
+        $('#data-table').DataTable().ajax.url(getLocation +'?enabled='+ enabled +'&type=filter').load();
+    }
 </script>
 
 @endpush

@@ -148,6 +148,9 @@ return [
         'iso_code'              => 'Iso Code',
         'price'                 => 'Price',
         'type'                  => 'Type',
+        'trade_name'            => 'Trade Name',
+        'generic_name'          => 'Generic Name',
+        'notes'                 => 'Notes',
 
         'name' => [
             'ar'        => 'Name in Arabic',

@@ -10,19 +10,19 @@
             <div class="modal-body flex-grow-1">
                 <span id="form_result"></span>
                 <div class="form-group">
-                    <label class="form-label" for="name_ar">{{ trans('admin.ar.name') }}:</label>
-                    <input id="name_ar" type="text" name="name[ar]" class="form-control" value="{{ old('name.ar') }}"
-                        placeholder="{{ trans('admin.ar.name') }}">
+                    <label class="form-label" for="trade_name">{{ trans('admin.trade_name') }}:</label>
+                    <input id="trade_name" type="text" name="trade_name" class="form-control"
+                        value="{{ old('trade_name') }}" placeholder="{{ trans('admin.trade_name') }}">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="name_en">{{ trans('admin.en.name') }}:</label>
-                    <input id="name_en" type="text" name="name[en]" class="form-control" value="{{ old('name.en') }}"
-                        placeholder="{{ trans('admin.en.name') }}">
+                    <label class="form-label" for="generic_name">{{ trans('admin.generic_name') }}:</label>
+                    <input id="generic_name" type="text" name="generic_name" class="form-control"
+                        value="{{ old('generic_name') }}" placeholder="{{ trans('admin.generic_name') }}">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="description">{{ trans('admin.description') }}:</label>
-                    <input id="description" type="text" name="description" class="form-control"
-                        value="{{ old('description') }}" placeholder="{{ trans('admin.description') }}">
+                    <label class="form-label" for="notes">{{ trans('admin.notes') }}:</label>
+                    <textarea class="form-control" cols="40" id="notes" name="notes" rows="5"
+                        value="{{ old('notes') }}" placeholder="{{ trans('admin.notes') }}"></textarea>
                 </div>
                 <input type="hidden" name="action" id="action" />
                 <input type="hidden" name="hidden_id" id="hidden_id" />

@@ -81,8 +81,8 @@ class CitiesController extends Controller
         }
 
         $request_data = array(
-            'name'       =>   json_encode($request->name, JSON_UNESCAPED_UNICODE),
-            'country_id'    =>   $request->country_id,
+            'name'          =>   json_encode($request->name, JSON_UNESCAPED_UNICODE),
+            'country_id'    =>   $request->country_id
         );
 
         $city::whereId($request->hidden_id)->update($request_data);

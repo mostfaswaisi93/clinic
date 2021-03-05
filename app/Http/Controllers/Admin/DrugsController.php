@@ -33,12 +33,10 @@ class DrugsController extends Controller
     public function store(Request $request)
     {
         $rules = array(
-            'description'    =>  'required'
+            'trade_name'      =>  'required',
+            'generic_name'    =>  'required',
+            'notes'           =>  'required'
         );
-
-        foreach (config('translatable.locales') as $locale) {
-            $rules += ['name.' . $locale => 'required'];
-        }
 
         $error = Validator::make($request->all(), $rules);
 
@@ -62,12 +60,10 @@ class DrugsController extends Controller
     public function update(Request $request, Drug $drug)
     {
         $rules = array(
-            'description'    =>  'required'
+            'trade_name'      =>  'required',
+            'generic_name'    =>  'required',
+            'notes'           =>  'required'
         );
-
-        foreach (config('translatable.locales') as $locale) {
-            $rules += ['name.' . $locale => 'required'];
-        }
 
         $error = Validator::make($request->all(), $rules);
 
@@ -76,8 +72,9 @@ class DrugsController extends Controller
         }
 
         $request_data = array(
-            'name'       =>   json_encode($request->name, JSON_UNESCAPED_UNICODE),
-            'description'   =>   $request->description,
+            'trade_name'     =>   $request->trade_name,
+            'generic_name'   =>   $request->generic_name,
+            'notes'          =>   $request->notes
         );
 
         $drug::whereId($request->hidden_id)->update($request_data);
