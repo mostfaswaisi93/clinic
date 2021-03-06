@@ -11,6 +11,26 @@
                     <div class="card-header border-bottom">
                         <h4 class="card-title"><b>{{ trans('admin.patients') }}</b></h4>
                     </div>
+                    <div class="card-body mt-2">
+                        <form>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-row mb-1">
+                                        <div class="col-lg-2">
+                                            <label for="filterStatus">{{ trans('admin.status') }}:</label>
+                                            <select id="filterStatus" class="form-control"
+                                                onchange="filter_status(this);">
+                                                <option value="" selected="selected">{{ trans('admin.all') }}</option>
+                                                <option value='1'>{{ trans('admin.active') }}</option>
+                                                <option value='0'>{{ trans('admin.inactive') }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <hr class="my-0" />
                     <div class="table-responsive" style="padding: 10px">
                         <table id="data-table"
                             class="table table-striped table-bordered table-hover table-sm dt-responsive nowrap"
@@ -55,6 +75,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
+            drawCallback: function(settings){ feather.replace(); },
             order: [[ 2, "desc" ]],
             ajax: {
                 url: "{{ route('admin.patients.index') }}",
@@ -71,21 +92,25 @@
                 { data: 'phone' },
                 { data: 'user_id' },
                 { data: 'enabled' },
-                { data: 'created_at' },
+                { data: 'created_at', className: 'created_at' },
                 { data: 'action', orderable: false,
                     render: function(data, type, row, meta) {
                         // Action Buttons
                         return (
-                            '<span>@if(auth()->user()->can('update_patients'))' +
-                            '<a id="'+ row.id +'" name="edit" class="item-edit edit mr-1" data-toggle="modal" data-target="#patientModal" title="{{ trans("admin.edit") }}">' +
-                            feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
-                            '</a>' +
-                            '@endif </span>' +
-                            '<span>@if(auth()->user()->can('delete_patients'))' +
-                            '<a id="'+ row.id +'" class="item-edit delete" title="{{ trans("admin.delete") }}">' +
-                            feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
-                            '</a>' +
-                            '@endif </span>'
+                            '<span>' +
+                                '@if(auth()->user()->can('update_patients'))' +
+                                    '<a id="'+ row.id +'" name="edit" class="item-edit edit mr-1" data-toggle="modal" data-target="#patientModal" title="{{ trans("admin.edit") }}">' +
+                                    feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
+                                    '</a>' +
+                                '@endif' +
+                            '</span>' +
+                            '<span>' +
+                                '@if(auth()->user()->can('delete_patients'))' +
+                                    '<a id="'+ row.id +'" class="item-edit delete" title="{{ trans("admin.delete") }}">' +
+                                    feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
+                                    '</a>' +
+                                '@endif' +
+                            '</span>'
                         );
                     }
                 }
@@ -98,27 +123,32 @@
                 responsivePriority: 3,
                 render: function(data, type, row, meta) {
                     return (
-                        '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes item_checkbox" data-id="'+ row.id +'" type="checkbox" id="'+ row.id +'" />' +
-                        '<label class="custom-control-label" for="'+ row.id +'">' +
-                        '</label></div>'
+                        '<div class="custom-control custom-checkbox">' +
+                            '<input class="custom-control-input dt-checkboxes item_checkbox" data-id="'+ row.id +'" type="checkbox" id="'+ row.id +'" />' +
+                            '<label class="custom-control-label" for="'+ row.id +'"></label>' +
+                        '</div>'
                     );
                 },
                 checkboxes: {
-                    selectAllRender: '<div class="custom-control custom-checkbox"> <input class="custom-control-input" type="checkbox" id="checkboxSelectAll" /><label class="custom-control-label" for="checkboxSelectAll"></label></div>'
+                    selectAllRender:
+                        '<div class="custom-control custom-checkbox">' +
+                            '<input class="custom-control-input" type="checkbox" id="checkboxSelectAll" />' +
+                            '<label class="custom-control-label" for="checkboxSelectAll"></label>' +
+                        '</div>'
                 }
             },
             {
                 "targets": 6,
                 render: function (data, type, row, meta){
-                    var text = data ? "{{ trans('admin.active') }}" : "{{ trans('admin.inactive') }}";
-                    var color = data ? "success" : "danger"; 
                     var $checked = $(`
-                        <div class="custom-control custom-control-success custom-switch">
+                        <div class="custom-control custom-switch custom-switch-success">
                             <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
                             class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
                             onchange=selectStatus(${row.id}) >
-                            <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}"></label>
-                            <div class='badge badge-light-${color}'>${text}</div>
+                            <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}">
+                                <span class="switch-icon-left"><i data-feather="check"></i></span>
+                                <span class="switch-icon-right"><i data-feather="x"></i></span>
+                            </label>
                         </div>
                     `);
                     $checked.prop('checked', true).attr('checked', 'checked');

@@ -94,16 +94,20 @@
                     render: function(data, type, row, meta) {
                         // Action Buttons
                         return (
-                            '<span>@if(auth()->user()->can('update_drugs'))' +
-                            '<a id="'+ row.id +'" name="edit" class="item-edit edit mr-1" data-toggle="modal" data-target="#drugModal" title="{{ trans("admin.edit") }}">' +
-                            feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
-                            '</a>' +
-                            '@endif </span>' +
-                            '<span>@if(auth()->user()->can('delete_drugs'))' +
-                            '<a id="'+ row.id +'" class="item-edit delete" title="{{ trans("admin.delete") }}">' +
-                            feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
-                            '</a>' +
-                            '@endif </span>'
+                            '<span>' +
+                                '@if(auth()->user()->can('update_drugs'))' +
+                                    '<a id="'+ row.id +'" name="edit" class="item-edit edit mr-1" data-toggle="modal" data-target="#drugModal" title="{{ trans("admin.edit") }}">' +
+                                    feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
+                                    '</a>' +
+                                '@endif' +
+                            '</span>' +
+                            '<span>' +
+                                '@if(auth()->user()->can('delete_drugs'))' +
+                                    '<a id="'+ row.id +'" class="item-edit delete" title="{{ trans("admin.delete") }}">' +
+                                    feather.icons['trash-2'].toSvg({ class: 'font-small-4 mr-50' }) +
+                                    '</a>' +
+                                '@endif' +
+                            '</span>'
                         );
                     }
                 }
@@ -116,13 +120,18 @@
                 responsivePriority: 3,
                 render: function(data, type, row, meta) {
                     return (
-                        '<div class="custom-control custom-checkbox"> <input class="custom-control-input dt-checkboxes item_checkbox" data-id="'+ row.id +'" type="checkbox" id="'+ row.id +'" />' +
-                        '<label class="custom-control-label" for="'+ row.id +'">' +
-                        '</label></div>'
+                        '<div class="custom-control custom-checkbox">' +
+                            '<input class="custom-control-input dt-checkboxes item_checkbox" data-id="'+ row.id +'" type="checkbox" id="'+ row.id +'" />' +
+                            '<label class="custom-control-label" for="'+ row.id +'"></label>' +
+                        '</div>'
                     );
                 },
                 checkboxes: {
-                    selectAllRender: '<div class="custom-control custom-checkbox"> <input class="custom-control-input" type="checkbox" id="checkboxSelectAll" /><label class="custom-control-label" for="checkboxSelectAll"></label></div>'
+                    selectAllRender:
+                        '<div class="custom-control custom-checkbox">' +
+                            '<input class="custom-control-input" type="checkbox" id="checkboxSelectAll" />' +
+                            '<label class="custom-control-label" for="checkboxSelectAll"></label>' +
+                        '</div>'
                 }
             },
             {

@@ -59,7 +59,7 @@ class ConstantsController extends Controller
 
         $request_data = array(
             'name'      => $request->name,
-            'type'      =>  strtolower(str_replace(' ', '_', $request->type))
+            'type'      => strtolower(str_replace(' ', '_', $request->type))
         );
 
         Constant::create($request_data);

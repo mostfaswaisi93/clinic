@@ -46,7 +46,12 @@ class ServicesController extends Controller
             return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        Service::create($request->all());
+        $request_data = array(
+            'name'       =>   $request->name,
+            'price'      =>   $request->price
+        );
+
+        Service::create($request_data);
 
         return response()->json(['success' => 'Data Added Successfully.']);
     }

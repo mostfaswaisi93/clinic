@@ -20,8 +20,9 @@ class RolesController extends Controller
 
     public function index()
     {
-        $roles = AppRole::OrderBy('created_at', 'desc')->get();
+        $roles = AppRole::OrderBy('created_at', 'desc');
         if (request()->ajax()) {
+            $roles = $roles->get();
             return datatables()->of($roles)->make(true);
         }
         return view('admin.roles.index');
@@ -39,7 +40,11 @@ class RolesController extends Controller
             return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        Role::create($request->all());
+        $request_data = array(
+            'name'      => strtolower(str_replace(' ', '_', $request->name))
+        );
+
+        Role::create($request_data);
 
         return response()->json(['success' => 'Data Added Successfully.']);
     }
