@@ -46,28 +46,28 @@ label {
     font-size: 18px;
 }
 
-.table-striped thead>tr>th:first-child,
-.table-striped thead>tr>th:nth-child(2) {
+#data-table thead>tr>th:first-child,
+#data-table thead>tr>th:nth-child(2) {
     width: 3%;
 }
 
-.table-striped thead>tr>th.image {
+#data-table thead>tr>th.image {
     width: 5%;
 }
 
-.table-striped thead>tr>th.status {
+#data-table thead>tr>th.status {
     width: 8%;
 }
 
-.table-striped tbody>tr>td.last_login_at {
+#data-table tbody>tr>td.last_login_at {
     width: 15%;
 }
 
-.table-striped tbody>tr>td.created_at {
+#data-table tbody>tr>td.created_at {
     width: 15%;
 }
 
-.table-striped thead>tr>th:last-child {
+#data-table thead>tr>th:last-child {
     width: 15%;
 }
 

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Role as AppRole;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\DB;
 use Validator;
 
 class RolesController extends Controller
@@ -21,10 +20,6 @@ class RolesController extends Controller
 
     public function index()
     {
-        // App\Models\User::groupBy('role')->get();
-        // App\Models\User::get('role');
-        // App\Models\User::select(\DB::raw('COUNT(id) as count'), 'role')->groupBy('role')->having('count', '>=', 1)->get();
-
         $roles = AppRole::OrderBy('created_at', 'desc')->get();
         if (request()->ajax()) {
             return datatables()->of($roles)->make(true);
@@ -87,7 +82,7 @@ class RolesController extends Controller
     public function multi_delete(Request $request)
     {
         $ids = $request->ids;
-        DB::table("roles")->whereIn('id', explode(",", $ids))->delete();
+        AppRole::whereIn('id', explode(",", $ids))->delete();
         return response()->json(['success' => 'The data has been deleted successfully']);
     }
 }
