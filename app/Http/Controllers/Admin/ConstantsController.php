@@ -31,12 +31,10 @@ class ConstantsController extends Controller
             if (isset($type))
                 $constants->where('type', $type)->get();
             $constants = $constants->get();
-            // dd($constants);
             return datatables()->of($constants)
                 ->editColumn('type', function ($constants) {
                     return ucwords(str_replace('_', ' ', $constants->type));
-                })
-                ->make(true);
+                })->make(true);
         }
         return view('admin.constants.index')->with('types', $types);
     }

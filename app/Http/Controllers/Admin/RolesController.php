@@ -23,7 +23,10 @@ class RolesController extends Controller
         $roles = AppRole::OrderBy('created_at', 'desc');
         if (request()->ajax()) {
             $roles = $roles->get();
-            return datatables()->of($roles)->make(true);
+            return datatables()->of($roles)
+                ->editColumn('name', function ($roles) {
+                    return ucwords(str_replace('_', ' ', $roles->name));
+                })->make(true);
         }
         return view('admin.roles.index');
     }

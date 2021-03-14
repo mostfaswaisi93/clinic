@@ -13,15 +13,4 @@ class Role extends Model
     protected $fillable = ['name'];
     protected $casts    = ['created_at' => 'date:Y-m-d H:i', 'updated_at' => 'date:Y-m-d H:i'];
     protected $dates    = ['created_at', 'updated_at'];
-
-    public function users()
-    {
-        return $this->belongsToMany(User::class);
-    }
-
-    public function getNameAttribute($value)
-    {
-        $word = str_replace('_', ' ', $value);
-        return ucwords($word);
-    }
 }
