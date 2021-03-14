@@ -34,7 +34,7 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         $rules = array(
-            'name'    =>  'required'
+            'name'    =>  'required|unique:roles'
         );
 
         $error = Validator::make($request->all(), $rules);
@@ -63,7 +63,7 @@ class RolesController extends Controller
     public function update(Request $request, Role $role)
     {
         $rules = array(
-            'name'    =>  'required'
+            'name'    =>  'required|unique:roles'
         );
 
         $error = Validator::make($request->all(), $rules);
@@ -73,12 +73,12 @@ class RolesController extends Controller
         }
 
         $request_data = array(
-            'name'       =>   $request->name
+            'name'      => strtolower(str_replace(' ', '_', $request->name))
         );
 
         $role::whereId($request->hidden_id)->update($request_data);
 
-        return response()->json(['success' => 'Data is Successfully Updated']);
+        return response()->json(['success' => 'Data is Successfully Updated.']);
     }
 
     public function destroy($id)
@@ -91,6 +91,6 @@ class RolesController extends Controller
     {
         $ids = $request->ids;
         AppRole::whereIn('id', explode(",", $ids))->delete();
-        return response()->json(['success' => 'The data has been deleted successfully']);
+        return response()->json(['success' => 'The Data has been Deleted Successfully.']);
     }
 }

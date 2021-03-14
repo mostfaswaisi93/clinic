@@ -78,7 +78,7 @@ class NotificationsController extends Controller
 
         $notification::whereId($request->hidden_id)->update($request_data);
 
-        return response()->json(['success' => 'Data is Successfully Updated']);
+        return response()->json(['success' => 'Data is Successfully Updated.']);
     }
 
     public function destroy($id)
@@ -95,7 +95,7 @@ class NotificationsController extends Controller
         $notification           = $notification->save();
 
         if ($notification) {
-            return response(['success' => true, "message" => 'Status has been Successfully Updated']);
+            return response(['success' => true, "message" => 'Status has been Successfully Updated.']);
         }
     }
 }

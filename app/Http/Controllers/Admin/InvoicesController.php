@@ -77,7 +77,7 @@ class InvoicesController extends Controller
 
         $invoice::whereId($request->hidden_id)->update($request_data);
 
-        return response()->json(['success' => 'Data is Successfully Updated']);
+        return response()->json(['success' => 'Data is Successfully Updated.']);
     }
 
     public function destroy($id)
@@ -94,7 +94,7 @@ class InvoicesController extends Controller
         $invoice           = $invoice->save();
 
         if ($invoice) {
-            return response(['success' => true, "message" => 'Status has been Successfully Updated']);
+            return response(['success' => true, "message" => 'Status has been Successfully Updated.']);
         }
     }
 }

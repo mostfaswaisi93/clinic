@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UsersRequest;
 use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\DB;
 use Validator;
 
 class UsersController extends Controller
@@ -42,7 +40,33 @@ class UsersController extends Controller
         return view('admin.users.create');
     }
 
-    public function store(UsersRequest $request)
+    public function store(Request $request)
+    {
+        $rules = array(
+            'first_name'    =>  'required',
+            'last_name'     =>  'required',
+            'username'      =>  'required',
+            'email'         =>  'required',
+            'password'      =>  'required',
+        );
+
+        $error = Validator::make($request->all(), $rules);
+
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
+        }
+
+        $request_data = array(
+            'name'       =>   $request->name,
+            'price'      =>   $request->price
+        );
+
+        Service::create($request_data);
+
+        return response()->json(['success' => 'Data Added Successfully.']);
+    }
+
+    public function storexx(UsersRequest $request)
     {
         $request_data = $request->except(['password', 'password_confirmation', 'permissions', 'image']);
         $request_data['password'] = bcrypt($request->password);
@@ -69,9 +93,12 @@ class UsersController extends Controller
         return redirect()->route('admin.users.index');
     }
 
-    public function edit(User $user)
+    public function edit($id)
     {
-        return view('admin.users.edit')->with('user', $user);
+        if (request()->ajax()) {
+            $data = User::findOrFail($id);
+            return response()->json(['data' => $data]);
+        }
     }
 
     public function update(Request $request, User $user)
@@ -123,8 +150,8 @@ class UsersController extends Controller
     public function multi_delete(Request $request)
     {
         $ids = $request->ids;
-        DB::table("users")->whereIn('id', explode(",", $ids))->delete();
-        return response()->json(['success' => 'The data has been deleted successfully']);
+        User::whereIn('id', explode(",", $ids))->delete();
+        return response()->json(['success' => 'The Data has been Deleted Successfully.']);
     }
 
     public function updateStatus(Request $request, $id)
@@ -135,7 +162,7 @@ class UsersController extends Controller
         $user           = $user->save();
 
         if ($user) {
-            return response(['success' => true, "message" => 'Status has been Successfully Updated']);
+            return response(['success' => true, "message" => 'Status has been Successfully Updated.']);
         }
     }
 }

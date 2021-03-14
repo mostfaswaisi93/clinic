@@ -229,6 +229,7 @@
             $('#action_button').val("Add");
             $('#userForm').trigger("reset");
             $('#form_result').html('');
+            $(".form-group.col-6.password").css("display", "unset");
             $('#action').val("Add");
         });
 
@@ -323,9 +324,11 @@
                 url: "/admin/users/"+ id +"/edit",
                 dataType: "json",
                 success: function(html){
-                    $('#name_ar').val(html.data.name.ar);
-                    $('#name_en').val(html.data.name.en);
+                    $('#first_name').val(html.data.first_name);
+                    $('#last_name').val(html.data.last_name);
                     $('#username').val(html.data.username);
+                    $('#email').val(html.data.email);
+                    $(".form-group.col-6.password").css("display", "none");
                     $('#hidden_id').val(html.data.id);
                     $('.modal-title').text("{{ trans('admin.edit_user') }}");
                     $('#action_button').val("Edit");

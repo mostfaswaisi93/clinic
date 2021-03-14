@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ReceiptsRequest;
 use App\Models\Receipt;
 use Illuminate\Http\Request;
-use Brian2694\Toastr\Facades\Toastr;
+use Validator;
 
 class ReceiptsController extends Controller
 {
@@ -31,49 +30,88 @@ class ReceiptsController extends Controller
         return view('admin.receipts.index');
     }
 
-    public function create()
+    public function store(Request $request)
     {
-        return view('admin.receipts.create');
-    }
+        $rules = array(
+            'price'    =>  'required'
+        );
 
-    public function store(ReceiptsRequest $request)
-    {
-        Receipt::create([
-            'name' => $request->name
-        ]);
-
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.added_successfully'));
-        } else {
-            Toastr::success(__('admin.added_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        foreach (config('translatable.locales') as $locale) {
+            $rules += ['name.' . $locale => 'required'];
         }
 
-        return redirect()->route('admin.receipts.index');
-    }
+        $error = Validator::make($request->all(), $rules);
 
-    public function edit(Receipt $receipt)
-    {
-        return view('admin.receipts.edit')->with('receipt', $receipt);
-    }
-
-    public function update(ReceiptsRequest $request, Receipt $receipt)
-    {
-        $receipt->update([
-            'name' => $request->name
-        ]);
-
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.updated_successfully'));
-        } else {
-            Toastr::success(__('admin.updated_successfully'), '', ["positionClass" => "toast-bottom-left"]);
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        return redirect()->route('admin.receipts.index');
+        $request_data = array(
+            'name'       =>   $request->name,
+            'price'      =>   $request->price
+        );
+
+        Receipt::create($request_data);
+
+        return response()->json(['success' => 'Data Added Successfully.']);
+    }
+
+    public function edit($id)
+    {
+        if (request()->ajax()) {
+            $data = Receipt::findOrFail($id);
+            return response()->json(['data' => $data]);
+        }
+    }
+
+    public function update(Request $request, Receipt $receipt)
+    {
+        $rules = array(
+            'price'    =>  'required'
+        );
+
+        foreach (config('translatable.locales') as $locale) {
+            $rules += ['name.' . $locale => 'required'];
+        }
+
+        $error = Validator::make($request->all(), $rules);
+
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
+        }
+
+        $request_data = array(
+            'name'       =>   json_encode($request->name, JSON_UNESCAPED_UNICODE),
+            'price'      =>   $request->price
+        );
+
+        $receipt::whereId($request->hidden_id)->update($request_data);
+
+        return response()->json(['success' => 'Data is Successfully Updated.']);
     }
 
     public function destroy($id)
     {
         $receipt = Receipt::findOrFail($id);
         $receipt->delete();
+    }
+
+    public function multi_delete(Request $request)
+    {
+        $ids = $request->ids;
+        Receipt::whereIn('id', explode(",", $ids))->delete();
+        return response()->json(['success' => 'The Data has been Deleted Successfully.']);
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $receipt           = Receipt::find($id);
+        $enabled           = $request->get('enabled');
+        $receipt->enabled  = $enabled;
+        $receipt           = $receipt->save();
+
+        if ($receipt) {
+            return response(['success' => true, "message" => 'Status has been Successfully Updated.']);
+        }
     }
 }

@@ -30,12 +30,12 @@
                         <input id="email" type="email" name="email" class="form-control" value="{{ old('email') }}"
                             placeholder="{{ trans('admin.email') }}">
                     </div>
-                    <div class="form-group col-6">
+                    <div class="form-group col-6 password">
                         <label class="form-label" for="password">{{ trans('admin.password') }}:</label>
                         <input id="password" type="password" name="password" class="form-control"
                             placeholder="{{ trans('admin.password') }}">
                     </div>
-                    <div class="form-group col-6">
+                    <div class="form-group col-6 password">
                         <label class="form-label"
                             for="password_confirmation">{{ trans('admin.password_confirmation') }}:</label>
                         <input id="password_confirmation" type="password" name="password_confirmation"
@@ -48,7 +48,8 @@
                         <span class="align-middle">{{ trans('admin.permissions') }}</span>
                     </h6>
                     @php
-                    $models = ['users', 'services', 'countries', 'cities'];
+                    $models = ['users', 'services', 'countries', 'cities', 'districts', 'locations', 'roles',
+                    'constants', 'patients'];
                     $maps = ['create', 'read', 'update', 'delete', 'print', 'trash'];
                     @endphp
                     <table class="table table-striped table-borderless">

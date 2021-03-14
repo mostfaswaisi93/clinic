@@ -9,6 +9,7 @@ use Brian2694\Toastr\Facades\Toastr;
 
 class ContactsController extends Controller
 {
+
     public function index()
     {
         $contacts = Contact::with(['customer'])->get();
@@ -17,23 +18,7 @@ class ContactsController extends Controller
             return datatables()->of($contacts)
                 ->addColumn('customer', function ($data) {
                     return $data->customer->first_name;
-                })
-                ->addColumn('action', function ($data) {
-                    if (auth()->user()->hasPermission('read_contacts')) {
-                        $button = '<a type="button" title="Show" name="show" href="contacts/' . $data->id . '" class="show btn btn-sm btn-icon"><i class="fa fa-folder-open"></i></a>';
-                    } else {
-                        $button = '<a type="button" title="Show" name="show" id="' . $data->id . '" class="show btn btn-sm btn-icon disabled"><i class="fa fa-folder-open"></i></a>';
-                    }
-                    $button .= '&nbsp;&nbsp;';
-                    if (auth()->user()->hasPermission('delete_contacts')) {
-                        $button .= '<a type="button" title="Delete" name="delete" id="' . $data->id . '" class="delete btn btn-sm btn-icon"><i class="fa fa-trash"></i></a>';
-                    } else {
-                        $button .= '<a type="button" title="Delete" name="delete" id="' . $data->id . '" class="delete btn btn-sm btn-icon disabled"><i class="fa fa-trash"></i></a>';
-                    }
-                    return $button;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+                })->make(true);
         }
         return view('admin.contacts.index');
     }

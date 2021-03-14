@@ -87,7 +87,7 @@ class CitiesController extends Controller
 
         $city::whereId($request->hidden_id)->update($request_data);
 
-        return response()->json(['success' => 'Data is Successfully Updated']);
+        return response()->json(['success' => 'Data is Successfully Updated.']);
     }
 
     public function destroy($id)
@@ -100,7 +100,7 @@ class CitiesController extends Controller
     {
         $ids = $request->ids;
         City::whereIn('id', explode(",", $ids))->delete();
-        return response()->json(['success' => 'The data has been deleted successfully']);
+        return response()->json(['success' => 'The Data has been Deleted Successfully.']);
     }
 
     public function updateStatus(Request $request, $id)
@@ -111,7 +111,7 @@ class CitiesController extends Controller
         $city           = $city->save();
 
         if ($city) {
-            return response(['success' => true, "message" => 'Status has been Successfully Updated']);
+            return response(['success' => true, "message" => 'Status has been Successfully Updated.']);
         }
     }
 }

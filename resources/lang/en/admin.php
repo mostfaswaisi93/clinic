@@ -109,6 +109,7 @@ return [
     'icon'                      => 'Icon',
     'file_upload'               => 'File Upload',
     'icon_upload'               => 'Icon Upload',
+    'data'                      => 'Data',
     'actions'                   => 'Actions',
 
     'all'                       => 'All',

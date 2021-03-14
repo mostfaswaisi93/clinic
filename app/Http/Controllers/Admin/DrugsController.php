@@ -79,7 +79,7 @@ class DrugsController extends Controller
 
         $drug::whereId($request->hidden_id)->update($request_data);
 
-        return response()->json(['success' => 'Data is Successfully Updated']);
+        return response()->json(['success' => 'Data is Successfully Updated.']);
     }
 
     public function destroy($id)
@@ -92,7 +92,7 @@ class DrugsController extends Controller
     {
         $ids = $request->ids;
         Drug::whereIn('id', explode(",", $ids))->delete();
-        return response()->json(['success' => 'The data has been deleted successfully']);
+        return response()->json(['success' => 'The Data has been Deleted Successfully.']);
     }
 
     public function updateStatus(Request $request, $id)
@@ -103,7 +103,7 @@ class DrugsController extends Controller
         $drug           = $drug->save();
 
         if ($drug) {
-            return response(['success' => true, "message" => 'Status has been Successfully Updated']);
+            return response(['success' => true, "message" => 'Status has been Successfully Updated.']);
         }
     }
 }
