@@ -11,7 +11,7 @@
                 <span id="form_result"></span>
                 <div class="form-group">
                     <label class="form-label" for="name">{{ trans('admin.name') }}:</label>
-                    <input id="name" type="text" name="name" class="form-control" value="{{ old('name') }}"
+                    <input id="name" type="text" name="name" class="form-control" required value="{{ old('name') }}"
                         placeholder="{{ trans('admin.name') }}">
                 </div>
                 <input type="hidden" name="action" id="action" />

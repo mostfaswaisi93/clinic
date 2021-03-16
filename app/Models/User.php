@@ -28,17 +28,6 @@ class User extends Authenticatable
     ];
     protected $dates    = ['created_at', 'updated_at', 'deleted_at', 'last_login_at'];
 
-    public function getLastLoginAttribute()
-    {
-        return Carbon::parse(Auth::user()->last_login_at)->diffForHumans(Carbon::now());
-    }
-
-    public function getNameAttribute($value)
-    {
-        $word = str_replace('_', ' ', $value);
-        return ucwords($word);
-    }
-
     public function getFullNameAttribute()
     {
         return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
@@ -47,5 +36,10 @@ class User extends Authenticatable
     public function getImagePathAttribute()
     {
         return asset('images/users/' . $this->image);
+    }
+
+    public function getLastLoginAttribute()
+    {
+        return Carbon::parse(Auth::user()->last_login_at)->diffForHumans(Carbon::now());
     }
 }
