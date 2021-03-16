@@ -94,16 +94,17 @@
                 },
                 { data: 'full_name',
                     render: function(data, type, row, meta){
-                        var text1 = "<div><b>{{ trans('admin.full_name') }}: </b>"+ row.full_name +" - <b>{{ trans('admin.username') }}: </b>"+ row.username +"</div>";
-                        var text2 = "<div><b>{{ trans('admin.email') }}: </b>"+ row.email +"</div>";
-                        return text1 + text2;
+                        var text1 = "<div><b>{{ trans('admin.full_name') }}: </b>"+ row.full_name +" - </div>";
+                        var text2 = "<div><b>{{ trans('admin.username') }}: </b>"+ row.username +" - </div>";
+                        var text3 = "<div><b>{{ trans('admin.email') }}: </b>"+ row.email +"</div>";
+                        return text1 + text2 + text3;
                     }
                 },
                 { data: 'enabled' },
                 { data: 'last_login_at', className: 'last_login_at',
                     render: function(data, type, row, meta){
-                        var text1 = "<div>"+ row.last_login +"</div>";
-                        var text2 = "<div>"+ data +"</div>";
+                        var text1 = "<div>"+ data +" - </div>";
+                        var text2 = "<div>"+ row.last_login +"</div>";
                         return text1 + text2;
                     }
                 },
@@ -116,6 +117,13 @@
                                 '@if(auth()->user()->can('update_users'))' +
                                     '<a id="'+ row.id +'" name="edit" class="item-edit edit mr-1" data-toggle="modal" data-target="#userModal" title="{{ trans("admin.edit") }}">' +
                                     feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
+                                    '</a>' +
+                                '@endif' +
+                            '</span>' +
+                            '<span>' +
+                                '@if(auth()->user()->can('read_users'))' +
+                                    '<a id="'+ row.id +'" name="show" class="item-edit show mr-1" data-toggle="modal" data-target="#userModal" title="{{ trans("admin.show") }}">' +
+                                    feather.icons['eye'].toSvg({ class: 'font-small-4' }) +
                                     '</a>' +
                                 '@endif' +
                             '</span>' +

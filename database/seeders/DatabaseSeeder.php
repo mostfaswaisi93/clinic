@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
             ServicesTableSeeder::class,
             DrugsTableSeeder::class,
             TestsTableSeeder::class,
-            LocationssTableSeeder::class,
+            LocationsTableSeeder::class,
             // PatientsTableSeeder::class,
             // AppointmentsTableSeeder::class,
             // ContactsTableSeeder::class

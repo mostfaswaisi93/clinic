@@ -91,6 +91,11 @@ label {
     color: #fff;
 }
 
+.table th,
+.table td {
+    vertical-align: top;
+}
+
 .table thead th,
 .table tfoot th {
     text-transform: unset;

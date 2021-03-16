@@ -15,6 +15,7 @@ return [
     'create'                    => 'إضافة',
     'read'                      => 'عرض',
     'edit'                      => 'تعديل',
+    'change'                    => 'تغيير',
     'update'                    => 'تحديث',
     'refresh'                   => 'تحديث',
     'delete'                    => 'حذف',
@@ -161,6 +162,7 @@ return [
     'all_cities'                => 'كل المدن',
     'all_districts'             => 'كل المناطق',
 
+    'select_img'                => 'اختر صورة',
     'select_all'                => 'اختر الكل',
     'select_all_permissions'    => 'حدد كافة الصلاحيات',
 

@@ -10,6 +10,29 @@
             <div class="modal-body flex-grow-1">
                 <span id="form_result"></span>
                 <div class="row">
+                    <div class="form-group col-12">
+                        <div class="media">
+                            <img src="{{ asset('images/users/default.png') }}" alt="users avatar"
+                                class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer" height="90"
+                                width="90" />
+                            <div class="media-body mt-50">
+                                <h4>{{ trans('admin.select_img') }}</h4>
+                                <div class="col-12 d-flex mt-1 px-0">
+                                    <label class="btn btn-primary mr-75 mb-0" for="change-picture">
+                                        <span class="d-none d-sm-block">{{ trans('admin.change') }}</span>
+                                        <input class="form-control" type="file" id="change-picture" hidden
+                                            accept="image/png, image/jpeg, image/jpg" />
+                                        <span class="d-block d-sm-none">
+                                            <i class="mr-0" data-feather="edit"></i>
+                                        </span>
+                                    </label>
+                                    <button class="btn btn-outline-secondary d-block d-sm-none">
+                                        <i class="mr-0" data-feather="trash-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group col-6">
                         <label class="form-label" for="first_name">{{ trans('admin.first_name') }}:</label>
                         <input id="first_name" type="text" name="first_name" class="form-control"

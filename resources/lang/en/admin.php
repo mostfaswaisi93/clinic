@@ -15,6 +15,7 @@ return [
     'create'                    => 'Create',
     'read'                      => 'Rread',
     'edit'                      => 'Edit',
+    'change'                    => 'Change',
     'update'                    => 'Update',
     'refresh'                   => 'Refresh',
     'delete'                    => 'Delete',
@@ -161,6 +162,7 @@ return [
     'all_cities'                => 'All Cities',
     'all_districts'             => 'All Districts',
 
+    'select_img'                => 'Select Image',
     'select_all'                => 'Select All',
     'select_all_permissions'    => 'Select All Permissions',
 

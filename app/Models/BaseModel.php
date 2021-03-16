@@ -10,7 +10,7 @@ class BaseModel extends Model
     use SoftDeletes;
 
     public $timestamps  = true;
-    protected $casts    = ['created_at' => 'date:Y-m-d H:i', 'updated_at' => 'date:Y-m-d H:i'];
+    protected $casts    = ['created_at' => 'date:Y-m-d - H:i A', 'updated_at' => 'date:Y-m-d - H:i A'];
     protected $dates    = ['created_at', 'updated_at', 'deleted_at'];
 
     // Unicode DB to Arabic

@@ -1,30 +1,20 @@
-// Image Preview
-$(".image").change(function() {
+$(function() {
+    'use strict';
 
-    if (this.files && this.files[0]) {
-        var reader = new FileReader();
+    var changePicture = $('#change-picture'),
+        userAvatar = $('.user-avatar');
 
-        reader.onload = function(e) {
-            $('.image-preview').attr('src', e.target.result);
-        }
-
-        reader.readAsDataURL(this.files[0]);
+    // Change Picture
+    if (changePicture.length) {
+        $(changePicture).on('change', function(e) {
+            var reader = new FileReader(),
+                files = e.target.files;
+            reader.onload = function() {
+                if (userAvatar.length) {
+                    userAvatar.attr('src', reader.result);
+                }
+            };
+            reader.readAsDataURL(files[0]);
+        });
     }
-
-});
-
-// Icon Preview
-$(".icon").change(function() {
-
-    if (this.files && this.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function(e) {
-            $('.icon-preview').attr('src', e.target.result);
-        }
-
-        reader.readAsDataURL(this.files[0]);
-    }
-    $('.icon-preview').show();
-
 });
