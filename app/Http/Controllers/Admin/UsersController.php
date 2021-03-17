@@ -35,6 +35,11 @@ class UsersController extends Controller
         return view('admin.users.index');
     }
 
+    public function create()
+    {
+        return view('admin.users.create');
+    }
+
     public function store(Request $request)
     {
         $rules = array(
