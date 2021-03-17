@@ -76,7 +76,6 @@
 @include('partials.multi_delete')
 
 <script type="text/javascript">
-    var status = '';
     var enabled = '';
     var type = '';
     var getLocation = "constants";

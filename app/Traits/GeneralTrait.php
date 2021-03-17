@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait GlobalTrait
+trait GeneralTrait
 {
     public function saveImage($folder, $photo)
     {

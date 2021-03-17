@@ -67,7 +67,6 @@
 @include('partials.multi_delete')
 
 <script type="text/javascript">
-    var status = '';
     var getLocation = "patients";
     $(document).ready(function(){
         // DataTable

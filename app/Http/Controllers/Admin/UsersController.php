@@ -35,19 +35,16 @@ class UsersController extends Controller
         return view('admin.users.index');
     }
 
-    public function create()
-    {
-        return view('admin.users.create');
-    }
-
     public function store(Request $request)
     {
         $rules = array(
             'first_name'    =>  'required',
             'last_name'     =>  'required',
-            'username'      =>  'required',
-            'email'         =>  'required',
-            'password'      =>  'required',
+            'email'         =>  'required|unique:users',
+            'username'      =>  'required|unique:users',
+            'image'         =>  'image',
+            'password'      =>  'required|confirmed',
+            'permissions'   =>  'required|min:1'
         );
 
         $error = Validator::make($request->all(), $rules);
@@ -56,18 +53,26 @@ class UsersController extends Controller
             return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        $request_data = array(
-            'name'       =>   $request->name,
-            'price'      =>   $request->price
-        );
+        $request_data = $request->except(['password', 'password_confirmation', 'permissions', 'image']);
+        $request_data['password'] = bcrypt($request->password);
 
-        Service::create($request_data);
+        $user = User::create($request_data);
+        $user->assignRole('doctor');
 
         return response()->json(['success' => 'Data Added Successfully.']);
     }
 
-    public function storexx(UsersRequest $request)
+    public function storexx(Request $request)
     {
+        $request->validate([
+            'first_name'    => 'required',
+            'last_name'     => 'required',
+            'email'         => 'required|unique:users',
+            'image'         => 'image',
+            'password'      => 'required|confirmed',
+            'permissions'   => 'required|min:1'
+        ]);
+
         $request_data = $request->except(['password', 'password_confirmation', 'permissions', 'image']);
         $request_data['password'] = bcrypt($request->password);
 
@@ -76,20 +81,15 @@ class UsersController extends Controller
                 ->resize(300, null, function ($constraint) {
                     $constraint->aspectRatio();
                 })
-                ->save(public_path('images/users/' . $request->image->hashName()));
+                ->save(public_path('uploads/user_images/' . $request->image->hashName()));
             $request_data['image'] = $request->image->hashName();
         }
 
         $user = User::create($request_data);
-        $user->assignRole('admin');
+        $user->attachRole('admin');
         $user->syncPermissions($request->permissions);
 
-        if (app()->getLocale() == 'ar') {
-            Toastr::success(__('admin.added_successfully'));
-        } else {
-            Toastr::success(__('admin.added_successfully'), '', ["positionClass" => "toast-bottom-left"]);
-        }
-
+        session()->flash('success', __('site.added_successfully'));
         return redirect()->route('admin.users.index');
     }
 

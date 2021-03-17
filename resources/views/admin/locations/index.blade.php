@@ -68,7 +68,6 @@
 @include('partials.locations')
 
 <script type="text/javascript">
-    var status = '';
     var getLocation = "locations";
     $(document).ready(function(){
         // DataTable

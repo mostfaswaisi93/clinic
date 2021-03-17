@@ -65,7 +65,6 @@
 @include('partials.multi_delete')
 
 <script type="text/javascript">
-    var status = '';
     var getLocation = "appointments";
     $(document).ready(function(){
         // DataTable
