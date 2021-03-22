@@ -181,6 +181,8 @@ return [
     'logo'                      => 'Logo',
     'trade_name'                => 'Trade Name',
     'generic_name'              => 'Generic Name',
+    'profile'                   => 'Profile',
+    'doctor'                    => 'Doctor',
 
     'copyright'                 => 'Copyright',
     'all_rights'                => 'All Rights Reserved',
@@ -193,12 +195,14 @@ return [
 
     'ar'                        => [
         'name'          => 'Name in Arabic',
+        'full_name'     => 'Full Name in Arabic',
         'title'         => 'Title in Arabic',
         'currency'      => 'Currency in Arabic',
         'description'   => 'Description in Arabic',
     ],
     'en'                        => [
         'name'          => 'Name in English',
+        'full_name'     => 'Full Name in English',
         'title'         => 'Title in English',
         'currency'      => 'Currency in English',
         'description'   => 'Description in English',

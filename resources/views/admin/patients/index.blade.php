@@ -41,7 +41,7 @@
                                     <th>#</th>
                                     <th>{{ trans('admin.full_name') }}</th>
                                     <th>{{ trans('admin.phone') }}</th>
-                                    <th>{{ trans('admin.doctor_id') }}</th>
+                                    <th>{{ trans('admin.doctor') }}</th>
                                     <th class="status">{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.actions') }}</th>
@@ -87,7 +87,11 @@
                 },
                 { data: 'full_name_trans' },
                 { data: 'phone' },
-                { data: 'user_id' },
+                { data: 'user',
+                    render: function(data, type, row, meta) {
+                        return "<div class='badge badge-light-primary'>"+ data +"</div>";
+                    }
+                },
                 { data: 'enabled' },
                 { data: 'created_at', className: 'created_at' },
                 { data: 'action', orderable: false,
@@ -98,6 +102,13 @@
                                 '@if(auth()->user()->can('update_patients'))' +
                                     '<a id="'+ row.id +'" name="edit" class="item-edit edit mr-1" data-toggle="modal" data-target="#patientModal" title="{{ trans("admin.edit") }}">' +
                                     feather.icons['edit'].toSvg({ class: 'font-small-4' }) +
+                                    '</a>' +
+                                '@endif' +
+                            '</span>' +
+                            '<span>' +
+                                '@if(auth()->user()->can('read_patients'))' +
+                                    '<a id="'+ row.id +'" name="show" class="item-edit show mr-1" data-toggle="modal" data-target="#patientModal" title="{{ trans("admin.show") }}">' +
+                                    feather.icons['eye'].toSvg({ class: 'font-small-4' }) +
                                     '</a>' +
                                 '@endif' +
                             '</span>' +

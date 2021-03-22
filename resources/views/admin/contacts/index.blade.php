@@ -40,7 +40,6 @@
                                     <th></th>
                                     <th>#</th>
                                     <th>{{ trans('admin.name') }}</th>
-                                    <th>{{ trans('admin.price') }}</th>
                                     <th class="status">{{ trans('admin.status') }}</th>
                                     <th>{{ trans('admin.created_at') }}</th>
                                     <th>{{ trans('admin.actions') }}</th>
@@ -52,7 +51,6 @@
                 </div>
             </div>
         </div>
-        @include('admin.contacts.modal')
     </section>
 </div>
 
@@ -85,7 +83,6 @@
                     }, searchable: false, orderable: false
                 },
                 { data: 'name_trans' },
-                { data: 'price' },
                 { data: 'enabled' },
                 { data: 'created_at', className: 'created_at' },
                 { data: 'action', orderable: false,
@@ -201,117 +198,6 @@
                 search: ' ',
                 searchPlaceholder: '{{ trans("admin.search") }}...'
             }
-        });
-
-        // Open Modal
-        $(document).on('click', '#create_contact', function(){
-            $('.modal-title').text("{{ trans('admin.create_contact') }}");
-            $('#action_button').val("Add");
-            $('#contactForm').trigger("reset");
-            $('#form_result').html('');
-            $('#action').val("Add");
-        });
-
-        // Add Data
-        $('#contactForm').on('submit', function(event){
-            event.preventDefault();
-            if($('#action').val() == 'Add')
-            {
-                var formData = new FormData(this);
-                $.ajax({
-                    url: "{{ route('admin.contacts.store') }}",
-                    method: "POST",
-                    data: formData,
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    dataType: "json",
-                    success: function(data)
-                    {
-                        var html = '';
-                    if(data.errors)
-                    {
-                        html = '<div class="alert alert-danger">';
-                    for(var count = 0; count < data.errors.length; count++)
-                    {
-                        html += '<div class="alert-body">' + data.errors[count] + '</div>';
-                    }
-                        html += '</div>';
-                    }
-                    if(data.success)
-                    {
-                        $('#contactForm')[0].reset();
-                        $('#data-table').DataTable().ajax.reload();
-                        $("[data-dismiss=modal]").trigger({ type: "click" });
-                        var lang = "{{ app()->getLocale() }}";
-                        if (lang == "ar") {
-                            toastr.success('{{ trans('admin.added_successfully') }}');
-                        } else {
-                            toastr.success('{{ trans('admin.added_successfully') }}', '', {positionClass: 'toast-bottom-left'});
-                        }
-                    }
-                        $('#form_result').html(html);
-                    }
-                });
-            }
-            if($('#action').val() == "Edit")
-            {
-                var formData = new FormData(this);
-                $.ajax({
-                    url: "{{ route('admin.contacts.update') }}",
-                    method: "POST",
-                    data: formData,
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    dataType: "json",
-                    success: function(data)
-                    {
-                        var html = '';
-                    if(data.errors)
-                    {
-                        html = '<div class="alert alert-danger">';
-                    for(var count = 0; count < data.errors.length; count++)
-                    {
-                        html += '<div class="alert-body">' + data.errors[count] + '</div>';
-                    }
-                        html += '</div>';
-                    }
-                    if(data.success)
-                    {
-                        $('#contactForm')[0].reset();
-                        $('#data-table').DataTable().ajax.reload();
-                        $("[data-dismiss=modal]").trigger({ type: "click" });
-                        var lang = "{{ app()->getLocale() }}";
-                        if (lang == "ar") {
-                            toastr.success('{{ trans('admin.updated_successfully') }}');
-                        } else {
-                            toastr.success('{{ trans('admin.updated_successfully') }}', '', {positionClass: 'toast-bottom-left'});
-                        }
-                    }
-                        $('#form_result').html(html);
-                    }
-                });
-            }
-        });
-
-        // Edit Data
-        $(document).on('click', '.edit', function(){
-            var id = $(this).attr('id');
-            $('#form_result').html('');
-            $.ajax({
-                url: "/admin/contacts/"+ id +"/edit",
-                dataType: "json",
-                success: function(html){
-                    $('#name_ar').val(html.data.name.ar);
-                    $('#name_en').val(html.data.name.en);
-                    $('#price').val(html.data.price);
-                    $('#hidden_id').val(html.data.id);
-                    $('.modal-title').text("{{ trans('admin.edit_contact') }}");
-                    $('#action_button').val("Edit");
-                    $('#action').val("Edit");
-                }
-            });
         });
     });
 

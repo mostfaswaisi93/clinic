@@ -23,9 +23,15 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-6">
-                        <label class="form-label" for="address">{{ trans('admin.address') }}:</label>
-                        <input id="address" type="text" name="address" class="form-control" value="{{ old('address') }}"
-                            placeholder="{{ trans('admin.address') }}">
+                        <label class="form-label" for="user_id">{{ trans('admin.user') }}:</label>
+                        <select class="form-control" name="user_id" id="user_id">
+                            <option value="">{{ trans('admin.all_users') }}</option>
+                            @foreach ($users as $user)
+                            <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                {{ $user->name_trans }}
+                            </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group col-6">
                         <label class="form-label" for="phone">{{ trans('admin.phone') }}:</label>
@@ -49,6 +55,11 @@
                     <label class="form-label" for="address">{{ trans('admin.address') }}:</label>
                     <input id="address" type="text" name="address" class="form-control" value="{{ old('address') }}"
                         placeholder="{{ trans('admin.address') }}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="notes">{{ trans('admin.notes') }}:</label>
+                    <textarea class="form-control" cols="40" id="notes" name="notes" rows="5" value="{{ old('notes') }}"
+                        placeholder="{{ trans('admin.notes') }}"></textarea>
                 </div>
                 <input type="hidden" name="action" id="action" />
                 <input type="hidden" name="hidden_id" id="hidden_id" />

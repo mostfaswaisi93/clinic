@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Patient;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -25,19 +26,28 @@ class PatientsController extends Controller
             if (isset($enabled))
                 $patients->where('enabled', $enabled)->get();
             $patients = $patients->get();
-            return datatables()->of($patients)->make(true);
+            return datatables()->of($patients)
+            ->addColumn('user', function ($data) {
+                return $data->user->full_name_trans;
+            })->make(true);
         }
-        return view('admin.patients.index');
+        return view('admin.patients.index')
+        ->with('users', User::get(['id', 'username']));;
     }
 
     public function store(Request $request)
     {
         $rules = array(
-            'price'    =>  'required'
+            'address'    =>  'required',
+            'phone'    =>  'required',
+            'dob'    =>  'required',
+            'notes'    =>  'required',
+            'user_id'    =>  'required',
+            'constant_id'    =>  'required',
         );
 
         foreach (config('translatable.locales') as $locale) {
-            $rules += ['name.' . $locale => 'required'];
+            $rules += ['full_name.' . $locale => 'required'];
         }
 
         $error = Validator::make($request->all(), $rules);
@@ -46,7 +56,11 @@ class PatientsController extends Controller
             return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        Patient::create($request->all());
+        $request_data = array(
+            'full_name'       =>   $request->full_name
+        );
+
+        Patient::create($request_data);
 
         return response()->json(['success' => 'Data Added Successfully.']);
     }
@@ -62,11 +76,15 @@ class PatientsController extends Controller
     public function update(Request $request, Patient $patient)
     {
         $rules = array(
-            'price'    =>  'required'
+            'address'    =>  'required',
+            'phone'    =>  'required',
+            'dob'    =>  'required',
+            'notes'    =>  'required',
+            'constant_id'    =>  'required',
         );
 
         foreach (config('translatable.locales') as $locale) {
-            $rules += ['name.' . $locale => 'required'];
+            $rules += ['full_name.' . $locale => 'required'];
         }
 
         $error = Validator::make($request->all(), $rules);
@@ -76,8 +94,7 @@ class PatientsController extends Controller
         }
 
         $request_data = array(
-            'name'       =>   json_encode($request->name, JSON_UNESCAPED_UNICODE),
-            'price'      =>   $request->price,
+            'full_name'       =>   json_encode($request->full_name, JSON_UNESCAPED_UNICODE),
         );
 
         $patient::whereId($request->hidden_id)->update($request_data);

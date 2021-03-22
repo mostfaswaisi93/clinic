@@ -14,12 +14,20 @@ class Patient extends BaseModel
         'full_name', 'address', 'phone', 'dob', 'notes', 'user',
         'constant_id', 'user_id', 'enabled'
     ];
+    protected $casts        = ['dob' => 'date:Y/m/d'];
+    protected $dates        = ['dob'];
     protected $appends      = ['full_name_trans'];
     public $translatable    = ['full_name'];
 
+    // get Full Name Translatable
+    public function getFullNameTransAttribute()
+    {
+        return $this->getTranslation('full_name', app()->getLocale());
+    }
+
     public function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function appointments()
