@@ -41,9 +41,9 @@
                             <form action="{{ route('admin.services.update', $service->id) }}" method="post">
                                 @csrf
                                 @method('PUT')
-                                <div class="row">
+                                <div class="row mt-1">
                                     @foreach (config('translatable.locales') as $locale)
-                                    <div class="col-xl-6 col-md-6 col-12 mt-1">
+                                    <div class="col-xl-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="name">{{ trans('admin.' . $locale . '.name') }}</label>
                                             <input id="name[{{ $locale }}]" type="text" name="name[{{ $locale }}]" class="form-control"

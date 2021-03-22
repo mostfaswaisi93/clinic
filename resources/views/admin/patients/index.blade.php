@@ -39,7 +39,6 @@
                                 <tr>
                                     <th></th>
                                     <th>#</th>
-                                    <th>{{ trans('admin.id_number') }}</th>
                                     <th>{{ trans('admin.full_name') }}</th>
                                     <th>{{ trans('admin.phone') }}</th>
                                     <th>{{ trans('admin.doctor_id') }}</th>
@@ -86,8 +85,7 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }, searchable: false, orderable: false
                 },
-                { data: 'id_number' },
-                { data: 'first_name_trans' },
+                { data: 'full_name_trans' },
                 { data: 'phone' },
                 { data: 'user_id' },
                 { data: 'enabled' },
