@@ -183,6 +183,9 @@ return [
     'generic_name'              => 'Generic Name',
     'profile'                   => 'Profile',
     'doctor'                    => 'Doctor',
+    'blood_group'               => 'Blood Group',
+    'date_of_birth'             => 'Date Of Birth',
+    'gender'                    => 'Gender',
 
     'copyright'                 => 'Copyright',
     'all_rights'                => 'All Rights Reserved',

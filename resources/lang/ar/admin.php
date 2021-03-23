@@ -182,7 +182,10 @@ return [
     'trade_name'                => 'الاسم التجاري',
     'generic_name'              => 'الاسم العام',
     'profile'                   => 'الملف الشخصي',
-    'doctor'                 => 'الدكتور',
+    'doctor'                    => 'الدكتور',
+    'blood_group'               => 'فصيلة الدم',
+    'date_of_birth'             => 'تاريخ الميلاد',
+    'gender'                    => 'الجنس',
 
     'copyright'                 => 'حقوق النشر',
     'all_rights'                => 'جميع الحقوق محفوظة',

@@ -23,20 +23,43 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-6">
-                        <label class="form-label" for="user_id">{{ trans('admin.user') }}:</label>
+                        <label class="form-label" for="user_id">{{ trans('admin.doctor') }}:</label>
                         <select class="form-control" name="user_id" id="user_id">
-                            <option value="">{{ trans('admin.all_users') }}</option>
-                            @foreach ($users as $user)
-                            <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                                {{ $user->name_trans }}
+                            <option value="">--</option>
+                            @foreach ($doctors as $doctor)
+                            <option value="{{ $doctor->id }}" {{ old('user_id') == $doctor->id ? 'selected' : '' }}>
+                                {{ $doctor->first_name }} {{ $doctor->last_name }}
                             </option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group col-6">
-                        <label class="form-label" for="phone">{{ trans('admin.phone') }}:</label>
-                        <input id="phone" type="text" name="phone" class="form-control" value="{{ old('phone') }}"
-                            placeholder="{{ trans('admin.phone') }}">
+                        <label class="form-label" for="constant_id">{{ trans('admin.gender') }}:</label>
+                        <select class="form-control" name="constant_id" id="constant_id">
+                            <option value="">--</option>
+                            @foreach ($genders as $gender)
+                            <option value="{{ $gender->id }}" {{ old('constant_id') == $gender->id ? 'selected' : '' }}>
+                                {{ $gender->name_trans }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label class="form-label" for="constant_id">{{ trans('admin.blood_group') }}:</label>
+                        <select class="form-control" name="constant_id" id="constant_id">
+                            @foreach ($blood_groups as $blood_group)
+                            <option value="{{ $blood_group->id }}" {{ old('constant_id') == $blood_group->id ? 'selected' : '' }}>
+                                {{ $blood_group->name_trans }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="form-label" for="dob">{{ trans('admin.date_of_birth') }}:</label>
+                        <input id="dob" type="text" name="dob" class="form-control" value="{{ old('dob') }}"
+                            placeholder="{{ trans('admin.date_of_birth') }}">
                     </div>
                 </div>
                 <div class="row">

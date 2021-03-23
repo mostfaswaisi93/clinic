@@ -314,9 +314,14 @@
                 url: "/admin/patients/"+ id +"/edit",
                 dataType: "json",
                 success: function(html){
-                    $('#name_ar').val(html.data.name.ar);
-                    $('#name_en').val(html.data.name.en);
-                    $('#price').val(html.data.price);
+                    $('#full_name_ar').val(html.data.full_name.ar);
+                    $('#full_name_en').val(html.data.full_name.en);
+                    $('#user_id').val(html.data.user_id).trigger('change');
+                    $('#constant_id').val(html.data.constant_id).trigger('change');
+                    $('#phone').val(html.data.phone);
+                    $('#address').val(html.data.address);
+                    $('#dob').val(html.data.dob);
+                    $('#notes').val(html.data.notes);
                     $('#hidden_id').val(html.data.id);
                     $('.modal-title').text("{{ trans('admin.edit_patient') }}");
                     $('#action_button').val("Edit");

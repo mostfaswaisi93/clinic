@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Constant;
 use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,29 +22,34 @@ class PatientsController extends Controller
     public function index()
     {
         $patients = Patient::OrderBy('created_at', 'desc');
+        $doctors = User::OrderBy('created_at', 'desc')->role('doctor')->get(['id', 'first_name', 'last_name']);
+        $genders = Constant::where('type', 'gender')->get();
+        $blood_groups = Constant::where('type', 'blood_group')->get();
         $enabled = request()->get('enabled');
         if (request()->ajax()) {
             if (isset($enabled))
                 $patients->where('enabled', $enabled)->get();
             $patients = $patients->get();
             return datatables()->of($patients)
-            ->addColumn('user', function ($data) {
-                return $data->user->full_name_trans;
-            })->make(true);
+                ->addColumn('user', function ($data) {
+                    return $data->user->full_name_trans;
+                })
+                ->addColumn('constant', function ($data) {
+                    return $data->constant->name_trans;
+                })->make(true);
         }
-        return view('admin.patients.index')
-        ->with('users', User::get(['id', 'username']));;
+        return view('admin.patients.index', compact(['doctors', 'genders', 'blood_groups']));
     }
 
     public function store(Request $request)
     {
         $rules = array(
-            'address'    =>  'required',
-            'phone'    =>  'required',
-            'dob'    =>  'required',
-            'notes'    =>  'required',
-            'user_id'    =>  'required',
-            'constant_id'    =>  'required',
+            'address'       =>  'required',
+            'phone'         =>  'required',
+            'dob'           =>  'required',
+            'notes'         =>  'required',
+            'user_id'       =>  'required',
+            'constant_id'   =>  'required',
         );
 
         foreach (config('translatable.locales') as $locale) {
@@ -76,11 +82,12 @@ class PatientsController extends Controller
     public function update(Request $request, Patient $patient)
     {
         $rules = array(
-            'address'    =>  'required',
-            'phone'    =>  'required',
-            'dob'    =>  'required',
-            'notes'    =>  'required',
-            'constant_id'    =>  'required',
+            'address'       =>  'required',
+            'phone'         =>  'required',
+            'dob'           =>  'required',
+            'notes'         =>  'required',
+            'user_id'       =>  'required',
+            'constant_id'   =>  'required',
         );
 
         foreach (config('translatable.locales') as $locale) {

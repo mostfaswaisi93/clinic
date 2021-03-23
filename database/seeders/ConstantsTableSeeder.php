@@ -23,6 +23,12 @@ class ConstantsTableSeeder extends Seeder
         ]);
         Constant::create([
             'name' => [
+                'ar' => 'غير معروف',
+                'en' => 'Unknown'
+            ], 'type' => 'blood_group'
+        ]);
+        Constant::create([
+            'name' => [
                 'ar' => 'A+',
                 'en' => 'A+'
             ], 'type' => 'blood_group'
