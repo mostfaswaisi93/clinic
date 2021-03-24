@@ -25,6 +25,16 @@
                                                 <option value='0'>{{ trans('admin.inactive') }}</option>
                                             </select>
                                         </div>
+                                        <div class="col-lg-2">
+                                            <label for="filterDoctor">{{ trans('admin.doctor') }}:</label>
+                                            <select id="filterDoctor" class="form-control" name="doctor" id="doctor"
+                                                onchange="filter_doctor(this);">
+                                                <option value="" selected="selected">{{ trans('admin.all') }}</option>
+                                                @foreach ($doctors as $doctor)
+                                                <option value="{{$doctor->id}}">{{$doctor->fullName}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -105,13 +115,13 @@
                                     '</a>' +
                                 '@endif' +
                             '</span>' +
-                            '<span>' +
-                                '@if(auth()->user()->can('read_patients'))' +
-                                    '<a id="'+ row.id +'" name="show" class="item-edit show mr-1" data-toggle="modal" data-target="#patientModal" title="{{ trans("admin.show") }}">' +
-                                    feather.icons['eye'].toSvg({ class: 'font-small-4' }) +
-                                    '</a>' +
-                                '@endif' +
-                            '</span>' +
+                            // '<span>' +
+                            //     '@if(auth()->user()->can('read_patients'))' +
+                            //         '<a id="'+ row.id +'" name="show" class="item-edit show mr-1" data-toggle="modal" data-target="#patientModal" title="{{ trans("admin.show") }}">' +
+                            //         feather.icons['eye'].toSvg({ class: 'font-small-4' }) +
+                            //         '</a>' +
+                            //     '@endif' +
+                            // '</span>' +
                             '<span>' +
                                 '@if(auth()->user()->can('delete_patients'))' +
                                     '<a id="'+ row.id +'" class="item-edit delete" title="{{ trans("admin.delete") }}">' +
@@ -319,7 +329,8 @@
                     $('#full_name_ar').val(html.data.full_name.ar);
                     $('#full_name_en').val(html.data.full_name.en);
                     $('#user_id').val(html.data.user_id).trigger('change');
-                    $('#gender').val(html.data.constant_id).trigger('change');
+                    $('#gender').val(html.data.gender).trigger('change');
+                    $('#blood_group').val(html.data.blood_group).trigger('change');
                     $('#phone').val(html.data.phone);
                     $('#address').val(html.data.address);
                     $('#dob').val(html.data.dob);
@@ -332,6 +343,18 @@
             });
         });
     });
+
+    // Filter Status
+    function filter_status(enabled_filter = null){
+        enabled = enabled_filter.value;
+        $('#data-table').DataTable().ajax.url(getLocation +'?enabled='+ enabled +'&type=filter').load();
+    }
+
+    // Filter Doctor
+    function filter_doctor(enabled_filter = null){
+        enabled = enabled_filter.value;
+        $('#data-table').DataTable().ajax.url(getLocation +'?enabled='+ enabled +'&type=filter').load();
+    }
 </script>
 
 @endpush

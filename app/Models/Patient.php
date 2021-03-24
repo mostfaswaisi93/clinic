@@ -11,8 +11,8 @@ class Patient extends BaseModel
 
     protected $table        = 'patients';
     protected $fillable     = [
-        'full_name', 'address', 'phone', 'dob', 'notes',
-        'constant_id', 'user_id', 'enabled'
+        'full_name', 'dob', 'phone', 'gender', 'blood_group',
+        'address', 'notes', 'user_id', 'enabled'
     ];
     protected $casts        = ['created_at' => 'date:Y-m-d - H:i A', 'updated_at' => 'date:Y-m-d - H:i A', 'dob' => 'date:Y-m-d'];
     protected $dates        = ['created_at', 'updated_at', 'deleted_at', 'dob'];

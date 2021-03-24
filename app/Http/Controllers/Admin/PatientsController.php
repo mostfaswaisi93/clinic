@@ -43,10 +43,11 @@ class PatientsController extends Controller
         $rules = array(
             'dob'           =>  'required',
             'phone'         =>  'required',
+            'gender'        =>  'required',
             'notes'         =>  'required',
             'address'       =>  'required',
-            'user_id'       =>  'required',
-            'constant_id'   =>  'required',
+            'blood_group'   =>  'required',
+            'user_id'       =>  'required'
         );
 
         foreach (config('translatable.locales') as $locale) {
@@ -65,8 +66,9 @@ class PatientsController extends Controller
             'phone'         =>   $request->phone,
             'notes'         =>   $request->notes,
             'address'       =>   $request->address,
-            'user_id'       =>   $request->user_id,
-            'constant_id'   =>   $request->constant_id,
+            'gender'        =>   $request->gender,
+            'blood_group'   =>   $request->blood_group,
+            'user_id'       =>   $request->user_id
         );
 
         Patient::create($request_data);
@@ -85,12 +87,13 @@ class PatientsController extends Controller
     public function update(Request $request, Patient $patient)
     {
         $rules = array(
-            'address'       =>  'required',
-            'phone'         =>  'required',
             'dob'           =>  'required',
+            'phone'         =>  'required',
+            'gender'        =>  'required',
             'notes'         =>  'required',
-            'user_id'       =>  'required',
-            'constant_id'   =>  'required',
+            'address'       =>  'required',
+            'blood_group'   =>  'required',
+            'user_id'       =>  'required'
         );
 
         foreach (config('translatable.locales') as $locale) {
@@ -104,7 +107,14 @@ class PatientsController extends Controller
         }
 
         $request_data = array(
-            'full_name'       =>   json_encode($request->full_name, JSON_UNESCAPED_UNICODE),
+            'full_name'     =>   json_encode($request->full_name, JSON_UNESCAPED_UNICODE),
+            'dob'           =>   $request->dob,
+            'phone'         =>   $request->phone,
+            'notes'         =>   $request->notes,
+            'address'       =>   $request->address,
+            'gender'        =>   $request->gender,
+            'blood_group'   =>   $request->blood_group,
+            'user_id'       =>   $request->user_id
         );
 
         $patient::whereId($request->hidden_id)->update($request_data);
