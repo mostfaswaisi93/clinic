@@ -32,10 +32,7 @@ class PatientsController extends Controller
             $patients = $patients->get();
             return datatables()->of($patients)
                 ->addColumn('user', function ($data) {
-                    return $data->user->full_name_trans;
-                })
-                ->addColumn('constant', function ($data) {
-                    return $data->constant->name_trans;
+                    return $data->user->first_name . ' ' . $data->user->last_name;
                 })->make(true);
         }
         return view('admin.patients.index', compact(['doctors', 'genders', 'blood_groups']));
@@ -44,10 +41,10 @@ class PatientsController extends Controller
     public function store(Request $request)
     {
         $rules = array(
-            'address'       =>  'required',
-            'phone'         =>  'required',
             'dob'           =>  'required',
+            'phone'         =>  'required',
             'notes'         =>  'required',
+            'address'       =>  'required',
             'user_id'       =>  'required',
             'constant_id'   =>  'required',
         );
@@ -63,7 +60,13 @@ class PatientsController extends Controller
         }
 
         $request_data = array(
-            'full_name'       =>   $request->full_name
+            'full_name'     =>   $request->full_name,
+            'dob'           =>   $request->dob,
+            'phone'         =>   $request->phone,
+            'notes'         =>   $request->notes,
+            'address'       =>   $request->address,
+            'user_id'       =>   $request->user_id,
+            'constant_id'   =>   $request->constant_id,
         );
 
         Patient::create($request_data);

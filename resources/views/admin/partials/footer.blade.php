@@ -18,22 +18,30 @@
 <script src="{{ url('backend/app-assets/vendors/js/vendors.min.js') }}"></script>
 <!-- BEGIN Vendor JS -->
 
+<!-- BEGIN: Time Picker -->
+<script src="{{ url('backend/app-assets/vendors/js/pickers/pickadate/picker.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/pickers/pickadate/picker.date.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/pickers/pickadate/picker.time.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/pickers/pickadate/legacy.js') }}"></script>
+<script src="{{ url('backend/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js') }}"></script>
+<!-- END: Time Picker -->
+
 <!-- BEGIN: Theme JS -->
 <script src="{{ url('backend/app-assets/js/core/app-menu.js') }}"></script>
 <script src="{{ url('backend/app-assets/js/core/app.js') }}"></script>
 <!-- END: Theme JS -->
 
-{{-- Custom js --}}
+<!-- Custom js -->
 <script src="{{ url('backend/js/functions.js') }}"></script>
 <script src="{{ url('backend/js/toastr.js') }}"></script>
 <script src="{{ url('backend/js/image_preview.js') }}"></script>
 
-{{-- CDNs --}}
+<!-- CDNs -->
 <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
 <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-{{-- DataTables CDNs --}}
+<!-- DataTables CDNs -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>

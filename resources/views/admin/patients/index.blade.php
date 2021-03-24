@@ -146,17 +146,19 @@
                 }
             },
             {
-                "targets": 6,
+                "targets": 5,
                 render: function (data, type, row, meta){
                     var $checked = $(`
-                        <div class="custom-control custom-switch custom-switch-success">
-                            <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
-                            class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
-                            onchange=selectStatus(${row.id}) >
-                            <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}">
-                                <span class="switch-icon-left"><i data-feather="check"></i></span>
-                                <span class="switch-icon-right"><i data-feather="x"></i></span>
-                            </label>
+                        <div class="custom-switch-status">
+                            <div class="custom-control custom-switch custom-switch-success">
+                                <input type="checkbox" data-id="${row.id}" id="status(${row.id})" 
+                                class="custom-control-input status" ${ row.enabled == 1 ? 'checked' : '' }
+                                onchange=selectStatus(${row.id}) >
+                                <label class="custom-control-label" for="status(${row.id})" title="{{ trans('admin.update_status') }}">
+                                    <span class="switch-icon-left"><i data-feather="check"></i></span>
+                                    <span class="switch-icon-right"><i data-feather="x"></i></span>
+                                </label>
+                            </div>
                         </div>
                     `);
                     $checked.prop('checked', true).attr('checked', 'checked');
@@ -317,7 +319,7 @@
                     $('#full_name_ar').val(html.data.full_name.ar);
                     $('#full_name_en').val(html.data.full_name.en);
                     $('#user_id').val(html.data.user_id).trigger('change');
-                    $('#constant_id').val(html.data.constant_id).trigger('change');
+                    $('#gender').val(html.data.constant_id).trigger('change');
                     $('#phone').val(html.data.phone);
                     $('#address').val(html.data.address);
                     $('#dob').val(html.data.dob);

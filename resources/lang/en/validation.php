@@ -151,10 +151,15 @@ return [
         'trade_name'            => 'Trade Name',
         'generic_name'          => 'Generic Name',
         'notes'                 => 'Notes',
+        'dob'                   => 'Date of Birth',
 
         'name' => [
             'ar'        => 'Name in Arabic',
             'en'        => 'Name in English',
+        ],
+        'full_name' => [
+            'ar'        => 'Full Name in Arabic',
+            'en'        => 'Full Name in English',
         ],
         'title' => [
             'ar' => 'Title in Arabic',

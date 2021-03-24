@@ -33,3 +33,14 @@ $(window).on('load', function() {
         });
     }
 });
+
+(function(window, document, $) {
+    'use strict';
+    // Flatpickr
+    var basicPickr = $('.flatpickr-basic');
+
+    // Default
+    if (basicPickr.length) {
+        basicPickr.flatpickr();
+    }
+})(window, document, jQuery);

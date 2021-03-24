@@ -23,7 +23,44 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-6">
-                        <label class="form-label" for="user_id">{{ trans('admin.doctor') }}:</label>
+                        <label class="form-label" for="dob">{{ trans('admin.date_of_birth') }}:</label>
+                        <input id="dob" type="text" name="dob" class="form-control flatpickr-basic" value="{{ old('dob') }}"
+                            placeholder="YYYY-MM-DD">
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="form-label" for="phone">{{ trans('admin.phone') }}:</label>
+                        <input id="phone" type="text" name="phone" class="form-control" value="{{ old('phone') }}"
+                            placeholder="{{ trans('admin.phone') }}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label class="form-label" for="gender">{{ trans('admin.gender') }}:</label>
+                        <select class="form-control" name="constant_id" id="gender">
+                            <option value="">--</option>
+                            @foreach ($genders as $gender)
+                            <option value="{{ $gender->id }}" {{ old('constant_id') == $gender->id ? 'selected' : '' }}>
+                                {{ $gender->name_trans }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    {{-- <div class="form-group col-6">
+                        <label class="form-label" for="blood_group">{{ trans('admin.blood_group') }}:</label>
+                        <select class="form-control" name="constant_id" id="blood_group">
+                            @foreach ($blood_groups as $blood_group)
+                            <option value="{{ $blood_group->id }}"
+                                {{ old('constant_id') == $blood_group->id ? 'selected' : '' }}>
+                                {{ $blood_group->name_trans }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div> --}}
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label class="form-label"
+                            for="user_id">{{ trans('admin.username') }}/{{ trans('admin.doctor') }}:</label>
                         <select class="form-control" name="user_id" id="user_id">
                             <option value="">--</option>
                             @foreach ($doctors as $doctor)
@@ -34,54 +71,14 @@
                         </select>
                     </div>
                     <div class="form-group col-6">
-                        <label class="form-label" for="constant_id">{{ trans('admin.gender') }}:</label>
-                        <select class="form-control" name="constant_id" id="constant_id">
-                            <option value="">--</option>
-                            @foreach ($genders as $gender)
-                            <option value="{{ $gender->id }}" {{ old('constant_id') == $gender->id ? 'selected' : '' }}>
-                                {{ $gender->name_trans }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-6">
-                        <label class="form-label" for="constant_id">{{ trans('admin.blood_group') }}:</label>
-                        <select class="form-control" name="constant_id" id="constant_id">
-                            @foreach ($blood_groups as $blood_group)
-                            <option value="{{ $blood_group->id }}" {{ old('constant_id') == $blood_group->id ? 'selected' : '' }}>
-                                {{ $blood_group->name_trans }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-6">
-                        <label class="form-label" for="dob">{{ trans('admin.date_of_birth') }}:</label>
-                        <input id="dob" type="text" name="dob" class="form-control" value="{{ old('dob') }}"
-                            placeholder="{{ trans('admin.date_of_birth') }}">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-6">
                         <label class="form-label" for="address">{{ trans('admin.address') }}:</label>
                         <input id="address" type="text" name="address" class="form-control" value="{{ old('address') }}"
                             placeholder="{{ trans('admin.address') }}">
                     </div>
-                    <div class="form-group col-6">
-                        <label class="form-label" for="phone">{{ trans('admin.phone') }}:</label>
-                        <input id="phone" type="text" name="phone" class="form-control" value="{{ old('phone') }}"
-                            placeholder="{{ trans('admin.phone') }}">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="address">{{ trans('admin.address') }}:</label>
-                    <input id="address" type="text" name="address" class="form-control" value="{{ old('address') }}"
-                        placeholder="{{ trans('admin.address') }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="notes">{{ trans('admin.notes') }}:</label>
-                    <textarea class="form-control" cols="40" id="notes" name="notes" rows="5" value="{{ old('notes') }}"
+                    <textarea class="form-control" cols="40" id="notes" name="notes" rows="4" value="{{ old('notes') }}"
                         placeholder="{{ trans('admin.notes') }}"></textarea>
                 </div>
                 <input type="hidden" name="action" id="action" />

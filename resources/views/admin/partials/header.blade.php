@@ -37,6 +37,10 @@
     <!-- BEGIN: Page CSS -->
     <link rel="stylesheet" type="text/css"
         href="{{ url('backend/app-assets/css/core/menu/menu-types/vertical-menu.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ url('backend/app-assets/css/plugins/forms/pickers/form-flat-pickr.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ url('backend/app-assets/css/plugins/forms/pickers/form-pickadate.css') }}">
     <!-- END: Page CSS -->
 
     <!-- BEGIN: Custom CSS-->
@@ -62,6 +66,10 @@
     <!-- BEGIN: Page CSS -->
     <link rel="stylesheet" type="text/css"
         href="{{ url('backend/app-assets/css-rtl/core/menu/menu-types/vertical-menu.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ url('backend/app-assets/css-rtl/plugins/forms/pickers/form-flat-pickr.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ url('backend/app-assets/css-rtl/plugins/forms/pickers/form-pickadate.css') }}">
     <!-- END: Page CSS -->
 
     <!-- BEGIN: Custom CSS -->
@@ -73,16 +81,22 @@
 
     @endif
 
-    {{-- CDNs --}}
+    <!-- CDNs -->
     <script src="https://unpkg.com/sweetalert2@7.26.29/dist/sweetalert2.all.js"></script>
     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    {{-- DataTables CDNs --}}
+    <!-- DataTables CDNs -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.foundation.min.css">
+
+    <!-- Time Picker -->
+    <link rel="stylesheet" type="text/css"
+        href="{{ url('backend/app-assets/vendors/css/pickers/pickadate/pickadate.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ url('backend/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css') }}">
 
     <link rel="stylesheet" type="text/css" href="{{ url('/css/styles.css') }}">
 

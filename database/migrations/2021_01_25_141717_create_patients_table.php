@@ -21,7 +21,7 @@ class CreatePatientsTable extends Migration
             $table->string('phone');
             $table->date('dob'); // Date of Birth
             $table->longText('notes');
-            $table->integer('user'); // Added By
+            // $table->integer('user'); // Added By
             $table->foreignId('constant_id')->constrained()->onDelete('cascade'); // Gender
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Doctor
             $table->integer('enabled')->default(1);
