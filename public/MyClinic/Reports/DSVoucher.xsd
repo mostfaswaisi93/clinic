@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSVoucher" targetNamespace="http://tempuri.org/DSReceiptVoucher.xsd" xmlns:mstns="http://tempuri.org/DSReceiptVoucher.xsd" xmlns="http://tempuri.org/DSReceiptVoucher.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSVoucher" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DSVoucher" msprop:Generator_UserDSName="DSVoucher">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ReceiptInfo" msprop:Generator_TableClassName="ReceiptInfoDataTable" msprop:Generator_TableVarName="tableReceiptInfo" msprop:Generator_RowChangedName="ReceiptInfoRowChanged" msprop:Generator_TablePropName="ReceiptInfo" msprop:Generator_RowDeletingName="ReceiptInfoRowDeleting" msprop:Generator_RowChangingName="ReceiptInfoRowChanging" msprop:Generator_RowEvHandlerName="ReceiptInfoRowChangeEventHandler" msprop:Generator_RowDeletedName="ReceiptInfoRowDeleted" msprop:Generator_RowClassName="ReceiptInfoRow" msprop:Generator_UserTableName="ReceiptInfo" msprop:Generator_RowEvArgName="ReceiptInfoRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="RecSerial" msprop:Generator_ColumnVarNameInTable="columnRecSerial" msprop:Generator_ColumnPropNameInRow="RecSerial" msprop:Generator_ColumnPropNameInTable="RecSerialColumn" msprop:Generator_UserColumnName="RecSerial" type="xs:string" minOccurs="0" />
+              <xs:element name="PatientName" msprop:Generator_ColumnVarNameInTable="columnPatientName" msprop:Generator_ColumnPropNameInRow="PatientName" msprop:Generator_ColumnPropNameInTable="PatientNameColumn" msprop:Generator_UserColumnName="PatientName" type="xs:string" minOccurs="0" />
+              <xs:element name="AddedDate" msprop:Generator_ColumnVarNameInTable="columnAddedDate" msprop:Generator_ColumnPropNameInRow="AddedDate" msprop:Generator_ColumnPropNameInTable="AddedDateColumn" msprop:Generator_UserColumnName="AddedDate" type="xs:string" minOccurs="0" />
+              <xs:element name="AddedBy" msprop:Generator_ColumnVarNameInTable="columnAddedBy" msprop:Generator_ColumnPropNameInRow="AddedBy" msprop:Generator_ColumnPropNameInTable="AddedByColumn" msprop:Generator_UserColumnName="AddedBy" type="xs:string" minOccurs="0" />
+              <xs:element name="PrintBy" msprop:Generator_ColumnVarNameInTable="columnPrintBy" msprop:Generator_ColumnPropNameInRow="PrintBy" msprop:Generator_ColumnPropNameInTable="PrintByColumn" msprop:Generator_UserColumnName="PrintBy" type="xs:string" minOccurs="0" />
+              <xs:element name="RecNotes" msprop:Generator_ColumnVarNameInTable="columnRecNotes" msprop:Generator_ColumnPropNameInRow="RecNotes" msprop:Generator_ColumnPropNameInTable="RecNotesColumn" msprop:Generator_UserColumnName="RecNotes" type="xs:string" minOccurs="0" />
+              <xs:element name="RecAmount" msprop:Generator_ColumnVarNameInTable="columnRecAmount" msprop:Generator_ColumnPropNameInRow="RecAmount" msprop:Generator_ColumnPropNameInTable="RecAmountColumn" msprop:Generator_UserColumnName="RecAmount" type="xs:int" minOccurs="0" />
+              <xs:element name="Currency" msprop:Generator_ColumnVarNameInTable="columnCurrency" msprop:Generator_ColumnPropNameInRow="Currency" msprop:Generator_ColumnPropNameInTable="CurrencyColumn" msprop:Generator_UserColumnName="Currency" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

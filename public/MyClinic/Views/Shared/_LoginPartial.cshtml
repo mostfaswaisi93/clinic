@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar" }))
+    {
+        @Html.AntiForgeryToken()
+        <ul class="nav navbar-nav">
+            <!-- start manage user dropdown -->
+            <li class="dropdown dropdown-user usermargin">
+                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <img alt="" class="img-circle " src="~/Seffy/img/dp.svg">
+                    <span class="username">@(Request.Cookies["FullName"] != null ? Request.Cookies["FullName"].Value : "NULL")</span>
+                    <i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-default">
+                    <li>
+                        <a href="@Url.Action("Index", "DoctorSchedule")">
+                            <i class="icon-user"></i> Profile
+                        </a>
+                    </li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()" class="icon-logout"> &nbsp;Log Out</a></li>
+                </ul>
+            </li>
+
+        </ul>
+    }
+}
+
+
+

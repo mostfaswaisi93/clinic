@@ -1,0 +1,72 @@
+﻿
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel">
+            <header class="panel-heading panel-heading-blue">
+                Calendar
+            </header>
+            <div class="panel-body">
+                <div id="calendar" class="has-toolbar"> </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_Details")
+
+@section scripts{
+<script>
+
+
+
+    $(function () {
+
+        $(document).on('click', '.btnOpenForDetails', function () {
+            var id = $(this).data("appointmentid");
+            var Name = $(this).closest('tr').find('.lblPatient').html();
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetAppointment", "Appointment")',
+                data: { id: id },
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data) {
+                    $('#lblPatientName').text(data.PatientName);
+                    $('#lblPhoneNumber').text(data.PhoneNumber);
+                    $('#lblAppointmentDate').text(data.AppointmentDate);
+                    $('#lblAppointmentTime').text(data.AppointmentTime);
+                    $('#lblServiceName').text(data.ServiceName);
+                    $('#lblDoctorName').text(data.DoctorName);
+                    $('#lblAppointmentNotes').text(data.AppointmentNotes);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log('errooooor');
+                }
+            });
+
+            $('#myModalLabel').html('About Appointment: ' + Name);
+            $('#DetailsModal').modal('show');
+        });
+
+        $("#appointments-data-table").on("click", ".js-Cancel", function () {
+            var button = $(this);
+            bootbox.confirm("Are you sure you want to Cancel this Appointment?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/api/Appointments/" + button.attr("data-appointment-id"),
+                        method: "POST",
+                        success: function (result) {
+                            dt.row(button.parents("tr")).draw(false);
+                            swal("Done", result, "success");
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            swal(jqXHR.status, jqXHR.responseJSON, "error");
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+}
+

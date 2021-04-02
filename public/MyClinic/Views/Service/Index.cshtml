@@ -1,0 +1,205 @@
+﻿@model IEnumerable<MyClinic.Models.Service>
+@using MyClinic.Models;
+
+@{
+    var service = new Service();
+    ViewBag.Title = "Services List";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-topline-red">
+                    <div class="card-head">
+                        <header></header>
+                        <div class="tools">
+                            <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
+                            <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
+                            <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
+                        </div>
+                    </div>
+                    <div class="card-body ">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <div class="btn-group">
+                                    <button id="addService" class="btn btn-info">
+                                        <span class="fa fa-user-plus"></span> New Service
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                            </div>
+                        </div>
+                        <br /><br />
+                        <table class="table table-striped table-bordered table-hover table-checkable order-column valign-middle" id="services-data-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:5%">#</th>
+                                    <th style="width:40%">
+                                        Service Name
+                                    </th>
+                                    <th style="width:40%">
+                                        Service Price
+                                    </th>
+                                    <th style="width:15%" class="center">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_Edit", service)
+
+@section scripts{
+    <script>
+        var serviceListVM;
+        $(function () {
+            serviceListVM = {
+                dt: null,
+                init: function () {
+                    dt = $('#services-data-table').DataTable({
+                        "serverSide": true,
+                        "processing": true,
+                        "ajax": {
+                        "url": "@Url.Action("Get", "Service")"
+                    },
+                        "columns": [
+                            {
+                                render: function (data, type, row, meta) {
+                                    return meta.row + meta.settings._iDisplayStart + 1;
+                                }, "searchable": false, "orderable": false
+
+                            },
+                        {
+                            "data": "Name",
+                            render: function (data, type, item) {
+                                return "<span class='lblName' data-serviceid='" + item.ServiceID + "'>" + item.Name + "</span>";
+                            }, "searchable": true
+                        },
+                        {
+                            "data": "Price", "searchable": true
+
+                        },
+                        {
+                            data: "ServiceID",
+                            render: function (data) {
+                                return "<button class='btn btn-sm btn-primary btnOpenForEdit' data-serviceid='" + data + "'><span class='fa fa-pencil'></span></button>" +
+                                       "<button class='btn btn-sm btn-danger js-delete' data-service-id='" + data + "'><span class='fa fa-trash-o'></span></button>";
+                            }, "searchable": false, "orderable": false
+                        }
+                    ],
+                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                        "order": [[1, "asc"]]
+
+                    });
+                }
+            }
+            serviceListVM.init();
+        });
+
+
+        var saveData = function (parm) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SaveService", "Service")',
+                data: parm, 
+                traditional: true,
+                success: function (data) {
+                    successSave(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                }
+            });
+        }
+
+        var clear = function () {
+            $('.input-form').val('');
+            $('#hdn-id').val('');
+            $('#EditTitle').html('Create New Service');
+        }
+
+
+        var successSave = function (result) {
+            dt.draw(false);
+            $('.modal').modal('hide');
+            swal('Success', result, 'success')
+        }
+
+        var errorAjax = function () {
+            alert("Data not Saved there is an error..");
+        }
+
+
+        $(document).ready(function () {
+            $("#services-data-table").on("click", ".js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure you want to delete this Service?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/Services/" + button.attr("data-service-id"),
+                            method: "DELETE",
+                            success: function (result) {
+                                dt.row(button.parents("tr")).remove().draw(false);
+                                swal("Done", result, "success");
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                swal(jqXHR.status,jqXHR.responseJSON,"error");
+                            }
+                        });
+                    }
+                });
+            });
+           
+            $(document).on('click', '#addService', function () {
+                clear();
+                $('#EditModal').modal('show');
+            });
+
+            $(document).on('click', '.btnOpenForEdit', function () {
+                var id = $(this).data("serviceid");
+                var Name = $(this).closest('tr').find('.lblName').html();
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetService", "Service")',
+                    data: { id: id },
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        $('#hdn-id').val(data.ServiceID);
+                        $('#txtName').val(data.Name);
+                        $('#txtPrice').val(data.Price);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log('errooooor');
+                    }
+                });
+
+                $('#EditTitle').html('Edit Service: ' + Name);
+                $('#EditModal').modal('show');
+            });
+
+            $('#btnSave').click(function () {
+                if ($('#txtName' || 'txtPrice').val() == '') {
+                    swal({ text: "Fields must be filled with data." });
+                    return;
+                }
+                var data = {
+                    ServiceID: $('#hdn-id').val(),
+                    Name: $('#txtName').val(),
+                    Price: $('#txtPrice').val(),
+                    __RequestVerificationToken: $('input[name=__RequestVerificationToken]').val()
+                };
+                saveData(data);
+            });
+
+        });
+    </script>
+}
